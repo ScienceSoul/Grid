@@ -1,0 +1,450 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		73141085141F075800BDA61F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73141084141F075800BDA61F /* Cocoa.framework */; };
+		7314108F141F075800BDA61F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7314108D141F075800BDA61F /* InfoPlist.strings */; };
+		73141091141F075800BDA61F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 73141090141F075800BDA61F /* main.m */; };
+		73141095141F075800BDA61F /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 73141093141F075800BDA61F /* Credits.rtf */; };
+		73141098141F075800BDA61F /* GridAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 73141097141F075800BDA61F /* GridAppDelegate.m */; };
+		7314109B141F075900BDA61F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 73141099141F075900BDA61F /* MainMenu.xib */; };
+		731410A3141F075900BDA61F /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 731410A2141F075900BDA61F /* SenTestingKit.framework */; };
+		731410A4141F075900BDA61F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73141084141F075800BDA61F /* Cocoa.framework */; };
+		731410AC141F075900BDA61F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 731410AA141F075900BDA61F /* InfoPlist.strings */; };
+		731410AE141F075900BDA61F /* GridTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 731410AD141F075900BDA61F /* GridTests.h */; };
+		731410B0141F075900BDA61F /* GridTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 731410AF141F075900BDA61F /* GridTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		731410A5141F075900BDA61F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 73141077141F075800BDA61F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7314107F141F075800BDA61F;
+			remoteInfo = Grid;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		73141080141F075800BDA61F /* Grid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Grid.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		73141084141F075800BDA61F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		73141087141F075800BDA61F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		73141088141F075800BDA61F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		73141089141F075800BDA61F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		7314108C141F075800BDA61F /* Grid-Info.plist */ = {isa = PBXFileReference; path = "Grid-Info.plist"; sourceTree = "<group>"; };
+		7314108E141F075800BDA61F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		73141090141F075800BDA61F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		73141092141F075800BDA61F /* Grid-Prefix.pch */ = {isa = PBXFileReference; path = "Grid-Prefix.pch"; sourceTree = "<group>"; };
+		73141094141F075800BDA61F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		73141096141F075800BDA61F /* GridAppDelegate.h */ = {isa = PBXFileReference; path = GridAppDelegate.h; sourceTree = "<group>"; };
+		73141097141F075800BDA61F /* GridAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GridAppDelegate.m; sourceTree = "<group>"; };
+		7314109A141F075900BDA61F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		731410A1141F075900BDA61F /* GridTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GridTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		731410A2141F075900BDA61F /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		731410A9141F075900BDA61F /* GridTests-Info.plist */ = {isa = PBXFileReference; path = "GridTests-Info.plist"; sourceTree = "<group>"; };
+		731410AB141F075900BDA61F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		731410AD141F075900BDA61F /* GridTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GridTests.h; sourceTree = "<group>"; };
+		731410AF141F075900BDA61F /* GridTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GridTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7314107D141F075800BDA61F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73141085141F075800BDA61F /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7314109D141F075900BDA61F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				731410A3141F075900BDA61F /* SenTestingKit.framework in Frameworks */,
+				731410A4141F075900BDA61F /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		73141075141F075800BDA61F = {
+			isa = PBXGroup;
+			children = (
+				7314108A141F075800BDA61F /* Grid */,
+				731410A7141F075900BDA61F /* GridTests */,
+				73141083141F075800BDA61F /* Frameworks */,
+				73141081141F075800BDA61F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		73141081141F075800BDA61F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				73141080141F075800BDA61F /* Grid.app */,
+				731410A1141F075900BDA61F /* GridTests.octest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		73141083141F075800BDA61F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				73141084141F075800BDA61F /* Cocoa.framework */,
+				731410A2141F075900BDA61F /* SenTestingKit.framework */,
+				73141086141F075800BDA61F /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		73141086141F075800BDA61F /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				73141087141F075800BDA61F /* AppKit.framework */,
+				73141088141F075800BDA61F /* CoreData.framework */,
+				73141089141F075800BDA61F /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		7314108A141F075800BDA61F /* Grid */ = {
+			isa = PBXGroup;
+			children = (
+				73141096141F075800BDA61F /* GridAppDelegate.h */,
+				73141097141F075800BDA61F /* GridAppDelegate.m */,
+				73141099141F075900BDA61F /* MainMenu.xib */,
+				7314108B141F075800BDA61F /* Supporting Files */,
+			);
+			path = Grid;
+			sourceTree = "<group>";
+		};
+		7314108B141F075800BDA61F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				7314108C141F075800BDA61F /* Grid-Info.plist */,
+				7314108D141F075800BDA61F /* InfoPlist.strings */,
+				73141090141F075800BDA61F /* main.m */,
+				73141092141F075800BDA61F /* Grid-Prefix.pch */,
+				73141093141F075800BDA61F /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		731410A7141F075900BDA61F /* GridTests */ = {
+			isa = PBXGroup;
+			children = (
+				731410AD141F075900BDA61F /* GridTests.h */,
+				731410AF141F075900BDA61F /* GridTests.m */,
+				731410A8141F075900BDA61F /* Supporting Files */,
+			);
+			path = GridTests;
+			sourceTree = "<group>";
+		};
+		731410A8141F075900BDA61F /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				731410A9141F075900BDA61F /* GridTests-Info.plist */,
+				731410AA141F075900BDA61F /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7314107F141F075800BDA61F /* Grid */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 731410B3141F075900BDA61F /* Build configuration list for PBXNativeTarget "Grid" */;
+			buildPhases = (
+				7314107C141F075800BDA61F /* Sources */,
+				7314107D141F075800BDA61F /* Frameworks */,
+				7314107E141F075800BDA61F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Grid;
+			productName = Grid;
+			productReference = 73141080141F075800BDA61F /* Grid.app */;
+			productType = "com.apple.product-type.application";
+		};
+		731410A0141F075900BDA61F /* GridTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 731410B6141F075900BDA61F /* Build configuration list for PBXNativeTarget "GridTests" */;
+			buildPhases = (
+				7314109C141F075900BDA61F /* Sources */,
+				7314109D141F075900BDA61F /* Frameworks */,
+				7314109E141F075900BDA61F /* Resources */,
+				7314109F141F075900BDA61F /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				731410A6141F075900BDA61F /* PBXTargetDependency */,
+			);
+			name = GridTests;
+			productName = GridTests;
+			productReference = 731410A1141F075900BDA61F /* GridTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		73141077141F075800BDA61F /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = "Institute of Low Temperature Science";
+			};
+			buildConfigurationList = 7314107A141F075800BDA61F /* Build configuration list for PBXProject "Grid" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 73141075141F075800BDA61F;
+			productRefGroup = 73141081141F075800BDA61F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7314107F141F075800BDA61F /* Grid */,
+				731410A0141F075900BDA61F /* GridTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		7314107E141F075800BDA61F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7314108F141F075800BDA61F /* InfoPlist.strings in Resources */,
+				73141095141F075800BDA61F /* Credits.rtf in Resources */,
+				7314109B141F075900BDA61F /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7314109E141F075900BDA61F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				731410AC141F075900BDA61F /* InfoPlist.strings in Resources */,
+				731410AE141F075900BDA61F /* GridTests.h in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		7314109F141F075900BDA61F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7314107C141F075800BDA61F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				73141091141F075800BDA61F /* main.m in Sources */,
+				73141098141F075800BDA61F /* GridAppDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7314109C141F075900BDA61F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				731410B0141F075900BDA61F /* GridTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		731410A6141F075900BDA61F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7314107F141F075800BDA61F /* Grid */;
+			targetProxy = 731410A5141F075900BDA61F /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		7314108D141F075800BDA61F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7314108E141F075800BDA61F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		73141093141F075800BDA61F /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				73141094141F075800BDA61F /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		73141099141F075900BDA61F /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7314109A141F075900BDA61F /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		731410AA141F075900BDA61F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				731410AB141F075900BDA61F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		731410B1141F075900BDA61F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		731410B2141F075900BDA61F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		731410B4141F075900BDA61F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Grid/Grid-Prefix.pch";
+				INFOPLIST_FILE = "Grid/Grid-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		731410B5141F075900BDA61F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Grid/Grid-Prefix.pch";
+				INFOPLIST_FILE = "Grid/Grid-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		731410B7141F075900BDA61F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Grid.app/Contents/MacOS/Grid";
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Grid/Grid-Prefix.pch";
+				INFOPLIST_FILE = "GridTests/GridTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		731410B8141F075900BDA61F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Grid.app/Contents/MacOS/Grid";
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Grid/Grid-Prefix.pch";
+				INFOPLIST_FILE = "GridTests/GridTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		7314107A141F075800BDA61F /* Build configuration list for PBXProject "Grid" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				731410B1141F075900BDA61F /* Debug */,
+				731410B2141F075900BDA61F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		731410B3141F075900BDA61F /* Build configuration list for PBXNativeTarget "Grid" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				731410B4141F075900BDA61F /* Debug */,
+				731410B5141F075900BDA61F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		731410B6141F075900BDA61F /* Build configuration list for PBXNativeTarget "GridTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				731410B7141F075900BDA61F /* Debug */,
+				731410B8141F075900BDA61F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 73141077141F075800BDA61F /* Project object */;
+}
