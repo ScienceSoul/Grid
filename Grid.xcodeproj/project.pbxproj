@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		730854F714220A8900DFD3EE /* processedDataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 730854F614220A8900DFD3EE /* processedDataObject.m */; };
+		7309057E1423435200B2742F /* dataObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 7309057D1423435100B2742F /* dataObject.m */; };
+		730905831423484400B2742F /* interpolate.cl in Sources */ = {isa = PBXBuildFile; fileRef = 730905821423484400B2742F /* interpolate.cl */; };
+		7309058814298F1200B2742F /* RGBColorMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 7309058714298F1200B2742F /* RGBColorMap.m */; };
 		73141085141F075800BDA61F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73141084141F075800BDA61F /* Cocoa.framework */; };
 		7314108F141F075800BDA61F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7314108D141F075800BDA61F /* InfoPlist.strings */; };
 		73141091141F075800BDA61F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 73141090141F075800BDA61F /* main.m */; };
@@ -18,6 +22,18 @@
 		731410AC141F075900BDA61F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 731410AA141F075900BDA61F /* InfoPlist.strings */; };
 		731410AE141F075900BDA61F /* GridTests.h in Resources */ = {isa = PBXBuildFile; fileRef = 731410AD141F075900BDA61F /* GridTests.h */; };
 		731410B0141F075900BDA61F /* GridTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 731410AF141F075900BDA61F /* GridTests.m */; };
+		731410BF141F3F1800BDA61F /* ScalarDataView.m in Sources */ = {isa = PBXBuildFile; fileRef = 731410BE141F3F1800BDA61F /* ScalarDataView.m */; };
+		731410C1141F3F7F00BDA61F /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 731410C0141F3F7F00BDA61F /* OpenGL.framework */; };
+		731410C3141F3F8B00BDA61F /* OpenCL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 731410C2141F3F8B00BDA61F /* OpenCL.framework */; };
+		731410C5141F500100BDA61F /* libnetcdf.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 731410C4141F500100BDA61F /* libnetcdf.a */; };
+		731496F21433373400E8350C /* maxmin.c in Sources */ = {isa = PBXBuildFile; fileRef = 731496F11433373400E8350C /* maxmin.c */; };
+		73314AC31420C52E0013F730 /* Timing.c in Sources */ = {isa = PBXBuildFile; fileRef = 73314AC21420C52E0013F730 /* Timing.c */; };
+		73314ACA1420C7E80013F730 /* GridPoint.c in Sources */ = {isa = PBXBuildFile; fileRef = 73314AC91420C7E80013F730 /* GridPoint.c */; };
+		73793FD0143DB178000EB270 /* OpenCL_utils.c in Sources */ = {isa = PBXBuildFile; fileRef = 73793FCF143DB178000EB270 /* OpenCL_utils.c */; };
+		73A79B501439801F00853202 /* scaleData.c in Sources */ = {isa = PBXBuildFile; fileRef = 73A79B4F1439801F00853202 /* scaleData.c */; };
+		73B21C36141F582200046483 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 73B21C35141F582200046483 /* AppController.m */; };
+		73B21C3A141F6E0500046483 /* Interpoler.m in Sources */ = {isa = PBXBuildFile; fileRef = 73B21C39141F6E0500046483 /* Interpoler.m */; };
+		73FDBCAA141F7003004BC015 /* memory.c in Sources */ = {isa = PBXBuildFile; fileRef = 73FDBCA8141F7003004BC015 /* memory.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,25 +47,78 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		730854F514220A8900DFD3EE /* processedDataObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = processedDataObject.h; sourceTree = "<group>"; };
+		730854F614220A8900DFD3EE /* processedDataObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = processedDataObject.m; sourceTree = "<group>"; };
+		7309057C1423435100B2742F /* dataObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dataObject.h; sourceTree = "<group>"; };
+		7309057D1423435100B2742F /* dataObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = dataObject.m; sourceTree = "<group>"; };
+		730905821423484400B2742F /* interpolate.cl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.opencl; path = interpolate.cl; sourceTree = "<group>"; };
+		7309058514298D6400B2742F /* colormaps_hotres.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colormaps_hotres.h; sourceTree = "<group>"; };
+		7309058614298F1200B2742F /* RGBColorMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGBColorMap.h; sourceTree = "<group>"; };
+		7309058714298F1200B2742F /* RGBColorMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGBColorMap.m; sourceTree = "<group>"; };
+		731079F6143EEDAC00FB1C9F /* colormaps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colormaps.h; sourceTree = "<group>"; };
 		73141080141F075800BDA61F /* Grid.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Grid.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		73141084141F075800BDA61F /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		73141087141F075800BDA61F /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		73141088141F075800BDA61F /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		73141089141F075800BDA61F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		7314108C141F075800BDA61F /* Grid-Info.plist */ = {isa = PBXFileReference; path = "Grid-Info.plist"; sourceTree = "<group>"; };
+		7314108C141F075800BDA61F /* Grid-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Grid-Info.plist"; sourceTree = "<group>"; };
 		7314108E141F075800BDA61F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		73141090141F075800BDA61F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		73141092141F075800BDA61F /* Grid-Prefix.pch */ = {isa = PBXFileReference; path = "Grid-Prefix.pch"; sourceTree = "<group>"; };
+		73141092141F075800BDA61F /* Grid-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Grid-Prefix.pch"; sourceTree = "<group>"; };
 		73141094141F075800BDA61F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
-		73141096141F075800BDA61F /* GridAppDelegate.h */ = {isa = PBXFileReference; path = GridAppDelegate.h; sourceTree = "<group>"; };
+		73141096141F075800BDA61F /* GridAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GridAppDelegate.h; sourceTree = "<group>"; };
 		73141097141F075800BDA61F /* GridAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GridAppDelegate.m; sourceTree = "<group>"; };
 		7314109A141F075900BDA61F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		731410A1141F075900BDA61F /* GridTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GridTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		731410A2141F075900BDA61F /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
-		731410A9141F075900BDA61F /* GridTests-Info.plist */ = {isa = PBXFileReference; path = "GridTests-Info.plist"; sourceTree = "<group>"; };
+		731410A9141F075900BDA61F /* GridTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GridTests-Info.plist"; sourceTree = "<group>"; };
 		731410AB141F075900BDA61F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		731410AD141F075900BDA61F /* GridTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GridTests.h; sourceTree = "<group>"; };
 		731410AF141F075900BDA61F /* GridTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = GridTests.m; sourceTree = "<group>"; };
+		731410BD141F3F1800BDA61F /* ScalarDataView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScalarDataView.h; sourceTree = "<group>"; };
+		731410BE141F3F1800BDA61F /* ScalarDataView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScalarDataView.m; sourceTree = "<group>"; };
+		731410C0141F3F7F00BDA61F /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = ../../../../System/Library/Frameworks/OpenGL.framework; sourceTree = "<group>"; };
+		731410C2141F3F8B00BDA61F /* OpenCL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenCL.framework; path = ../../../../System/Library/Frameworks/OpenCL.framework; sourceTree = "<group>"; };
+		731410C4141F500100BDA61F /* libnetcdf.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libnetcdf.a; path = /Applications/netcdf/lib/libnetcdf.a; sourceTree = "<absolute>"; };
+		731496F11433373400E8350C /* maxmin.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = maxmin.c; sourceTree = "<group>"; };
+		731496F41433374300E8350C /* maxmin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = maxmin.h; sourceTree = "<group>"; };
+		73314AC21420C52E0013F730 /* Timing.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Timing.c; sourceTree = "<group>"; };
+		73314AC51420C57D0013F730 /* Timing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timing.h; sourceTree = "<group>"; };
+		73314AC91420C7E80013F730 /* GridPoint.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = GridPoint.c; sourceTree = "<group>"; };
+		73314ACB1420C83E0013F730 /* GridPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridPoint.h; sourceTree = "<group>"; };
+		73793FCF143DB178000EB270 /* OpenCL_utils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = OpenCL_utils.c; sourceTree = "<group>"; };
+		73793FD2143DB18B000EB270 /* OpenCL_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenCL_utils.h; sourceTree = "<group>"; };
+		73793FD3143DB97D000EB270 /* colormaps_3gauss.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colormaps_3gauss.h; sourceTree = "<group>"; };
+		73793FD4143DB97D000EB270 /* colormaps_3saw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colormaps_3saw.h; sourceTree = "<group>"; };
+		73793FD5143DB97D000EB270 /* colormaps_banded.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colormaps_banded.h; sourceTree = "<group>"; };
+		73793FD6143DB97D000EB270 /* colormaps_blue_red1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colormaps_blue_red1.h; sourceTree = "<group>"; };
+		73793FD7143DB97D000EB270 /* colormaps_blue_red2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colormaps_blue_red2.h; sourceTree = "<group>"; };
+		73793FD8143DB97D000EB270 /* colormaps_bright.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colormaps_bright.h; sourceTree = "<group>"; };
+		73793FD9143DB97D000EB270 /* colormaps_bw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colormaps_bw.h; sourceTree = "<group>"; };
+		73793FDA143DB97D000EB270 /* colormaps_default.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colormaps_default.h; sourceTree = "<group>"; };
+		73793FDB143DB97D000EB270 /* colormaps_detail.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colormaps_detail.h; sourceTree = "<group>"; };
+		73793FDC143DB97D000EB270 /* colormaps_extrema.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colormaps_extrema.h; sourceTree = "<group>"; };
+		73793FDD143DB97D000EB270 /* colormaps_helix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colormaps_helix.h; sourceTree = "<group>"; };
+		73793FDE143DB97D000EB270 /* colormaps_helix2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colormaps_helix2.h; sourceTree = "<group>"; };
+		73793FDF143DB97D000EB270 /* colormaps_jaisn2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colormaps_jaisn2.h; sourceTree = "<group>"; };
+		73793FE0143DB97D000EB270 /* colormaps_jaisnb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colormaps_jaisnb.h; sourceTree = "<group>"; };
+		73793FE1143DB97D000EB270 /* colormaps_jaisnc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colormaps_jaisnc.h; sourceTree = "<group>"; };
+		73793FE2143DB97D000EB270 /* colormaps_jaisnd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colormaps_jaisnd.h; sourceTree = "<group>"; };
+		73793FE3143DB97D000EB270 /* colormaps_jaison.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colormaps_jaison.h; sourceTree = "<group>"; };
+		73793FE4143DB97D000EB270 /* colormaps_jet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colormaps_jet.h; sourceTree = "<group>"; };
+		73793FE5143DB97D000EB270 /* colormaps_manga.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colormaps_manga.h; sourceTree = "<group>"; };
+		73793FE6143DB97D000EB270 /* colormaps_rainbow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colormaps_rainbow.h; sourceTree = "<group>"; };
+		73793FE7143DB97D000EB270 /* colormaps_roullet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colormaps_roullet.h; sourceTree = "<group>"; };
+		73793FE8143DB97D000EB270 /* colormaps_ssec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colormaps_ssec.h; sourceTree = "<group>"; };
+		73793FE9143DB97D000EB270 /* colormaps_wheel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colormaps_wheel.h; sourceTree = "<group>"; };
+		73A79B4F1439801F00853202 /* scaleData.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = scaleData.c; sourceTree = "<group>"; };
+		73A79B521439803800853202 /* scaleData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scaleData.h; sourceTree = "<group>"; };
+		73B21C34141F582200046483 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppController.h; sourceTree = "<group>"; };
+		73B21C35141F582200046483 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppController.m; sourceTree = "<group>"; };
+		73B21C38141F6E0500046483 /* Interpoler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Interpoler.h; sourceTree = "<group>"; };
+		73B21C39141F6E0500046483 /* Interpoler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Interpoler.m; sourceTree = "<group>"; };
+		73FDBCA8141F7003004BC015 /* memory.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = memory.c; sourceTree = "<group>"; };
+		73FDBCA9141F7003004BC015 /* memory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = memory.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,7 +126,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				731410C5141F500100BDA61F /* libnetcdf.a in Frameworks */,
 				73141085141F075800BDA61F /* Cocoa.framework in Frameworks */,
+				731410C1141F3F7F00BDA61F /* OpenGL.framework in Frameworks */,
+				731410C3141F3F8B00BDA61F /* OpenCL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,6 +145,47 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7309057F1423436800B2742F /* OpenCL Kernels */ = {
+			isa = PBXGroup;
+			children = (
+				730905821423484400B2742F /* interpolate.cl */,
+			);
+			name = "OpenCL Kernels";
+			path = ..;
+			sourceTree = "<group>";
+		};
+		7309058414298D2100B2742F /* Color Maps */ = {
+			isa = PBXGroup;
+			children = (
+				731079F6143EEDAC00FB1C9F /* colormaps.h */,
+				73793FD3143DB97D000EB270 /* colormaps_3gauss.h */,
+				73793FD4143DB97D000EB270 /* colormaps_3saw.h */,
+				73793FD5143DB97D000EB270 /* colormaps_banded.h */,
+				73793FD6143DB97D000EB270 /* colormaps_blue_red1.h */,
+				73793FD7143DB97D000EB270 /* colormaps_blue_red2.h */,
+				73793FD8143DB97D000EB270 /* colormaps_bright.h */,
+				73793FD9143DB97D000EB270 /* colormaps_bw.h */,
+				73793FDA143DB97D000EB270 /* colormaps_default.h */,
+				73793FDB143DB97D000EB270 /* colormaps_detail.h */,
+				73793FDC143DB97D000EB270 /* colormaps_extrema.h */,
+				73793FDD143DB97D000EB270 /* colormaps_helix.h */,
+				73793FDE143DB97D000EB270 /* colormaps_helix2.h */,
+				7309058514298D6400B2742F /* colormaps_hotres.h */,
+				73793FDF143DB97D000EB270 /* colormaps_jaisn2.h */,
+				73793FE0143DB97D000EB270 /* colormaps_jaisnb.h */,
+				73793FE1143DB97D000EB270 /* colormaps_jaisnc.h */,
+				73793FE2143DB97D000EB270 /* colormaps_jaisnd.h */,
+				73793FE3143DB97D000EB270 /* colormaps_jaison.h */,
+				73793FE4143DB97D000EB270 /* colormaps_jet.h */,
+				73793FE5143DB97D000EB270 /* colormaps_manga.h */,
+				73793FE6143DB97D000EB270 /* colormaps_rainbow.h */,
+				73793FE7143DB97D000EB270 /* colormaps_roullet.h */,
+				73793FE8143DB97D000EB270 /* colormaps_ssec.h */,
+				73793FE9143DB97D000EB270 /* colormaps_wheel.h */,
+			);
+			name = "Color Maps";
+			sourceTree = "<group>";
+		};
 		73141075141F075800BDA61F = {
 			isa = PBXGroup;
 			children = (
@@ -95,9 +208,12 @@
 		73141083141F075800BDA61F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				731410C2141F3F8B00BDA61F /* OpenCL.framework */,
+				731410C0141F3F7F00BDA61F /* OpenGL.framework */,
 				73141084141F075800BDA61F /* Cocoa.framework */,
 				731410A2141F075900BDA61F /* SenTestingKit.framework */,
 				73141086141F075800BDA61F /* Other Frameworks */,
+				731410C4141F500100BDA61F /* libnetcdf.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -117,7 +233,22 @@
 			children = (
 				73141096141F075800BDA61F /* GridAppDelegate.h */,
 				73141097141F075800BDA61F /* GridAppDelegate.m */,
+				731410BD141F3F1800BDA61F /* ScalarDataView.h */,
+				731410BE141F3F1800BDA61F /* ScalarDataView.m */,
+				73B21C34141F582200046483 /* AppController.h */,
+				73B21C35141F582200046483 /* AppController.m */,
+				73B21C38141F6E0500046483 /* Interpoler.h */,
+				73B21C39141F6E0500046483 /* Interpoler.m */,
+				7309057C1423435100B2742F /* dataObject.h */,
+				7309057D1423435100B2742F /* dataObject.m */,
+				730854F514220A8900DFD3EE /* processedDataObject.h */,
+				730854F614220A8900DFD3EE /* processedDataObject.m */,
+				7309058614298F1200B2742F /* RGBColorMap.h */,
+				7309058714298F1200B2742F /* RGBColorMap.m */,
 				73141099141F075900BDA61F /* MainMenu.xib */,
+				73B21C3B141F6F7100046483 /* C files */,
+				7309057F1423436800B2742F /* OpenCL Kernels */,
+				7309058414298D2100B2742F /* Color Maps */,
 				7314108B141F075800BDA61F /* Supporting Files */,
 			);
 			path = Grid;
@@ -152,6 +283,25 @@
 				731410AA141F075900BDA61F /* InfoPlist.strings */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		73B21C3B141F6F7100046483 /* C files */ = {
+			isa = PBXGroup;
+			children = (
+				73FDBCA8141F7003004BC015 /* memory.c */,
+				73FDBCA9141F7003004BC015 /* memory.h */,
+				73314AC21420C52E0013F730 /* Timing.c */,
+				73314AC51420C57D0013F730 /* Timing.h */,
+				73793FCF143DB178000EB270 /* OpenCL_utils.c */,
+				73793FD2143DB18B000EB270 /* OpenCL_utils.h */,
+				73314AC91420C7E80013F730 /* GridPoint.c */,
+				73314ACB1420C83E0013F730 /* GridPoint.h */,
+				731496F11433373400E8350C /* maxmin.c */,
+				731496F41433374300E8350C /* maxmin.h */,
+				73A79B4F1439801F00853202 /* scaleData.c */,
+				73A79B521439803800853202 /* scaleData.h */,
+			);
+			name = "C files";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -264,6 +414,19 @@
 			files = (
 				73141091141F075800BDA61F /* main.m in Sources */,
 				73141098141F075800BDA61F /* GridAppDelegate.m in Sources */,
+				731410BF141F3F1800BDA61F /* ScalarDataView.m in Sources */,
+				73B21C36141F582200046483 /* AppController.m in Sources */,
+				73B21C3A141F6E0500046483 /* Interpoler.m in Sources */,
+				73FDBCAA141F7003004BC015 /* memory.c in Sources */,
+				73314AC31420C52E0013F730 /* Timing.c in Sources */,
+				73314ACA1420C7E80013F730 /* GridPoint.c in Sources */,
+				730854F714220A8900DFD3EE /* processedDataObject.m in Sources */,
+				7309057E1423435200B2742F /* dataObject.m in Sources */,
+				730905831423484400B2742F /* interpolate.cl in Sources */,
+				7309058814298F1200B2742F /* RGBColorMap.m in Sources */,
+				731496F21433373400E8350C /* maxmin.c in Sources */,
+				73A79B501439801F00853202 /* scaleData.c in Sources */,
+				73793FD0143DB178000EB270 /* OpenCL_utils.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -371,8 +534,14 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Grid/Grid-Prefix.pch";
+				"HEADER_SEARCH_PATHS[arch=*]" = /Applications/netcdf/include;
 				INFOPLIST_FILE = "Grid/Grid-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_APPS_DIR)/netcdf/lib\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "/Applications/netcdf/include/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -383,7 +552,12 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Grid/Grid-Prefix.pch";
 				INFOPLIST_FILE = "Grid/Grid-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_APPS_DIR)/netcdf/lib\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "/Applications/netcdf/include/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -435,6 +609,7 @@
 				731410B5141F075900BDA61F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		731410B6141F075900BDA61F /* Build configuration list for PBXNativeTarget "GridTests" */ = {
 			isa = XCConfigurationList;
@@ -443,6 +618,7 @@
 				731410B8141F075900BDA61F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
