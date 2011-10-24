@@ -62,16 +62,6 @@
     return timing;
 }
 
--(void)setScaleFactor:(int)i {
-    
-    scaleFactor = i;
-}
-
--(int)scaleFactor {
-    
-    return scaleFactor;
-}
-
 -(void)setScaleMethod:(int)i {
     
     scaleMethod = i;
@@ -80,16 +70,6 @@
 -(int)scaleMethod {
     
     return scaleMethod;
-}
-
--(void)setColormapFromAppMenu:(int)i {
-    
-    colormapFromAppMenu = i;
-}
-
--(int)colormapFromAppMenu {
-    
-    return colormapFromAppMenu;
 }
 
 @end

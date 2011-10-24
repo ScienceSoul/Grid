@@ -104,4 +104,15 @@
     free_GLubytevector(pixelValues, nl, nh);
 }
 
+
+-(BOOL)isAllocated {
+    
+    if (pixelValues == NULL) {
+        return NO;
+    } else {
+        return YES;
+    }
+
+}
+
 @end

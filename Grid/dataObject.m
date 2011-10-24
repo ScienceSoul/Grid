@@ -20,29 +20,79 @@
     return self;
 }
 
--(void)setxmin:(NSTextField *)textfield {
+-(void)setNetCDFFile:(NSString *)string {
     
-    xmin = [[textfield stringValue] floatValue];
+    netCDFFile = [NSString stringWithString:string];
 }
 
--(void)setxmax:(NSTextField *)textfield {
+-(void)setVariableName:(NSString *)string {
     
-    xmax = [[textfield stringValue] floatValue];
+    variableName = [NSString stringWithString:string];
 }
 
--(void)setymin:(NSTextField *)textfield {
+-(void)setVariableVar1:(NSString *)string {
     
-    ymin = [[textfield stringValue] floatValue];
+    variableVar1 = [NSString stringWithString:string];
 }
 
--(void)setymax:(NSTextField *)textfield {
+-(void)setVariableVar2:(NSString *)string {
     
-    ymax = [[textfield stringValue] floatValue];
+    variableVar2 = [NSString stringWithString:string];
 }
 
--(void)setScaleFactor:(int)i {
+-(void)setVariableVar3:(NSString *)string {
     
-    scaleFactor = i;
+    variableVar3 = [NSString stringWithString:string];
+}
+
+-(void)setVariableNB:(int)i {
+    
+    variableNB = i;
+}
+
+-(void)setCoordFocusHorizMin:(float)value {
+    
+    coordFocusHorizMin = value;
+}
+
+-(void)setCoordFocusHorizMax:(float)value {
+    
+    coordFocusHorizMax = value;
+}
+
+-(void)setCoordFocusVertMin:(float)value {
+    
+    coordFocusVertMin = value;
+}
+
+-(void)setCoordFocusVertMax:(float)value {
+    
+    coordFocusVertMax = value;
+}
+
+-(void)setRunInfoSpaceRes:(int)i {
+    
+    runInfoSpaceRes = i;
+}
+
+-(void)setRunInfoTimeLoop:(int)i {
+    
+    runInfoTimeLoop = i;
+}
+
+-(void)setRunInfoStartPos:(int)i {
+    
+    runInfoStartPos = i;
+}
+
+-(void)setRunInfoIncrement:(int)i {
+    
+    runInfoIncrement = i;
+}
+
+-(void)setMessage:(NSString *)string {
+    
+    message = [NSString stringWithString:string];
 }
 
 -(void)setScaleMethod:(int)i {
@@ -75,34 +125,79 @@
     openclButtonState = abutton;
 }
 
--(void)setColormapFromAppMenu:(int)i {
+-(NSString *)netCDFFile {
     
-    colormapFromAppMenu = i;
+    return netCDFFile;
 }
 
--(float)xmin {
+-(NSString *)variableName {
     
-    return xmin;
+    return variableName;
 }
 
--(float)xmax {
+-(NSString *)variableVar1 {
     
-    return xmax;
+    return variableVar1;
 }
 
--(float)ymin {
+-(NSString *)variableVar2 {
     
-    return ymin;
+    return variableVar2;
 }
 
--(float)ymax {
+-(NSString *)variableVar3 {
     
-    return ymax;
+    return variableVar3;
 }
 
--(int)scaleFactor {
+-(int)variableNB {
     
-    return scaleFactor;
+    return variableNB;
+}
+
+-(float)coordFocusHorizMin {
+    
+    return coordFocusHorizMin;
+}
+
+-(float)coordFocusHorizMax {
+    
+    return coordFocusHorizMax;
+}
+
+-(float)coordFocusVertMin {
+    
+    return coordFocusVertMin;
+}
+
+-(float)coordFocusVertMax {
+    
+    return coordFocusVertMax;
+}
+
+-(int)runInfoSpaceRes {
+    
+    return runInfoSpaceRes;
+}
+
+-(int)runInfoTimeLoop {
+    
+    return runInfoTimeLoop;
+}
+
+-(int)runInfoStartPos {
+    
+    return runInfoStartPos;
+}
+
+-(int)runInfoIncrement {
+    
+    return runInfoIncrement;
+}
+
+-(NSString *)message {
+    
+    return message;
 }
 
 -(int)scaleMethod {
@@ -135,9 +230,5 @@
     return openclButtonState;
 }
 
--(int)colormapFromAppMenu {
-    
-    return colormapFromAppMenu;
-}
 
 @end

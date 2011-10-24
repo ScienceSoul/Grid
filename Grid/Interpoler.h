@@ -10,6 +10,8 @@
 
 #import "dataObject.h"
 #import "processedDataObject.h"
+#import "RGBColorMap.h"
+#import "ScalarDataView.h"
 
 @interface Interpoler : NSObject {
     
@@ -30,6 +32,10 @@
     float *coordX, *coordY;
     float *serialized_x, *serialized_y;
     
+    int scaleFactor;
+    RGBColorMap *colormap;
+    ScalarDataView *fieldView;
+    
     NSString *headerString;
     NSString *cpuGridString;
     NSString *cpuLoopString;
@@ -40,10 +46,8 @@
     
 }
 
--(void)getInputFile: (NSArray *)arg: (NSTextView *)view;
--(void)LoadNETCDFFile: (NSArray *)arg: (NSTextView *)view;
--(BOOL)dataRead: (int)i: (char*)var_in: (char*)var_in2: (char*)var_in3: (char*)var_out: (int*)nb_var_in;
--(void)prepareData: (dataObject *)data;
+-(BOOL)dataRead: (const char *)var_in: (const char *)var_in2: (const char *)var_in3: (const char *)var_out: (int)nb_var_in: (dataObject *)data;
+-(BOOL)prepareData: (dataObject *)data;
 -(void)GCDCompute: (dataObject *)data;
 -(void)SerialCompute: (dataObject *)data;
 -(void)OpenCLCompute: (dataObject *)data;
@@ -53,7 +57,10 @@
 
 
 -(void)presentDataToUser: (processedDataObject *)processedData;
+-(void)colorTableLookUp;
+-(void)drawData;
 -(void)memoryRelease: (dataObject *)data1: (processedDataObject *)data2;
 -(void)isTerminatedThread: (dataObject *)data1: (processedDataObject *)data2;
+-(void)manageFailure: (dataObject *)data;
 
 @end

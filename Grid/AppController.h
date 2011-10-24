@@ -13,21 +13,17 @@
 @interface AppController : NSObject {
     
     NSThread *workThread;
-    NSWindow *myWindow;
+    NSWindow *dataViewWindow;
     Interpoler *processData;
     ScalarDataView *glView;
     
-    float width, height;                  // Width and height of the window content view
+    float width, height;                  // Width and height of the data view window
     
     IBOutlet NSButton *serialStartStop;
     IBOutlet NSButton *GCDStartStop;
     IBOutlet NSButton *OpenCLStartStop;
     
     IBOutlet NSTextView *consoleView;
-    IBOutlet NSTextField *xRangeMin;
-    IBOutlet NSTextField *xRangeMax;
-    IBOutlet NSTextField *yRangeMin;
-    IBOutlet NSTextField *yRangeMax;
     
     IBOutlet NSMenuItem *scale1x;
     IBOutlet NSMenuItem *scale2x;
@@ -61,15 +57,45 @@
     IBOutlet NSMenuItem *wheel;           // Tag: 24
     
     IBOutlet NSMatrix *scalingMethodCell;
-        
+    
+    // Sheet window outlets
+    int nbVariables;
+    IBOutlet NSWindow *interpolationSheet;
+    IBOutlet NSTextField *netCDFfile;
+    IBOutlet NSTextField *variableName;
+    IBOutlet NSTextField *variableNB;
+    IBOutlet NSTextField *variableVar1;
+    IBOutlet NSTextField *variableVar2;
+    IBOutlet NSTextField *variableVar3;
+    IBOutlet NSButton *focusCoordinates;
+    IBOutlet NSButton *globalGrid;
+    IBOutlet NSTextField *coordFocusHorizMin;
+    IBOutlet NSTextField *coordFocusHorizMax;
+    IBOutlet NSTextField *coordFocusVertMin;
+    IBOutlet NSTextField *coordFocusVertMax;
+    IBOutlet NSTextField *runInfoSpaceRes;
+    IBOutlet NSTextField *runInfoTimeLoop;
+    IBOutlet NSTextField *runInfoStartPos;
+    IBOutlet NSTextField *runInfoIncrement;
+    
 }
 
--(IBAction)loadData:(id)sender;
+-(void)dataInitialize:(dataObject *)data;
 -(IBAction)computeSerial:(id)sender;
 -(IBAction)computeGCD:(id)sender;
 -(IBAction)computeOpenCL:(id)sender;
 
 -(IBAction)scaleWindow:(id)sender;
 -(IBAction)changeColorMap:(id)sender;
+
+// Sheet window actions
+-(void)setNbVariables:(int)i;
+-(int)nbVariables;
+-(IBAction)showInterpolationSheet:(id)sender;
+-(IBAction)endInterpolationSheet:(id)sender;
+-(IBAction)cancelInterpolationSheet:(id)sender;
+-(void)beginAlert:(NSString *)message;
+-(IBAction)chooseFocusCoordinates:(id)sender;
+-(IBAction)chooseGlobalGrid:(id)sender;
 
 @end

@@ -10,13 +10,28 @@
 
 @interface dataObject : NSObject {
     
-    float xmin;
-    float xmax;
-    float ymin;
-    float ymax;
-    int scaleFactor;
+    // The following contains the data retrived from
+    // the window sheet where the interpolation parameters 
+    // are entered. See AppController class.
+    
+    NSString *netCDFFile;
+    NSString *variableName;
+    NSString *variableVar1;
+    NSString *variableVar2;
+    NSString *variableVar3;
+    int variableNB;
+    float coordFocusHorizMin;
+    float coordFocusHorizMax;
+    float coordFocusVertMin;
+    float coordFocusVertMax;
+    int runInfoSpaceRes;
+    int runInfoTimeLoop;
+    int runInfoStartPos;
+    int runInfoIncrement;
+    
     int scaleMethod;         // 1: Replication; 2: Bilinear
-    int colormapFromAppMenu; // Based on MenuItem tag, see AppController class
+    
+    NSString *message;
     
     struct {
         
@@ -33,30 +48,50 @@
     
 }
 
--(void)setxmin: (NSTextField *)textfield;
--(void)setxmax: (NSTextField *)textfield;
--(void)setymin: (NSTextField *)textfield;
--(void)setymax:(NSTextField *)textfield;
--(void)setScaleFactor: (int)i;
+-(void)setNetCDFFile: (NSString *)string;
+-(void)setVariableName: (NSString *)string;
+-(void)setVariableVar1: (NSString *)string;
+-(void)setVariableVar2: (NSString *)string;
+-(void)setVariableVar3: (NSString *)string;
+-(void)setVariableNB: (int)i;
+-(void)setCoordFocusHorizMin: (float)value;
+-(void)setCoordFocusHorizMax: (float)value;
+-(void)setCoordFocusVertMin: (float)value;
+-(void)setCoordFocusVertMax: (float)value;
+-(void)setRunInfoSpaceRes: (int)i;
+-(void)setRunInfoTimeLoop: (int)i;
+-(void)setRunInfoStartPos: (int)i;
+-(void)setRunInfoIncrement: (int)i;
+-(void)setMessage:(NSString *)string;
+
 -(void)setScaleMethod: (int)i;
 -(void)setTerminated: (BOOL)flag;
 -(void)setview: (NSTextView *)aview;
 -(void)setSerialButtonState: (NSButton *)abutton;
 -(void)setGcdSButtonState: (NSButton *)abutton;
 -(void)setOpenclButtonState: (NSButton *)abutton;
--(void)setColormapFromAppMenu: (int)i;
 
--(float)xmin;
--(float)xmax;
--(float)ymin;
--(float)ymax;
--(int)scaleFactor;
+-(NSString *)netCDFFile;
+-(NSString *)variableName;
+-(NSString *)variableVar1;
+-(NSString *)variableVar2;
+-(NSString *)variableVar3;
+-(int)variableNB;
+-(float)coordFocusHorizMin;
+-(float)coordFocusHorizMax;
+-(float)coordFocusVertMin;
+-(float)coordFocusVertMax;
+-(int)runInfoSpaceRes;
+-(int)runInfoTimeLoop;
+-(int)runInfoStartPos;
+-(int)runInfoIncrement;
+-(NSString *)message;
+
 -(int)scaleMethod;
 -(BOOL)terminated;
 -(NSTextView *)view;
 -(NSButton *)serialButtonState;
 -(NSButton *)gcdSButtonState;
 -(NSButton *)openclButtonState;
--(int)colormapFromAppMenu;
 
 @end

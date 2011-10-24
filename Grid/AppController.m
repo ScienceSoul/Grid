@@ -23,6 +23,7 @@
     if (self) {
         // Initialization code here.
         processData = [[Interpoler alloc] init];
+        
     }
     
     return self;
@@ -30,7 +31,7 @@
 
 -(IBAction)scaleWindow:(id)sender {
     
-    NSInteger tag;
+    NSInteger tag, prevTag;
     NSRect rect;
     
     tag = [sender tag];
@@ -40,15 +41,19 @@
             rect.size.width = width;
             rect.size.height = height;
             if ([scale2x state] == NSOnState) {
+                prevTag = [scale2x tag];
                 [scale2x setState:NSOffState];
             }
             if ([scale4x state] == NSOnState) {
+                prevTag = [scale4x tag];
                 [scale4x setState:NSOffState];
             }
             if ([scale6x state] == NSOnState) {
+                prevTag = [scale6x tag];
                 [scale6x setState:NSOffState];
             }
             if ([scale8x state] == NSOnState) {
+                prevTag = [scale8x tag];
                 [scale8x setState:NSOffState];
             }
             [scale1x setState:NSOnState];
@@ -57,15 +62,19 @@
             rect.size.width = width*2.0;
             rect.size.height = height*2.0;
             if ([scale1x state] == NSOnState) {
+                prevTag = [scale1x tag];
                 [scale1x setState:NSOffState];
             }
             if ([scale4x state] == NSOnState) {
+                prevTag = [scale4x tag];
                 [scale4x setState:NSOffState];
             }
             if ([scale6x state] == NSOnState) {
+                prevTag = [scale6x tag];
                 [scale6x setState:NSOffState];
             }
             if ([scale8x state] == NSOnState) {
+                prevTag = [scale8x tag];
                 [scale8x setState:NSOffState];
             }
             [scale2x setState:NSOnState];
@@ -74,15 +83,19 @@
             rect.size.width = width*4.0;
             rect.size.height = height*4.0;
             if ([scale1x state] == NSOnState) {
+                prevTag = [scale1x tag];
                 [scale1x setState:NSOffState];
             }
             if ([scale2x state] == NSOnState) {
+                prevTag = [scale2x tag];
                 [scale2x setState:NSOffState];
             }
             if ([scale6x state] == NSOnState) {
+                prevTag = [scale6x tag];
                 [scale6x setState:NSOffState];
             }
             if ([scale8x state] == NSOnState) {
+                prevTag = [scale8x tag];
                 [scale8x setState:NSOffState];
             }
             [scale4x setState:NSOnState];
@@ -91,15 +104,19 @@
             rect.size.width = width*6.0;
             rect.size.height = height*6.0;
             if ([scale1x state] == NSOnState) {
+                prevTag = [scale1x tag];
                 [scale1x setState:NSOffState];
             }
             if ([scale2x state] == NSOnState) {
+                prevTag = [scale2x tag];
                 [scale2x setState:NSOffState];
             }
             if ([scale4x state] == NSOnState) {
+                prevTag = [scale4x tag];
                 [scale4x setState:NSOffState];
             }
             if ([scale8x state] == NSOnState) {
+                prevTag = [scale8x tag];
                 [scale8x setState:NSOffState];
             }
             [scale6x setState:NSOnState];
@@ -108,15 +125,19 @@
             rect.size.width = width*8.0;
             rect.size.height = height*8.0;
             if ([scale1x state] == NSOnState) {
+                prevTag = [scale1x tag];
                 [scale1x setState:NSOffState];
             }
             if ([scale2x state] == NSOnState) {
+                prevTag = [scale2x tag];
                 [scale2x setState:NSOffState];
             }
             if ([scale4x state] == NSOnState) {
+                prevTag = [scale4x tag];
                 [scale4x setState:NSOffState];
             }
             if ([scale6x state] == NSOnState) {
+                prevTag = [scale6x tag];
                 [scale6x setState:NSOffState];
             }
             [scale8x setState:NSOnState];
@@ -126,15 +147,21 @@
             break;
     }
     
-    rect.origin.x = [myWindow frame].origin.x;
-    rect.origin.y = [myWindow frame].origin.y;
+    rect.origin.x = [dataViewWindow frame].origin.x;
+    rect.origin.y = [dataViewWindow frame].origin.y;
     
-    [myWindow setFrame:rect display:YES animate:YES];
+    [dataViewWindow setFrame:rect display:YES animate:YES];
+    
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d", tag], @"MenuTag", [NSString stringWithFormat:@"%d", prevTag], @"PrevMenuTag", [coordFocusVertMin stringValue], @"VertMin" , [coordFocusVertMax stringValue], @"VertMax", [coordFocusHorizMin stringValue], @"HorizMin", [coordFocusHorizMax stringValue], @"HorizMax", [runInfoSpaceRes stringValue], @"SpaceRes",  nil];
+    [nc postNotificationName:@"GRIDScaleFactorChanged" object:self userInfo:d];
+    
 }
 
 -(IBAction)changeColorMap:(id)sender {
     
     NSInteger tag;
+    NSString *tagString;
     
     tag = [sender tag];
     
@@ -1869,119 +1896,76 @@
             break;
     }
     
+    tagString = [NSString stringWithFormat:@"%d", tag];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    NSDictionary *d = [NSDictionary dictionaryWithObject:tagString forKey:@"MenuTag"];
+    [nc postNotificationName:@"GRIDColorMapChanged" object:self userInfo:d];
+    
+    if ([dataViewWindow isVisible] && ![workThread isExecuting]) {
+        [processData colorTableLookUp];
+        [processData drawData];
+    }
     
 }
 
-
--(IBAction)loadData:(id)sender
-{
-    NSArray *arguments = [[NSProcessInfo processInfo] arguments];
-        
-    [processData getInputFile:arguments :consoleView];
-    [processData LoadNETCDFFile:arguments :consoleView];
+-(void)dataInitialize:(dataObject *)data{
+    
+    [data setNetCDFFile:[netCDFfile stringValue]];
+    [data setVariableName:[variableName stringValue]];
+    [data setVariableVar1:[variableVar1 stringValue]];
+    [data setVariableVar2:[variableVar2 stringValue]];
+    [data setVariableVar3:[variableVar3 stringValue]];
+    [data setVariableNB:[[variableNB stringValue] intValue]];
+    [data setCoordFocusHorizMin:[[coordFocusHorizMin stringValue] floatValue]];
+    [data setCoordFocusHorizMax:[[coordFocusHorizMax stringValue] floatValue]];
+    [data setCoordFocusVertMin:[[coordFocusVertMin stringValue] floatValue]];
+    [data setCoordFocusVertMax:[[coordFocusVertMax stringValue] floatValue]];
+    [data setRunInfoSpaceRes:[[runInfoSpaceRes stringValue] intValue]];
+    [data setRunInfoTimeLoop:[[runInfoTimeLoop stringValue] intValue]];
+    [data setRunInfoStartPos:[[runInfoStartPos stringValue] intValue]];
+    [data setRunInfoIncrement:[[runInfoIncrement stringValue] intValue]];
+    
+    [data setview:consoleView];
+    
+    // Scaling method we want to use based on user choice
+    if ([scalingMethodCell selectedColumn] == 0) {
+        [data setScaleMethod:1];
+    } else if ([scalingMethodCell selectedColumn] == 1) {
+        [data setScaleMethod:2];
+    }
+    
+    [data setTerminated:NO];
     
 }
 
 -(IBAction)computeSerial:(id)sender {
     
+    if ([[netCDFfile stringValue] length] == 0 || [[variableName stringValue] length] == 0 || [[variableNB stringValue] intValue] <= 0 || [[variableVar1 stringValue] length] == 0 || [[runInfoTimeLoop stringValue] intValue] <= 0 || [[runInfoStartPos stringValue] intValue] <= 0 || [[runInfoIncrement stringValue] intValue] <= 0) {
+        
+        NSAlert *alert = [NSAlert alertWithMessageText:@"Error!" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"Interpolation parameters must be first provided before starting a run."];
+        [alert beginSheetModalForWindow:[consoleView window] modalDelegate:nil didEndSelector:NULL contextInfo:NULL];
+        
+        [serialStartStop setState:NSOffState];
+        
+        return;
+    }
+    
     dataObject *data = [[dataObject alloc] init];
     
     if ([serialStartStop state] == 1) {
     
-        [data setxmin:xRangeMin];
-        [data setxmax:xRangeMax];
-        [data setymin:yRangeMin];
-        [data setymax:yRangeMax];
-        [data setview:consoleView];
-        
-        //Scale factor to be used based on user selection
-        if ([scale1x state] == NSOnState) {
-            
-            [data setScaleFactor:1];
-            
-        } else if ([scale2x state] == NSOnState) {
-            
-            [data setScaleFactor:2];
-            
-        } else if ([scale4x state] == NSOnState) {
-            
-            [data setScaleFactor:4];
-            
-        } else if ([scale6x state] == NSOnState) {
-            
-            [data setScaleFactor:6];
-            
-        } else if ([scale8x state] == NSOnState) {
-            
-            [data setScaleFactor:8];
-            
-        } else {
-            
-            [data setScaleFactor:1];
-            
-        }
-        
-        // Scale method we want to use based on user choice
-        if ([scalingMethodCell selectedColumn] == 0) {
-            [data setScaleMethod:1];
-        } else if ([scalingMethodCell selectedColumn] == 1) {
-            [data setScaleMethod:2];
-        }
-        
-        // Color map we want to use based on user choice
-        if ([three_gauss state] == NSOnState) {
-            [data setColormapFromAppMenu:1];
-        } else if ([three_saw state] == NSOnState) {
-            [data setColormapFromAppMenu:2];
-        } else if ([banded state] == NSOnState) {
-            [data setColormapFromAppMenu:3];
-        } else if ([blue_red1 state] == NSOnState) {
-            [data setColormapFromAppMenu:4];
-        } else if ([blue_red2 state] == NSOnState) {
-            [data setColormapFromAppMenu:5];
-        } else if ([bright state] == NSOnState) {
-            [data setColormapFromAppMenu:6];
-        } else if ([bw state] == NSOnState) {
-            [data setColormapFromAppMenu:7];
-        } else if ([deflt state] == NSOnState) {
-            [data setColormapFromAppMenu:8];
-        } else if ([detail state] == NSOnState) {
-            [data setColormapFromAppMenu:9];
-        } else if ([extrema state] == NSOnState) {
-            [data setColormapFromAppMenu:10];
-        } else if ([helix state] == NSOnState) {
-            [data setColormapFromAppMenu:11];
-        } else if ([helix2 state] == NSOnState) {
-            [data setColormapFromAppMenu:12];
-        } else if ([hotres state] == NSOnState) {
-            [data setColormapFromAppMenu:13];
-        } else if ([jaisn2 state] == NSOnState) {
-            [data setColormapFromAppMenu:14];
-        } else if ([jaisnb state] == NSOnState) {
-            [data setColormapFromAppMenu:15];
-        } else if ([jaisnc state] == NSOnState) {
-            [data setColormapFromAppMenu:16];
-        } else if ([jaisnd state] == NSOnState) {
-            [data setColormapFromAppMenu:17];
-        } else if ([jaison state] == NSOnState) {
-            [data setColormapFromAppMenu:18];
-        } else if ([jet state] == NSOnState) {
-            [data setColormapFromAppMenu:19];
-        } else if ([manga state] == NSOnState) {
-            [data setColormapFromAppMenu:20];
-        } else if ([rainbow state] == NSOnState) {
-            [data setColormapFromAppMenu:21];
-        } else if ([roullet state] == NSOnState) {
-            [data setColormapFromAppMenu:22];
-        } else if ([ssec state] == NSOnState) {
-            [data setColormapFromAppMenu:23];
-        } else if ([wheel state] == NSOnState) {
-            [data setColormapFromAppMenu:24];
-        }
-        
-        [data setTerminated:NO];
+        [self dataInitialize:data];
         [data setSerialButtonState:serialStartStop];
-        [processData prepareData:data];
+        
+        if (![processData prepareData:data]) {
+            
+            NSAlert *alert = [NSAlert alertWithMessageText:@"Error!" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:[data message]];
+            [alert beginSheetModalForWindow:[consoleView window] modalDelegate:self didEndSelector:nil contextInfo:NULL];
+            
+            [OpenCLStartStop setState:NSOffState];
+            return;
+            
+        }
         
         //[NSThread detachNewThreadSelector:@selector(SerialCompute:)
         //                         toTarget:processData
@@ -2002,104 +1986,32 @@
 
 -(IBAction)computeGCD:(id)sender
 {
+    if ([[netCDFfile stringValue] length] == 0 || [[variableName stringValue] length] == 0 || [[variableNB stringValue] intValue] <= 0 || [[variableVar1 stringValue] length] == 0 || [[runInfoTimeLoop stringValue] intValue] <= 0 || [[runInfoStartPos stringValue] intValue] <= 0 || [[runInfoIncrement stringValue] intValue] <= 0) {
+        
+        NSAlert *alert = [NSAlert alertWithMessageText:@"Error!" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"Interpolation parameters must be first provided before starting a run."];
+        [alert beginSheetModalForWindow:[consoleView window] modalDelegate:nil didEndSelector:NULL contextInfo:NULL];
+        
+        [GCDStartStop setState:NSOffState];
+        
+        return;
+    }
+    
     dataObject *data = [[dataObject alloc] init];
     
     if ([GCDStartStop state] == 1) {
     
-        [data setxmin:xRangeMin];
-        [data setxmax:xRangeMax];
-        [data setymin:yRangeMin];
-        [data setymax:yRangeMax];
-        [data setview:consoleView];
-        
-        //Scale factor to be used based on user selection
-        if ([scale1x state] == NSOnState) {
-            
-            [data setScaleFactor:1];
-            
-        } else if ([scale2x state] == NSOnState) {
-            
-            [data setScaleFactor:2];
-            
-        } else if ([scale4x state] == NSOnState) {
-            
-            [data setScaleFactor:4];
-            
-        } else if ([scale6x state] == NSOnState) {
-            
-            [data setScaleFactor:6];
-            
-        } else if ([scale8x state] == NSOnState) {
-            
-            [data setScaleFactor:8];
-            
-        } else {
-            
-            [data setScaleFactor:1];
-            
-        }
-        
-        // Scale method we want to use based on user choice
-        if ([scalingMethodCell selectedColumn] == 0) {
-            [data setScaleMethod:1];
-        } else if ([scalingMethodCell selectedColumn] == 1) {
-            [data setScaleMethod:2];
-        }
-        
-        // Color map we want to use based on user choice
-        if ([three_gauss state] == NSOnState) {
-            [data setColormapFromAppMenu:1];
-        } else if ([three_saw state] == NSOnState) {
-            [data setColormapFromAppMenu:2];
-        } else if ([banded state] == NSOnState) {
-            [data setColormapFromAppMenu:3];
-        } else if ([blue_red1 state] == NSOnState) {
-            [data setColormapFromAppMenu:4];
-        } else if ([blue_red2 state] == NSOnState) {
-            [data setColormapFromAppMenu:5];
-        } else if ([bright state] == NSOnState) {
-            [data setColormapFromAppMenu:6];
-        } else if ([bw state] == NSOnState) {
-            [data setColormapFromAppMenu:7];
-        } else if ([deflt state] == NSOnState) {
-            [data setColormapFromAppMenu:8];
-        } else if ([detail state] == NSOnState) {
-            [data setColormapFromAppMenu:9];
-        } else if ([extrema state] == NSOnState) {
-            [data setColormapFromAppMenu:10];
-        } else if ([helix state] == NSOnState) {
-            [data setColormapFromAppMenu:11];
-        } else if ([helix2 state] == NSOnState) {
-            [data setColormapFromAppMenu:12];
-        } else if ([hotres state] == NSOnState) {
-            [data setColormapFromAppMenu:13];
-        } else if ([jaisn2 state] == NSOnState) {
-            [data setColormapFromAppMenu:14];
-        } else if ([jaisnb state] == NSOnState) {
-            [data setColormapFromAppMenu:15];
-        } else if ([jaisnc state] == NSOnState) {
-            [data setColormapFromAppMenu:16];
-        } else if ([jaisnd state] == NSOnState) {
-            [data setColormapFromAppMenu:17];
-        } else if ([jaison state] == NSOnState) {
-            [data setColormapFromAppMenu:18];
-        } else if ([jet state] == NSOnState) {
-            [data setColormapFromAppMenu:19];
-        } else if ([manga state] == NSOnState) {
-            [data setColormapFromAppMenu:20];
-        } else if ([rainbow state] == NSOnState) {
-            [data setColormapFromAppMenu:21];
-        } else if ([roullet state] == NSOnState) {
-            [data setColormapFromAppMenu:22];
-        } else if ([ssec state] == NSOnState) {
-            [data setColormapFromAppMenu:23];
-        } else if ([wheel state] == NSOnState) {
-            [data setColormapFromAppMenu:24];
-        }
-        
-        [data setTerminated:NO];
+        [self dataInitialize:data];
         [data setGcdSButtonState:GCDStartStop];
-        [processData prepareData:data];
+        
+        if (![processData prepareData:data]) {
+            
+            NSAlert *alert = [NSAlert alertWithMessageText:@"Error!" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:[data message]];
+            [alert beginSheetModalForWindow:[consoleView window] modalDelegate:self didEndSelector:nil contextInfo:NULL];
+            
+            [OpenCLStartStop setState:NSOffState];
+            return;
+            
+        }
         
         //[NSThread detachNewThreadSelector:@selector(GCDCompute:)
         //                         toTarget:processData
@@ -2119,104 +2031,32 @@
 
 -(IBAction)computeOpenCL:(id)sender {
     
+    if ([[netCDFfile stringValue] length] == 0 || [[variableName stringValue] length] == 0 || [[variableNB stringValue] intValue] <= 0 || [[variableVar1 stringValue] length] == 0 || [[runInfoTimeLoop stringValue] intValue] <= 0 || [[runInfoStartPos stringValue] intValue] <= 0 || [[runInfoIncrement stringValue] intValue] <= 0) {
+        
+        NSAlert *alert = [NSAlert alertWithMessageText:@"Error!" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"Interpolation parameters must be first provided before starting a run."];
+        [alert beginSheetModalForWindow:[consoleView window] modalDelegate:nil didEndSelector:NULL contextInfo:NULL];
+        
+        [OpenCLStartStop setState:NSOffState];
+        
+        return;
+    }
+    
     dataObject *data = [[dataObject alloc] init];
     
     if ([OpenCLStartStop state] == 1) {
         
-        [data setxmin:xRangeMin];
-        [data setxmax:xRangeMax];
-        [data setymin:yRangeMin];
-        [data setymax:yRangeMax];
-        [data setview:consoleView];
-        
-        //Scale factor to be used based on user selection
-        if ([scale1x state] == NSOnState) {
-            
-            [data setScaleFactor:1];
-            
-        } else if ([scale2x state] == NSOnState) {
-            
-            [data setScaleFactor:2];
-            
-        } else if ([scale4x state] == NSOnState) {
-            
-            [data setScaleFactor:4];
-            
-        } else if ([scale6x state] == NSOnState) {
-            
-            [data setScaleFactor:6];
-            
-        } else if ([scale8x state] == NSOnState) {
-            
-            [data setScaleFactor:8];
-            
-        } else {
-            
-            [data setScaleFactor:1];
-            
-        }
-        
-        // Scale method we want to use based on user choice
-        if ([scalingMethodCell selectedColumn] == 0) {
-            [data setScaleMethod:1];
-        } else if ([scalingMethodCell selectedColumn] == 1) {
-            [data setScaleMethod:2];
-        }
-        
-        // Color map we want to use based on user choice
-        if ([three_gauss state] == NSOnState) {
-            [data setColormapFromAppMenu:1];
-        } else if ([three_saw state] == NSOnState) {
-            [data setColormapFromAppMenu:2];
-        } else if ([banded state] == NSOnState) {
-            [data setColormapFromAppMenu:3];
-        } else if ([blue_red1 state] == NSOnState) {
-            [data setColormapFromAppMenu:4];
-        } else if ([blue_red2 state] == NSOnState) {
-            [data setColormapFromAppMenu:5];
-        } else if ([bright state] == NSOnState) {
-            [data setColormapFromAppMenu:6];
-        } else if ([bw state] == NSOnState) {
-            [data setColormapFromAppMenu:7];
-        } else if ([deflt state] == NSOnState) {
-            [data setColormapFromAppMenu:8];
-        } else if ([detail state] == NSOnState) {
-            [data setColormapFromAppMenu:9];
-        } else if ([extrema state] == NSOnState) {
-            [data setColormapFromAppMenu:10];
-        } else if ([helix state] == NSOnState) {
-            [data setColormapFromAppMenu:11];
-        } else if ([helix2 state] == NSOnState) {
-            [data setColormapFromAppMenu:12];
-        } else if ([hotres state] == NSOnState) {
-            [data setColormapFromAppMenu:13];
-        } else if ([jaisn2 state] == NSOnState) {
-            [data setColormapFromAppMenu:14];
-        } else if ([jaisnb state] == NSOnState) {
-            [data setColormapFromAppMenu:15];
-        } else if ([jaisnc state] == NSOnState) {
-            [data setColormapFromAppMenu:16];
-        } else if ([jaisnd state] == NSOnState) {
-            [data setColormapFromAppMenu:17];
-        } else if ([jaison state] == NSOnState) {
-            [data setColormapFromAppMenu:18];
-        } else if ([jet state] == NSOnState) {
-            [data setColormapFromAppMenu:19];
-        } else if ([manga state] == NSOnState) {
-            [data setColormapFromAppMenu:20];
-        } else if ([rainbow state] == NSOnState) {
-            [data setColormapFromAppMenu:21];
-        } else if ([roullet state] == NSOnState) {
-            [data setColormapFromAppMenu:22];
-        } else if ([ssec state] == NSOnState) {
-            [data setColormapFromAppMenu:23];
-        } else if ([wheel state] == NSOnState) {
-            [data setColormapFromAppMenu:24];
-        }
-        
-        [data setTerminated:NO];
+        [self dataInitialize:data];
         [data setOpenclButtonState:OpenCLStartStop];
-        [processData prepareData:data];
+        
+        if (![processData prepareData:data]) {
+         
+            NSAlert *alert = [NSAlert alertWithMessageText:@"Error!" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:[data message]];
+            [alert beginSheetModalForWindow:[consoleView window] modalDelegate:self didEndSelector:nil contextInfo:NULL];
+            
+            [OpenCLStartStop setState:NSOffState];
+            return;
+            
+        }
         
         //[NSThread detachNewThreadSelector:@selector(OpenCLCompute:)
         //                        toTarget:processData
@@ -2237,160 +2077,286 @@
 
 -(void)awakeFromNib 
 {
-    int n, k;
-    int nx, ny;
-    NSRange subRange;
-    float **xyrange;
-    FILE *f1;
-    NSString *string;
+    // Set some initial values for the sheet window
+    [variableNB setStringValue:@"1"];
+    [variableVar2 setStringValue:@"optional"];
+    [variableVar3 setStringValue:@"optional"];
     
-    // Check if we have enough arguments upon awaking from Nib.
-    NSArray *arguments = [[NSProcessInfo processInfo] arguments];
-    
-    xyrange = floatmatrix(0, 1, 0, 1);
-    
-    n = (int)[arguments count];
-    
-    if ((n-1) < 6) {
-        NSLog(@"Fatal error: Number of arguments should be at least 7.\n");
-        exit(-1);
-    }
-    
-    if ([arguments count]-1 == 7) {
-        
-        NSLog(@"Got the the domain range input file\n");
-        
-        if ([[arguments objectAtIndex:1] isEqualToString:@"Jakobshavn"]) {
-            
-            // Verify first that we are opening the proper file
-            subRange = [[arguments objectAtIndex:2] rangeOfString:@"jis.sif"];
-            
-            if (subRange.location == NSNotFound) { 
-                NSLog(@"Fatal Error: Input file for coordinates not consistent with domain name\n"); 
-                exit(-1);
-            }
-            
-            f1 = fopen([[arguments objectAtIndex:2] cStringUsingEncoding:NSASCIIStringEncoding], "r");
-            if(!f1) {
-                NSLog(@"Fatal Error: File %@ not found\n", [arguments objectAtIndex:2]);
-                exit(-1);
-            }
-        } 
-        else if ([[arguments objectAtIndex:1] isEqualToString:@"Kangerdlussuaq"]) {
-            
-            subRange = [[arguments objectAtIndex:2] rangeOfString:@"kl.sif"];
-            
-            if (subRange.location == NSNotFound) { 
-                NSLog(@"Fatal Error: Input file for coordinates not consistent with domain name\n"); 
-                exit(-1);
-            }
-            
-            f1 = fopen([[arguments objectAtIndex:2] cStringUsingEncoding:NSASCIIStringEncoding], "r");
-            if(!f1) {
-                NSLog(@"Fatal Error: File %@ not found\n", [arguments objectAtIndex:2]);
-                exit(-1);
-            }
-        }
-        else if ([[arguments objectAtIndex:1] isEqualToString:@"Helheim"]) {
-            
-            subRange = [[arguments objectAtIndex:2] rangeOfString:@"hh.sif"];
-            
-            if (subRange.location == NSNotFound) { 
-                NSLog(@"Fatal Error: Input file for coordinates not consistent with domain name\n"); 
-                exit(-1);
-            }
-            
-            f1 = fopen([[arguments objectAtIndex:2] cStringUsingEncoding:NSASCIIStringEncoding], "r");
-            if(!f1) {
-                NSLog(@"Fatal Error: File %@ not found\n", [arguments objectAtIndex:2]);
-                exit(-1);
-            }
-        }
-        else if ([[arguments objectAtIndex:1] isEqualToString:@"Petermann"]) {
-            
-            subRange = [[arguments objectAtIndex:2] rangeOfString:@"pt.sif"];
-            
-            if (subRange.location == NSNotFound) { 
-                NSLog(@"Fatal Error: Input file for coordinates not consistent with domain name\n"); 
-                exit(-1);
-            }
-            
-            f1 = fopen([[arguments objectAtIndex:2] cStringUsingEncoding:NSASCIIStringEncoding], "r");
-            if(!f1) {
-                NSLog(@"Fatal Error: File %@ not found\n", [arguments objectAtIndex:2]);
-                exit(-1);
-            }
-        }
-        else {
-            
-            NSLog(@"Fatal Error: Unknown domain type.\n");
-            exit(-1);
-        }
-        
-        k=0;
-        do {
-            
-            fscanf(f1,"%f %f\n", &xyrange[k][0], &xyrange[k][1]);
-            k++;
-        }
-        while (!feof(f1)); 
-        fclose(f1);
-        
-        nx = ( ( (int) xyrange[0][1] - (int) xyrange[0][0] ) / 1000 ) + 1;
-        ny = ( ( (int) xyrange[1][1] - (int) xyrange[1][0] ) / 1000 ) + 1;
-        
-        string = [NSString stringWithFormat: @"%f", xyrange[0][0]];
-        [xRangeMin setStringValue:string];
-        
-        string = [NSString stringWithFormat: @"%f", xyrange[0][1]];
-        [xRangeMax setStringValue:string];
-        
-        string = [NSString stringWithFormat: @"%f", xyrange[1][0]];
-        [yRangeMin setStringValue:string];
-        
-        string = [NSString stringWithFormat: @"%f", xyrange[1][1]];
-        [yRangeMax setStringValue:string];
-        
-        NSRect windowRect = NSMakeRect(500.0f, 500.0f, (float)nx, (float)ny);
-        myWindow = [[NSWindow alloc] initWithContentRect:windowRect styleMask:( NSResizableWindowMask | NSClosableWindowMask | NSTitledWindowMask ) backing:NSBackingStoreBuffered defer:NO];
-        
-        width = [[myWindow contentView] bounds].size.width;
-        height = [[myWindow contentView] bounds].size.height;
-        NSLog(@"Size: %f %f\n", width, height);
-        
-        glView = [[ScalarDataView alloc] initWithFrame:[[myWindow contentView] bounds]];
-        [myWindow setContentView:glView];
-        [myWindow setTitle:@"Grid View"];
-        [myWindow makeKeyAndOrderFront:nil];
-        
-        NSLog(@"Vew frame: %f %f\n", [glView frame].size.width, [glView frame].size.height);
-        
-        [scale1x setState:NSOnState];
-    
-    } else {
-        
-        [xRangeMin setStringValue:@"0.0"];
-        [xRangeMax setStringValue:@"0.0"];
-        [yRangeMin setStringValue:@"0.0"];
-        [yRangeMax setStringValue:@"0.0"];
-    
-    }
+    [runInfoSpaceRes setStringValue:@">0"];
+    [runInfoTimeLoop setStringValue:@">0"];
+    [runInfoStartPos setStringValue:@">0"];
+    [runInfoIncrement setStringValue:@">0"];
     
     // By default we use the replicate method for data scaling
     [scalingMethodCell setState:NSOnState atRow:0 column:0];
     
+    // By default we use original data
+    [scale1x setState:NSOnState];
+    
     // We use the default color map
     [deflt setState:NSOnState];
+
+}
+
+#pragma mark Sheet window actions
+
+-(void)setNbVariables:(int)i {
+    
+    nbVariables = i;
+}
+
+-(int)nbVariables {
+    
+    return nbVariables;
+}
+
+-(IBAction)showInterpolationSheet:(id)sender {
+    
+    [NSApp beginSheet:interpolationSheet modalForWindow:[consoleView window] modalDelegate:nil didEndSelector:NULL contextInfo:NULL];
+}
+
+-(IBAction)endInterpolationSheet:(id)sender {
+    
+    int nx, ny;
+    float **xyrange;
+    NSString *message;
+    
+    if ([[netCDFfile stringValue] length] == 0) {
+        
+        [NSApp endSheet:interpolationSheet];
+        [interpolationSheet orderOut:sender];
+        
+        message = [NSString stringWithString:@"A netCDF file containing the data to interpolate must be provided."];
+        [self beginAlert:message];
+        
+        return;        
+    }
+    
+    if ([[variableName stringValue] length] == 0) {
+        
+        [NSApp endSheet:interpolationSheet];
+        [interpolationSheet orderOut:sender];
+        
+        message = [NSString stringWithString:@"A name to reference the resulting interpolated variable must be provided. Variable:Name:"];
+        [self beginAlert:message];
+        
+        return;
+        
+    }
+    
+    if ([[variableNB stringValue] intValue] <= 0 || [[variableNB stringValue] intValue] > 3) {
+        
+        [NSApp endSheet:interpolationSheet];
+        [interpolationSheet orderOut:sender];
+        
+        message = [NSString stringWithString:@"The number of variables to use for the interpolation must be between 1 and 3. Variable:NB:"];
+        [self beginAlert:message];
+        
+        return;
+    }
+    
+    if ([[variableVar1 stringValue] length] == 0) {
+        
+        [NSApp endSheet:interpolationSheet];
+        [interpolationSheet orderOut:sender];
+        
+        message = [NSString stringWithString:@"A name for the variable used for the interpolation must be provided. This variable must be present in the netCDF file used as input. Variable:Var.1:"];
+        [self beginAlert:message];
+        
+        return;
+    }
+    
+    if ([[variableNB stringValue] intValue] == 2 && ([[variableVar2 stringValue] length] == 0 || [[variableVar2 stringValue] isEqualToString:@"optional"]) ) {
+        
+        [NSApp endSheet:interpolationSheet];
+        [interpolationSheet orderOut:sender];
+        
+        message = [NSString stringWithString:@"Number of variable for interpolation is two but second input variable is missing. Variable:Var.2:"];
+        [self beginAlert:message];
+        
+        return;
+
+    }
+    
+    if ([[variableNB stringValue] intValue] == 3 && ([[variableVar2 stringValue] length] == 0 || [[variableVar2 stringValue] isEqualToString:@"optional"] || [[variableVar3 stringValue] length] == 0 || [[variableVar3 stringValue] isEqualToString:@"optional"]) ) {
+        
+        [NSApp endSheet:interpolationSheet];
+        [interpolationSheet orderOut:sender];
+        
+        message = [NSString stringWithString:@"Number of variable for interpolation is two but second and/or third input variables are missing. Variable:Var.2:Var.3:"];
+        [self beginAlert:message];
+        
+        return;
+        
+    }
+
+    if ([[runInfoSpaceRes stringValue] intValue] <= 0) {
+        
+        [NSApp endSheet:interpolationSheet];
+        [interpolationSheet orderOut:sender];
+        
+        message = [NSString stringWithString:@"Space resolution must be higher or equal to 1. Run info:Space Res:"];
+        [self beginAlert:message];
+        
+        return;
+    }
+    
+    if ([[runInfoTimeLoop stringValue] intValue] <= 0) {
+        
+        [NSApp endSheet:interpolationSheet];
+        [interpolationSheet orderOut:sender];
+        
+        message = [NSString stringWithString:@"Time iterations must be higher or equal to 1. Run info:Time loop:"];
+        [self beginAlert:message];
+        
+        return;
+    }
+    
+    if ([[runInfoStartPos stringValue] intValue] <= 0) {
+        
+        [NSApp endSheet:interpolationSheet];
+        [interpolationSheet orderOut:sender];
+        
+        message = [NSString stringWithString:@"The number indicating where to start the interpolation from the imput data should be higher or equal to 1. Run info:Start pos:"];
+        [self beginAlert:message];
+        
+        return;
+    }
+    
+    if ([[runInfoIncrement stringValue] intValue] <= 0) {
+        
+        [NSApp endSheet:interpolationSheet];
+        [interpolationSheet orderOut:sender];
+        
+        message = [NSString stringWithString:@"Increment size for the interpolation should be higher or equal to 1. Run info:Increment:"];
+        [self beginAlert:message];
+        
+        return;
+    }
+    
+    if ([focusCoordinates state] == NSOnState || [globalGrid state] == NSOnState) {
+            
+        if ([[coordFocusHorizMin stringValue] floatValue] == 0.0 || [[coordFocusHorizMax stringValue] floatValue] == 0.0 || [[coordFocusVertMin stringValue] floatValue] == 0.0 || [[coordFocusVertMax stringValue] floatValue] == 0.0) {
+            
+            [NSApp endSheet:interpolationSheet];
+            [interpolationSheet orderOut:sender];
+            
+            if ([focusCoordinates state] == NSOnState) {
+                message = [NSString stringWithString:@"One or several focus coordinates are not provided or are not real values."];
+            } else if ([globalGrid state] == NSOnState) {
+                message = [NSString stringWithString:@"One or several domain bounds coordinates are not provided or are not real values."];
+            }
+                
+            [self beginAlert:message];
+            
+            return;
+            
+        }
+        
+    } else if ([focusCoordinates state] == NSOffState && [globalGrid state] == NSOffState) {
+        
+        [NSApp endSheet:interpolationSheet];
+        [interpolationSheet orderOut:sender];
+        
+        message = [NSString stringWithString:@"A method by which the interpolation will be carried out should be provided. Either choose to focus on a specific part of the input domain or choose to interpolate all of it towards the structured grid."];
+        [self beginAlert:message];
+        
+        return;
+        
+    }
+    
+    xyrange = floatmatrix(0, 1, 0, 1);
+    
+    xyrange[0][0] = [[coordFocusHorizMin stringValue] floatValue];
+    xyrange[0][1] = [[coordFocusHorizMax stringValue] floatValue];
+    xyrange[1][0] = [[coordFocusVertMin stringValue] floatValue];
+    xyrange[1][1] = [[coordFocusVertMax stringValue] floatValue];
+    
+    nx = ( ( (int) xyrange[0][1] - (int) xyrange[0][0] ) / 1000 ) + 1;
+    ny = ( ( (int) xyrange[1][1] - (int) xyrange[1][0] ) / 1000 ) + 1;
     
     free_fmatrix(xyrange, 0, 1, 0, 1);
+    
+    //Close previsously allocated window if any
+    if ([dataViewWindow isVisible]) {
+        [dataViewWindow close];
+    }
+    
+    NSRect windowRect = NSMakeRect(500.0f, 500.0f, (float)nx, (float)ny);
+    dataViewWindow = [[NSWindow alloc] initWithContentRect:windowRect styleMask:( NSTitledWindowMask | NSMiniaturizableWindowMask ) backing:NSBackingStoreBuffered defer:NO];
+    [dataViewWindow setReleasedWhenClosed:YES];
+
+    
+    width = [[dataViewWindow contentView] bounds].size.width;
+    height = [[dataViewWindow contentView] bounds].size.height;
+    NSLog(@"Size: %f %f\n", width, height);
+    
+    glView = [[ScalarDataView alloc] initWithFrame:[[dataViewWindow contentView] bounds]];
+    [dataViewWindow setContentView:glView];
+    [dataViewWindow setTitle:@"Grid View"];
+    [dataViewWindow makeKeyAndOrderFront:nil];
+
+    NSLog(@"Vew frame: %f %f\n", [glView frame].size.width, [glView frame].size.height);
+    
+    //State-off for any scale chosen previously with a previous window
+    if ([scale2x state] == NSOnState) {
+        [scale2x setState:NSOffState];
+    }
+    if ([scale4x state] == NSOnState) {
+        [scale4x setState:NSOffState];
+    }
+    if ([scale6x state] == NSOnState) {
+        [scale6x setState:NSOffState];
+    }
+    if ([scale8x state] == NSOnState) {
+        [scale8x setState:NSOffState];
+    }
+    
+    [scale1x setState:NSOnState];
+    // To do's need to notify the return to scale 1x.......
+    
+    
+    [NSApp endSheet:interpolationSheet];
+    [interpolationSheet orderOut:sender];
+}
+
+-(IBAction)cancelInterpolationSheet:(id)sender {
+    
+    [NSApp endSheet:interpolationSheet];
+    [interpolationSheet orderOut:sender];
+}
+
+-(void)beginAlert:(NSString *)message {
+    
+    NSAlert *alert = [NSAlert alertWithMessageText:@"Error!" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:message];
+    
+    [alert beginSheetModalForWindow:[consoleView window] modalDelegate:self didEndSelector:@selector(alertEnded:code:context:) contextInfo:NULL];
 
 }
 
--(void)checkTerminate:(NSTimer *)theTimer {
+-(void)alertEnded:(NSAlert *)alert code:(int)choice context:(void *)v {
     
-    NSLog(@"Timer fired********\n");
-    
+    if (choice == NSAlertDefaultReturn) {
+        
+        [[alert window] close];
+        
+        [NSApp beginSheet:interpolationSheet modalForWindow:[consoleView window] modalDelegate:nil didEndSelector:NULL contextInfo:NULL];
+        
+    }
 }
 
+-(IBAction)chooseFocusCoordinates:(id)sender {
+    
+    if ([globalGrid state] == NSOnState) {
+        [globalGrid setState:NSOffState];
+    }
+}
+
+-(IBAction)chooseGlobalGrid:(id)sender {
+    
+    if ([focusCoordinates state] == NSOnState) {
+        [focusCoordinates setState:NSOffState];
+    }
+}
 
 @end

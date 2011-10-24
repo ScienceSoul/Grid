@@ -14,9 +14,7 @@
     NSString *string2;
     NSTextView* view;
     double timing;
-    int scaleFactor;
     int scaleMethod;    // 1: Replicate; 2: Bilinear 
-    int colormapFromAppMenu; // Based on MenuItem tag, see AppController class
     
 }
 
@@ -25,15 +23,11 @@
 -(NSString *)string1;
 -(NSString *)string2;
 -(void)setview: (NSTextView *)aview;
--(void)setColormapFromAppMenu: (int)i;
 
 -(NSTextView *)view;
 -(void)setTiming: (double)adouble;
 -(double)timing;
--(void)setScaleFactor: (int)i;
--(int)scaleFactor;
 -(void)setScaleMethod: (int)i;
 -(int)scaleMethod;
--(int)colormapFromAppMenu;
 
 @end

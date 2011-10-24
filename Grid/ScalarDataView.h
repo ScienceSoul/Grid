@@ -28,6 +28,7 @@
 -(int)height;
 -(void)allocTables: (int)nl: (int)nh;
 -(void)releaseTables: (int)nl: (int)nh;
+-(BOOL)isAllocated;
 
 -(void)draw2DField;
 

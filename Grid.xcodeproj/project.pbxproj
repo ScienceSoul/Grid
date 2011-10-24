@@ -349,6 +349,7 @@
 		73141077141F075800BDA61F /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 0420;
 				ORGANIZATIONNAME = "Institute of Low Temperature Science";
 			};
 			buildConfigurationList = 7314107A141F075800BDA61F /* Build configuration list for PBXProject "Grid" */;
