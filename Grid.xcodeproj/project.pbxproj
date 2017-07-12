@@ -83,6 +83,7 @@
 		73314AC51420C57D0013F730 /* Timing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Timing.h; sourceTree = "<group>"; };
 		73314AC91420C7E80013F730 /* GridPoint.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = GridPoint.c; sourceTree = "<group>"; };
 		73314ACB1420C83E0013F730 /* GridPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridPoint.h; sourceTree = "<group>"; };
+		733208991F16793200B4611F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		73793FCF143DB178000EB270 /* OpenCL_utils.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = OpenCL_utils.c; sourceTree = "<group>"; };
 		73793FD2143DB18B000EB270 /* OpenCL_utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenCL_utils.h; sourceTree = "<group>"; };
 		73793FD3143DB97D000EB270 /* colormaps_3gauss.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = colormaps_3gauss.h; sourceTree = "<group>"; };
@@ -191,6 +192,7 @@
 		73141075141F075800BDA61F = {
 			isa = PBXGroup;
 			children = (
+				733208991F16793200B4611F /* README.md */,
 				7314108A141F075800BDA61F /* Grid */,
 				731410A7141F075900BDA61F /* GridTests */,
 				73141083141F075800BDA61F /* Frameworks */,
