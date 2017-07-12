@@ -2,4 +2,4 @@
 
 ### Description
 
-Grid is a prototype program which allows to interpolate data from a finite element unstructured grid to a structured grid using the GPU (or GCD). It interpolates to the regular grid on the fly and display the color map of the interpolated variable.
+Grid is a prototype program that interpolates simulation data from a finite element two-dimensional unstructured grid to a two-dimensional structured grid using the GPU (or GCD). It interpolates to the regular grid on the fly and displays the color map of the interpolated variable.
