@@ -65,12 +65,13 @@ int pointInTriangle (float p1, float p2, float a1, float a2, float b1, float b2,
     
 }
 
-__kernel void interpolate (__global float *gx, __global float *gy, __global float *triangles, __global float *grid, __global int *gridMask, int N1, int N2 )
+__kernel void interpolate (__global float *gx, __global float *gy, __global float *triangles, __global float *grid, __global int *gridMask, int N1, int N2)
 {
-	int igrid = get_global_id(0);
 	int i;
 	int jj, ii;
 	int l, k;
+    
+    int igrid = get_global_id(0);
 	
 	float theInterpolatedValue, weightsum, weight;
 	float distanceToPoint[5][3];

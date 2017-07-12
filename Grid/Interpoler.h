@@ -54,6 +54,7 @@
 -(void)Serial_work_function: (float ***)grid1: (int ***)grid2: (int)t: (float ***)entry1: (float *)entry2: (float *)entry3: (int)N1: (int)N2: (int)N3: (int)N4: (dataObject *)data1: (processedDataObject *)data2;
 -(void)GCD_work_function: (float ***)grid1: (int ***)grid2: (int)t: (float ***)entry1: (float *)entry2: (float *)entry3: (int)N1: (int)N2: (int)N3: (int)N4: (dataObject *)data1: (processedDataObject *)data2; 
 -(int)exec_kernel: (float *)gx: (float *)gy: (float *)triangles: (float *)serialized_griddedData: (int *)serialized_gridMaskData :(int)ngrid: (int)ni: (int)nj: (const char *)filename: (int)firstTime: (dataObject *)data1: (processedDataObject *)data2; 
+-(int)exec_kernel_opt: (float *)gx: (float *)gy: (float *)X1: (float *)X2: (float *)X3: (float *)Y1: (float *)Y2: (float *)Y3: (float *)Z1: (float *)Z2: (float *)Z3: (int)aligned: (float *)serialized_griddedData: (int *)serialized_gridMaskData :(int)ngrid: (int)ni: (int)nj: (const char *)filename: (int)firstTime: (dataObject *)data1: (processedDataObject *)data2; 
 
 
 -(void)presentDataToUser: (processedDataObject *)processedData;

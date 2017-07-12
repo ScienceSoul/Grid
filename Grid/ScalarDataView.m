@@ -61,7 +61,7 @@
 
 }
 
--(void)setColorTable:(unsigned char)r :(unsigned char)g :(unsigned char)b :(int)i {
+-(void)setColorTableRed:(unsigned char)r green:(unsigned char)g blue:(unsigned char)b index:(int)i {
     
         colorTable[i][0] = r;
         colorTable[i][1] = g;
@@ -69,7 +69,7 @@
     
 }
 
--(void)setPixelValues:(GLubyte)val :(int)i {
+-(void)setPixelValues:(GLubyte)val index:(int)i {
     
     pixelValues[i] = val;
 }
@@ -94,12 +94,12 @@
     return height;
 }
 
--(void)allocTables:(int)nl :(int)nh {
+-(void)allocTablesRows:(int)nl Cols:(int)nh {
     
     pixelValues = GLubytevec(nl, nh);
 }
 
--(void)releaseTables:(int)nl :(int)nh {
+-(void)releaseTablesRows:(int)nl Cols:(int)nh {
     
     free_GLubytevector(pixelValues, nl, nh);
 }

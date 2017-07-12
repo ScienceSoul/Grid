@@ -6,8 +6,8 @@
 //  Copyright 2011 Institute of Low Temperature Science. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
-@interface GridTests : SenTestCase
+@interface GridTests : XCTestCase
 
 @end

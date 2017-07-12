@@ -1,0 +1,11 @@
+# Mac OX S
+*.DS_Store
+
+# XCode
+Grid.xcodeproj/project.xcworkspace/*
+Grid.xcodeproj/xcuserdata/*
+
+# Extras
+*.sif
+interpolate_vec.cl
+interpolate_vectorized.cl

@@ -20,14 +20,14 @@
     
 }
 
--(void)setColorTable: (unsigned char)r: (unsigned char)g: (unsigned char)b: (int)i;
--(void)setPixelValues: (GLubyte)val: (int)i;
+-(void)setColorTableRed:(unsigned char)r green:(unsigned char)g blue:(unsigned char)b index:(int)i;
+-(void)setPixelValues:(GLubyte)val index:(int)i;
 -(void)setWidth: (int)val;
 -(void)setHeight: (int)val;
 -(int)width;
 -(int)height;
--(void)allocTables: (int)nl: (int)nh;
--(void)releaseTables: (int)nl: (int)nh;
+-(void)allocTablesRows:(int)nl Cols:(int)nh;
+-(void)releaseTablesRows:(int)nl Cols:(int)nh;
 -(BOOL)isAllocated;
 
 -(void)draw2DField;

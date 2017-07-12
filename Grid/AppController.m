@@ -2272,8 +2272,8 @@
     xyrange[1][0] = [[coordFocusVertMin stringValue] floatValue];
     xyrange[1][1] = [[coordFocusVertMax stringValue] floatValue];
     
-    nx = ( ( (int) xyrange[0][1] - (int) xyrange[0][0] ) / 1000 ) + 1;
-    ny = ( ( (int) xyrange[1][1] - (int) xyrange[1][0] ) / 1000 ) + 1;
+    nx = ( ( (int) xyrange[0][1] - (int) xyrange[0][0] ) / [[runInfoSpaceRes stringValue] intValue] );
+    ny = ( ( (int) xyrange[1][1] - (int) xyrange[1][0] ) / [[runInfoSpaceRes stringValue] intValue] );
     
     free_fmatrix(xyrange, 0, 1, 0, 1);
     

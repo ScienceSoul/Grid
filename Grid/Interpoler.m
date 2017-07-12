@@ -128,8 +128,8 @@
     xyrange[1][0] = [data coordFocusVertMin];
     xyrange[1][1] = [data coordFocusVertMax];
     
-    NX = ( ( (int) xyrange[0][1] - (int) xyrange[0][0] ) / [data runInfoSpaceRes] ) + 1;
-    NY = ( ( (int) xyrange[1][1] - (int) xyrange[1][0] ) / [data runInfoSpaceRes] ) + 1;
+    NX = ( ( (int) xyrange[0][1] - (int) xyrange[0][0] ) / [data runInfoSpaceRes] );
+    NY = ( ( (int) xyrange[1][1] - (int) xyrange[1][0] ) / [data runInfoSpaceRes] );
     
     ngrid = NX * NY;
     
@@ -159,7 +159,7 @@
         coordX[i] = coordX[i-1] + (float)[data runInfoSpaceRes];
 
     }
-    
+
     for (i=1;i<NY;i++) {
         
         coordY[i] = coordY[i-1] + (float)[data runInfoSpaceRes];
@@ -678,6 +678,7 @@
     int ii, jj, kk;
     int indx, ngrid;
     float *triangles;
+    float *X1, *X2, *X3, *Y1, *Y2, *Y3, *Z1, *Z2, *Z3;
     
     uint64_t beg, end;
     uint64_t gr_end, gr_beg;
@@ -742,6 +743,19 @@
     
     triangles = floatvec(0, (NJ*(NI/3)*12)-1 );
     
+    int aligned;
+    aligned = (NJ*(NI/3)) + (512 - ((NJ*(NI/3)) & 511));
+    
+    X1 = floatvec(0, aligned-1);
+    X2 = floatvec(0, aligned-1);
+    X3 = floatvec(0, aligned-1);
+    Y1 = floatvec(0, aligned-1);
+    Y2 = floatvec(0, aligned-1);
+    Y3 = floatvec(0, aligned-1);
+    Z1 = floatvec(0, aligned-1);
+    Z2 = floatvec(0, aligned-1);
+    Z3 = floatvec(0, aligned-1);
+    
     beg = mach_absolute_time();
     
     for (z=0; z<NT; z++) {
@@ -756,6 +770,19 @@
         for (ii = 0; ii<(NJ*(NI/3)*12); ii++){
             triangles[ii] = 0.0;
         }
+        
+        for (ii = 0; ii<aligned; ii++){
+            X1[ii] = 0.0;
+            X2[ii] = 0.0;
+            X3[ii] = 0.0;
+            Y1[ii] = 0.0;
+            Y2[ii] = 0.0;
+            Y3[ii] = 0.0;
+            Z1[ii] = 0.0;
+            Z2[ii] = 0.0;
+            Z3[ii] = 0.0;
+        }
+
         
         indx = 0;
         
@@ -792,9 +819,31 @@
             }
         }
         
+        indx = 0;
+        for (jj=0; jj<NJ; jj++) {
+            for (ii=0; ii<NI; ii=ii+3) {
+                if (mask[incrTime][jj][ii] == 1 && mask[incrTime][jj][ii+1] == 1 && mask[incrTime][jj][ii+2] == 1) {
+                    
+                    X1[indx] = ElmercoordX[incrTime][jj][ii];
+                    X2[indx] = ElmercoordX[incrTime][jj][ii+1];
+                    X3[indx] = ElmercoordX[incrTime][jj][ii+2];
+                    Y1[indx] = ElmercoordY[incrTime][jj][ii];
+                    Y2[indx] = ElmercoordY[incrTime][jj][ii+1];
+                    Y3[indx] = ElmercoordY[incrTime][jj][ii+2];
+                    Z1[indx] = zs[incrTime][jj][ii];
+                    Z2[indx] = zs[incrTime][jj][ii+1];
+                    Z3[indx] = zs[incrTime][jj][ii+2];
+                    indx++;
+                    
+                }
+            }
+        }
+        
         gr_beg = mach_absolute_time();
         
         [self exec_kernel:serialized_x :serialized_y :triangles :serialized_grid :serialized_gridMask :ngrid :NI :NJ :"interpolate.cl" :firstTime :data :processedData];
+        
+        //[self exec_kernel_opt:serialized_x :serialized_y :X1 :X2 :X3 :Y1 :Y2 :Y3 :Z1 :Z2 :Z3 :aligned :serialized_grid :serialized_gridMask :ngrid :NI :NJ :"interpolate_vectorized.cl" :firstTime :data :processedData];
         
         gr_end = mach_absolute_time();
         NSLog(@"GPU Grid: %1.12g\n", machcore(gr_end, gr_beg));
@@ -833,6 +882,15 @@
     
     free_fvector(triangles, 0, (NJ*(NI/3)*12)-1);
     
+    free_fvector(X1, 0, aligned-1);
+    free_fvector(X2, 0, aligned-1);
+    free_fvector(X3, 0, aligned-1);
+    free_fvector(Y1, 0, aligned-1);
+    free_fvector(Y2, 0, aligned-1);
+    free_fvector(Y3, 0, aligned-1);
+    free_fvector(Z1, 0, aligned-1);
+    free_fvector(Z2, 0, aligned-1);
+    free_fvector(Z3, 0, aligned-1);
     
     // If we arrive until here, it means we completed the run so re-change the state of 
     // the interface button so that we are ready for next run
@@ -1083,9 +1141,10 @@
 #endif
 	
 	//set work-item dimensions
-	size_t global_work_size, local_work_size;
+	size_t global_work_size, local_work_size, shared_size;
 	global_work_size = ngrid;
 	local_work_size = 64;
+    shared_size = (9 * local_work_size) * sizeof(float);
 	
 	// Set kernel arguments
 	err = clSetKernelArg(kernel, 0, sizeof(cl_mem), &gx_mem);
@@ -1095,8 +1154,7 @@
 	err |= clSetKernelArg(kernel, 4, sizeof(cl_mem), &gridMask_mem);
 	err |= clSetKernelArg(kernel, 5, sizeof(int), &ni);
 	err |= clSetKernelArg(kernel, 6, sizeof(int), &nj);
-	
-	
+    
 #ifdef DEBUG
 	mbeg = mach_absolute_time();
 #endif
@@ -1150,6 +1208,249 @@
     
 }
 
+-(int)exec_kernel_opt:(float *)gx :(float *)gy :(float *)X1 :(float *)X2 :(float *)X3 :(float *)Y1 :(float *)Y2 :(float *)Y3 :(float *)Z1 :(float *)Z2 :(float *)Z3 :(int)aligned :(float *)serialized_griddedData :(int *)serialized_gridMaskData :(int)ngrid :(int)ni :(int)nj :(const char *)filename :(int)firstTime :(dataObject *)data1 :(processedDataObject *)data2 {
+    
+    cl_context         context;
+	
+	cl_command_queue   cmd_queue;
+	cl_device_id       devices;
+	
+	cl_int             err;
+    
+	size_t src_len;
+	int return_value;
+	char *program_source;
+	
+    [self isTerminatedThread:data1 :data2];
+    
+	// Connect to a compute devise
+	err = clGetDeviceIDs(NULL, CL_DEVICE_TYPE_CPU, 1, &devices, NULL);
+	
+	size_t returned_size = 0;
+	cl_char vendor_name[1024] = {0};
+	cl_char device_name[1024] = {0};
+	err = clGetDeviceInfo(devices, CL_DEVICE_VENDOR, sizeof(vendor_name), vendor_name, &returned_size);
+	err = clGetDeviceInfo(devices, CL_DEVICE_NAME, sizeof(device_name), device_name, &returned_size);
+	
+	if (firstTime == 1) {
+		printf("Connecting to %s %s...\n\n", vendor_name, device_name);
+		device_stats(devices);
+	}
+	
+    [self isTerminatedThread:data1 :data2];
+    
+	// Read the program
+	if (firstTime == 1) {
+		printf("Loading program '%s'\n\n", filename);
+	}
+    
+	return_value = LoadFileIntoString(filename, &program_source, &src_len);
+	if (return_value) {
+		printf("Error: Can't load kernel source\n");
+        exit(-1);
+	}
+	
+	// Create the context of the command queue
+	context = clCreateContext(0, 1, &devices, NULL, NULL, &err);
+	cmd_queue = clCreateCommandQueue(context, devices, 0, NULL);
+	
+	// Allocate memory for program and kernels
+	cl_program program;
+	cl_kernel kernel;
+	
+	// Create the program .cl file
+	program = clCreateProgramWithSource(context, 1, (const char**)&program_source, NULL, &err);
+	if (err) {
+		printf("Can't create program. Error was: %d\n", err);
+		exit(-1);
+	}
+	
+	// Build the program (compile it)
+	err = clBuildProgram(program, 0, NULL, NULL, NULL, &err);
+	char build[2048];
+	clGetProgramBuildInfo(program, devices, CL_PROGRAM_BUILD_LOG, 2048, build, NULL);
+	if (err) {
+		printf("Can't build program. Error was: %d\n", err);
+		printf("Build Log:\n%s\n", build);
+		exit(-1);
+	}
+	
+    [self isTerminatedThread:data1 :data2];
+    
+	// Create the kernel
+	kernel = clCreateKernel(program, "interpolate", &err);
+	if (err) {
+		printf("Can't create kernel. Error was: %d\n", err);
+		exit(-1);
+	}
+	
+	size_t thread_size;
+	clGetKernelWorkGroupInfo(kernel, devices, CL_KERNEL_WORK_GROUP_SIZE, sizeof(size_t), &thread_size, NULL);
+	
+	if (firstTime == 1) {
+		printf("Recommended Work Group Size: %lu\n", thread_size);
+	}
+	
+	uint64_t mbeg, mend;
+	double cl_alloc, cl_enqueue, cl_read;
+    
+	size_t ngrid_buffer_size = sizeof(float) * ngrid;
+	size_t ngrid_buffer_size_int = sizeof(int) * ngrid;
+	size_t triangles_buffer_size = sizeof(float) * aligned; //sizeof(float) * (nj*(ni/3));
+	
+#ifdef DEBUG
+	mbeg = mach_absolute_time();
+#endif
+	
+    [self isTerminatedThread:data1 :data2];
+    
+	// Allocate memory and queue it to be written to the device	
+	cl_mem gx_mem = clCreateBuffer(context, CL_MEM_READ_ONLY, ngrid_buffer_size, NULL, NULL);
+	err = clEnqueueWriteBuffer(cmd_queue, gx_mem, CL_TRUE, 0, ngrid_buffer_size, (void*)gx, 0, NULL, NULL);
+	
+	cl_mem gy_mem = clCreateBuffer(context, CL_MEM_READ_ONLY, ngrid_buffer_size, NULL, NULL);
+	err = clEnqueueWriteBuffer(cmd_queue, gy_mem, CL_TRUE, 0, ngrid_buffer_size, (void*)gy, 0, NULL, NULL);
+	
+	cl_mem x1_mem = clCreateBuffer(context, CL_MEM_READ_ONLY, triangles_buffer_size, NULL, NULL);
+	err = clEnqueueWriteBuffer(cmd_queue, x1_mem, CL_TRUE, 0, triangles_buffer_size, (void*)X1, 0, NULL, NULL);
+    
+    cl_mem x2_mem = clCreateBuffer(context, CL_MEM_READ_ONLY, triangles_buffer_size, NULL, NULL);
+	err = clEnqueueWriteBuffer(cmd_queue, x2_mem, CL_TRUE, 0, triangles_buffer_size, (void*)X2, 0, NULL, NULL);
+    
+    cl_mem x3_mem = clCreateBuffer(context, CL_MEM_READ_ONLY, triangles_buffer_size, NULL, NULL);
+	err = clEnqueueWriteBuffer(cmd_queue, x3_mem, CL_TRUE, 0, triangles_buffer_size, (void*)X3, 0, NULL, NULL);
+    
+    cl_mem y1_mem = clCreateBuffer(context, CL_MEM_READ_ONLY, triangles_buffer_size, NULL, NULL);
+	err = clEnqueueWriteBuffer(cmd_queue, y1_mem, CL_TRUE, 0, triangles_buffer_size, (void*)Y1, 0, NULL, NULL);
+    
+    cl_mem y2_mem = clCreateBuffer(context, CL_MEM_READ_ONLY, triangles_buffer_size, NULL, NULL);
+	err = clEnqueueWriteBuffer(cmd_queue, y2_mem, CL_TRUE, 0, triangles_buffer_size, (void*)Y2, 0, NULL, NULL);
+    
+    cl_mem y3_mem = clCreateBuffer(context, CL_MEM_READ_ONLY, triangles_buffer_size, NULL, NULL);
+	err = clEnqueueWriteBuffer(cmd_queue, y3_mem, CL_TRUE, 0, triangles_buffer_size, (void*)Y3, 0, NULL, NULL);
+
+    cl_mem z1_mem = clCreateBuffer(context, CL_MEM_READ_ONLY, triangles_buffer_size, NULL, NULL);
+	err = clEnqueueWriteBuffer(cmd_queue, z1_mem, CL_TRUE, 0, triangles_buffer_size, (void*)Z1, 0, NULL, NULL);
+    
+    cl_mem z2_mem = clCreateBuffer(context, CL_MEM_READ_ONLY, triangles_buffer_size, NULL, NULL);
+	err = clEnqueueWriteBuffer(cmd_queue, z2_mem, CL_TRUE, 0, triangles_buffer_size, (void*)Z2, 0, NULL, NULL);
+    
+    cl_mem z3_mem = clCreateBuffer(context, CL_MEM_READ_ONLY, triangles_buffer_size, NULL, NULL);
+	err = clEnqueueWriteBuffer(cmd_queue, z3_mem, CL_TRUE, 0, triangles_buffer_size, (void*)Z3, 0, NULL, NULL);
+    
+	cl_mem grid_mem = clCreateBuffer(context, CL_MEM_READ_WRITE, ngrid_buffer_size, NULL, NULL);
+	err = clEnqueueWriteBuffer(cmd_queue, grid_mem, CL_TRUE, 0, ngrid_buffer_size, (void*)serialized_griddedData, 0, NULL, NULL);
+	
+	cl_mem gridMask_mem = clCreateBuffer(context, CL_MEM_READ_WRITE, ngrid_buffer_size_int, NULL, NULL);
+	err = clEnqueueWriteBuffer(cmd_queue, gridMask_mem, CL_TRUE, 0, ngrid_buffer_size_int, (void*)serialized_gridMaskData, 0, NULL, NULL);
+    
+    float *output;
+    output = floatvec(0, ngrid);    
+    cl_mem output_mem = clCreateBuffer(context, CL_MEM_READ_WRITE, ngrid_buffer_size, NULL, NULL);
+	err = clEnqueueWriteBuffer(cmd_queue, output_mem, CL_TRUE, 0, ngrid_buffer_size, (void*)output, 0, NULL, NULL);
+	
+	// Push the data out to the device
+	clFinish(cmd_queue);
+	
+#ifdef DEBUG
+	mend = mach_absolute_time();
+	cl_alloc = machcore(mend, mbeg);
+#endif
+    
+	//set work-item dimensions
+	size_t global_work_size, local_work_size, shared_size;
+	global_work_size = ngrid / 4;
+	local_work_size = 1;
+    shared_size = (9 * local_work_size) * sizeof(float);
+	
+	// Set kernel arguments
+	err = clSetKernelArg(kernel, 0, sizeof(cl_mem), &gx_mem);
+	err |= clSetKernelArg(kernel, 1, sizeof(cl_mem), &gy_mem);
+	err |= clSetKernelArg(kernel, 2, sizeof(cl_mem), &x1_mem);
+    err |= clSetKernelArg(kernel, 3, sizeof(cl_mem), &x2_mem);
+    err |= clSetKernelArg(kernel, 4, sizeof(cl_mem), &x3_mem);
+    err |= clSetKernelArg(kernel, 5, sizeof(cl_mem), &y1_mem);
+    err |= clSetKernelArg(kernel, 6, sizeof(cl_mem), &y2_mem);
+    err |= clSetKernelArg(kernel, 7, sizeof(cl_mem), &y3_mem);
+    err |= clSetKernelArg(kernel, 8, sizeof(cl_mem), &z1_mem);
+    err |= clSetKernelArg(kernel, 9, sizeof(cl_mem), &z2_mem);
+    err |= clSetKernelArg(kernel, 10, sizeof(cl_mem), &z3_mem);
+	err |= clSetKernelArg(kernel, 11, sizeof(cl_mem), &grid_mem);
+	err |= clSetKernelArg(kernel, 12, sizeof(cl_mem), &gridMask_mem);
+	err |= clSetKernelArg(kernel, 13, sizeof(int), &ni);
+	err |= clSetKernelArg(kernel, 14, sizeof(int), &nj);
+    err |= clSetKernelArg(kernel, 15, sizeof(int), &aligned);
+    err |= clSetKernelArg(kernel, 16, shared_size, NULL);
+    err |= clSetKernelArg(kernel, 17, sizeof(cl_mem), &output_mem);
+    
+#ifdef DEBUG
+	mbeg = mach_absolute_time();
+#endif
+    
+    [self isTerminatedThread:data1 :data2];
+	
+	//Queue up the kernels
+	err = clEnqueueNDRangeKernel(cmd_queue, kernel, 1, NULL, &global_work_size, NULL, 0, NULL, NULL);
+	
+	// Finish the calculation
+	clFinish(cmd_queue);
+    
+#ifdef DEBUG
+	mend = mach_absolute_time();
+	cl_enqueue = machcore(mend, mbeg);
+#endif
+	
+#ifdef DEBUG
+	mbeg = mach_absolute_time();
+#endif
+	
+    [self isTerminatedThread:data1 :data2];
+    
+	// Read results data from the device
+	err = clEnqueueReadBuffer(cmd_queue, grid_mem, CL_TRUE, 0, ngrid_buffer_size, serialized_griddedData, 0, NULL, NULL);
+	err = clEnqueueReadBuffer(cmd_queue, gridMask_mem, CL_TRUE, 0, ngrid_buffer_size_int, serialized_gridMaskData, 0, NULL, NULL);
+    err = clEnqueueReadBuffer(cmd_queue, output_mem, CL_TRUE, 0, ngrid_buffer_size, output, 0, NULL, NULL);
+    
+	clFinish(cmd_queue);
+    
+//    for (int i=0; i<ngrid; i++) {
+//        NSLog(@"%f\n", output[i]);
+//    }
+    free_fvector(output, 0, ngrid);
+    
+#ifdef DEBUG
+	mend = mach_absolute_time();
+	cl_read = machcore(mend, mbeg);
+#endif
+	
+#ifdef DEBUG
+	printf("Allocation: %1.12g Enqueue: %1.12g Read: %1.12g\n",cl_alloc,cl_enqueue,cl_read);
+#endif
+    
+	// Release kernel, program and memory objects
+	clReleaseKernel(kernel);
+	clReleaseProgram(program);
+	clReleaseCommandQueue(cmd_queue);
+	clReleaseContext(context);
+	
+	clReleaseMemObject(gx_mem);
+	clReleaseMemObject(gy_mem);
+	clReleaseMemObject(x1_mem);
+    clReleaseMemObject(x2_mem);
+    clReleaseMemObject(x3_mem);
+    clReleaseMemObject(y1_mem);
+    clReleaseMemObject(y2_mem);
+    clReleaseMemObject(y3_mem);
+    clReleaseMemObject(z1_mem);
+    clReleaseMemObject(z2_mem);
+    clReleaseMemObject(z3_mem);
+	clReleaseMemObject(grid_mem);
+	clReleaseMemObject(gridMask_mem);
+    clReleaseMemObject(output_mem);
+	
+	return CL_SUCCESS;
+    
+}
 
 -(void)presentDataToUser:(processedDataObject *)processedData {
     
@@ -1184,7 +1485,7 @@
     
     // The pixelValues table contains NX*NY*3 data since we use RGB model
     if ([fieldView isAllocated] == NO) {
-        [fieldView allocTables:0 :(ngrid*3)-1];
+        [fieldView allocTablesRows:0 Cols:(ngrid*3)-1];
     }
     
     // Transform data to an color index and assign it to the pixelValues table for each RGB component
@@ -1192,24 +1493,23 @@
     
         if (scaled_values[i] < min) {
             
-            [fieldView setPixelValues:0 :j];
-            [fieldView setPixelValues:0 :j+1];
-            [fieldView setPixelValues:0 :j+2];
+            [fieldView setPixelValues:0 index:j];
+            [fieldView setPixelValues:0 index:j+1];
+            [fieldView setPixelValues:0 index:j+2];
                         
         } else if (scaled_values[i] > max) {
             
-            [fieldView setPixelValues:255 :j];
-            [fieldView setPixelValues:255 :j+1];
-            [fieldView setPixelValues:255 :j+2];
+            [fieldView setPixelValues:255 index:j];
+            [fieldView setPixelValues:255 index:j+1];
+            [fieldView setPixelValues:255 index:j+2];
             
         } else {
             
             ratio = 256.0 * ( (scaled_values[i] - min) / (max - min) );
-            colorIndex = (int)ratio;
-            [fieldView setPixelValues:(unsigned char)colorIndex :j];
-            [fieldView setPixelValues:(unsigned char)colorIndex :j+1];
-            [fieldView setPixelValues:(unsigned char)colorIndex :j+2];
-            
+            colorIndex = (int)ratio;            
+            [fieldView setPixelValues:(unsigned char)colorIndex index:j];
+            [fieldView setPixelValues:(unsigned char)colorIndex index:j+1];
+            [fieldView setPixelValues:(unsigned char)colorIndex index:j+2];
         }
     
     }
@@ -1226,7 +1526,7 @@
     [[processedData view] insertText:str3];
     [[processedData view] insertNewlineIgnoringFieldEditor:self];
     
-    //[fieldView releaseTables:0 :(ngrid*3)-1];
+    //[fieldView releaseTablesRows:0 Cols:(ngrid*3)-1];
     
     free_fvector(scaled_values, 0, ngrid-1);
     
@@ -1237,11 +1537,8 @@
     int i;
     
     for (i=0; i<256; i++) {
-        
-        [fieldView setColorTable:[colormap red:i] :[colormap green:i] :[colormap blue:i] :i];
-        
+        [fieldView setColorTableRed:[colormap red:i] green:[colormap green:i] blue:[colormap blue:i] index:i];
     }
-    
 }
 
 -(void)drawData {
@@ -1465,19 +1762,19 @@
     
     switch (prevTag) {
         case 1:
-            if ([fieldView isAllocated] == YES) [fieldView releaseTables:0 :(((nx*1) * (ny*1))*3)-1];
+            if ([fieldView isAllocated] == YES) [fieldView releaseTablesRows:0 Cols:(((nx*1) * (ny*1))*3)-1];
             break;
         case 2:
-            if ([fieldView isAllocated] == YES) [fieldView releaseTables:0 :(((nx*2) * (ny*2))*3)-1];
+            if ([fieldView isAllocated] == YES) [fieldView releaseTablesRows:0 Cols:(((nx*2) * (ny*2))*3)-1];
             break;
         case 3:
-            if ([fieldView isAllocated] == YES) [fieldView releaseTables:0 :(((nx*4) * (ny*4))*3)-1];
+            if ([fieldView isAllocated] == YES) [fieldView releaseTablesRows:0 Cols:(((nx*4) * (ny*4))*3)-1];
             break;
         case 4:
-            if ([fieldView isAllocated] == YES) [fieldView releaseTables:0 :(((nx*6) * (ny*6))*3)-1];
+            if ([fieldView isAllocated] == YES) [fieldView releaseTablesRows:0 Cols:(((nx*6) * (ny*6))*3)-1];
             break;
         case 5:
-            if ([fieldView isAllocated] == YES) [fieldView releaseTables:0 :(((nx*8) * (ny*8))*3)-1];
+            if ([fieldView isAllocated] == YES) [fieldView releaseTablesRows:0 Cols:(((nx*8) * (ny*8))*3)-1];
             break;
     }    
     
@@ -1485,30 +1782,30 @@
         case 1:
             scaleFactor = 1;
             ngrid = (nx*scaleFactor) * (ny*scaleFactor);
-            [fieldView allocTables:0 :(ngrid*3)-1];
+            [fieldView allocTablesRows:0 Cols:(ngrid*3)-1];
             break;
         case 2:
             scaleFactor = 2;
             ngrid = (nx*scaleFactor) * (ny*scaleFactor);
-            [fieldView allocTables:0 :(ngrid*3)-1];
+            [fieldView allocTablesRows:0 Cols:(ngrid*3)-1];
             break;
             
         case 3:
             scaleFactor = 4;
             ngrid = (nx*scaleFactor) * (ny*scaleFactor);
-            [fieldView allocTables:0 :(ngrid*3)-1];
+            [fieldView allocTablesRows:0 Cols:(ngrid*3)-1];
             break;
             
         case 4:
             scaleFactor = 6;
             ngrid = (nx*scaleFactor) * (ny*scaleFactor);
-            [fieldView allocTables:0 :(ngrid*3)-1];
+            [fieldView allocTablesRows:0 Cols:(ngrid*3)-1];
             break;
             
         case 5:
             scaleFactor = 8;
             ngrid = (nx*scaleFactor) * (ny*scaleFactor);
-            [fieldView allocTables:0 :(ngrid*3)-1];
+            [fieldView allocTablesRows:0 Cols:(ngrid*3)-1];
             break;
     }
     

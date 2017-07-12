@@ -62,7 +62,7 @@ int device_stats(cl_device_id device_id)
 	printf("Local Mem Type (Local=1, Global=2): %i\n", (int)local_mem_type);
 	printf("Global Mem Size (MB): %i\n", (int)global_mem_size/(1024*1024));
 	printf("Global Mem Cache Size (Bytes): %i\n", (int)global_mem_cache_size);
-	printf("Local Mem Size (MB): %i\n", (int)local_mem_size);
+	printf("Local Mem Size (Bytes): %i\n", (int)local_mem_size);
 	printf("Max Mem Alloc Size (MB): %ld\n", (long int)max_mem_alloc_size/(1024*1024));
 	
 	printf("Clock Frequency (MHz): %i\n\n", clock_frequency);
