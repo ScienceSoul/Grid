@@ -47,7 +47,7 @@
     self = [super init];
     if (self) {
         // Initialization code here.
-        headerString = [NSString stringWithString:@"Grid(Interpoler): "];
+        headerString = @"Grid(Interpoler): ";
         
         // Initialize colormap and set its values to default
         colormap = [[RGBColorMap alloc] init];
@@ -173,7 +173,7 @@
     
 }
 
--(BOOL)dataRead:(const char *)var_in :(const char *)var_in2 :(const char *)var_in3 :(const char *)var_out :(int)nb_var_in :(dataObject *)data {
+-(BOOL)dataReadVarIn:(const char *)var_in varIn2:(const char *)var_in2 varIn3:(const char *)var_in3 varOut:(const char *)var_out NbVarIn:(int)nb_var_in data:(dataObject *)data {
     
     int x, y, z;
     int retval;
@@ -372,21 +372,21 @@
     
     processedDataObject *processedData = [[processedDataObject alloc] init];
     
-    cpuGridString = [NSString stringWithString:@"CPU Grid(sec): "];
-    cpuLoopString = [NSString stringWithString:@"CPU Loop(sec): "];
+    cpuGridString = @"CPU Grid(sec): ";
+    cpuLoopString = @"CPU Loop(sec): ";
     
     ngrid = NX * NY;
-        
-    [self isTerminatedThread:data :processedData];
     
-    if (![self dataRead:[[data variableVar1] cStringUsingEncoding:NSASCIIStringEncoding] :[[data variableVar2] cStringUsingEncoding:NSASCIIStringEncoding] :[[data variableVar3] cStringUsingEncoding:NSASCIIStringEncoding] :[[data variableName] cStringUsingEncoding:NSASCIIStringEncoding] :[data variableNB] :data]) {
+    [self isTerminatedThreadData1:data data2:processedData];
+    
+    if (![self dataReadVarIn:[[data variableVar1] cStringUsingEncoding:NSASCIIStringEncoding] varIn2:[[data variableVar2] cStringUsingEncoding:NSASCIIStringEncoding] varIn3:[[data variableVar3] cStringUsingEncoding:NSASCIIStringEncoding] varOut:[[data variableName] cStringUsingEncoding:NSASCIIStringEncoding] NbVarIn:[data variableNB] data:data]) {
         
         [ self performSelectorOnMainThread:@selector(manageFailure:)
                                 withObject:data
                              waitUntilDone:YES];
         
         [[data serialButtonState] setState:NSOffState];
-        [self memoryRelease:data :processedData];
+        [self memoryReleaseData1:data data2:processedData];
         
         return;
         
@@ -423,7 +423,7 @@
     
     for (z=1; z<NT; z++) {
         
-        [self isTerminatedThread:data :processedData];
+        [self isTerminatedThreadData1:data data2:processedData];
         
         for (yy=0; yy<NJ; yy++) {
             for (xx=0; xx<(NI/3); xx++) {
@@ -456,7 +456,7 @@
         
         gr_beg = mach_absolute_time();
         
-        [self Serial_work_function:griddedData :gridMask :z :triangles :coordX :coordY :NI :NJ :NX :NY :data :processedData];
+        [self Serial_work_functionGrid1:griddedData grid2:gridMask t:z entry1:triangles entry2:coordX entry3:coordY N1:NI N2:NJ N3:NX N4:NY data1:data data2:processedData];
         
         gr_end = mach_absolute_time();
         NSLog(@"CPU Grid: %1.12g\n", machcore(gr_end, gr_beg));
@@ -507,10 +507,9 @@
     // the interface button so that we are ready for next run
     [[data serialButtonState] setState:NSOffState];
 
-    [self memoryRelease:data :processedData];
+    [self memoryReleaseData1:data data2:processedData];
     
     //[myAutoreleasePool release];
-    
 }
 
 -(void)GCDCompute:(dataObject *)data{
@@ -528,21 +527,21 @@
     
     processedDataObject *processedData = [[processedDataObject alloc] init];
     
-    gcdGridString = [NSString stringWithString:@"GCD Grid(sec): "];
-    gcdLoopString = [NSString stringWithString:@"GCD Loop(sec): "];
+    gcdGridString = @"GCD Grid(sec): ";
+    gcdLoopString = @"GCD Loop(sec): ";
     
     ngrid = NX * NY;
-        
-    [self isTerminatedThread:data :processedData];
     
-    if (![self dataRead:[[data variableVar1] cStringUsingEncoding:NSASCIIStringEncoding] :[[data variableVar2] cStringUsingEncoding:NSASCIIStringEncoding] :[[data variableVar3] cStringUsingEncoding:NSASCIIStringEncoding] :[[data variableName] cStringUsingEncoding:NSASCIIStringEncoding] :[data variableNB] :data]) {
+    [self isTerminatedThreadData1:data data2:processedData];
+    
+    if (![self dataReadVarIn:[[data variableVar1] cStringUsingEncoding:NSASCIIStringEncoding] varIn2:[[data variableVar2] cStringUsingEncoding:NSASCIIStringEncoding] varIn3:[[data variableVar3] cStringUsingEncoding:NSASCIIStringEncoding] varOut:[[data variableName] cStringUsingEncoding:NSASCIIStringEncoding] NbVarIn:[data variableNB] data:data]) {
         
         [ self performSelectorOnMainThread:@selector(manageFailure:)
                                 withObject:data
                              waitUntilDone:YES];
         
         [[data gcdSButtonState] setState:NSOffState];
-        [self memoryRelease:data :processedData];
+        [self memoryReleaseData1:data data2:processedData];
         
         return;
         
@@ -579,7 +578,7 @@
     
     for (z=0; z<NT; z++) {
         
-        [self isTerminatedThread:data :processedData];
+        [self isTerminatedThreadData1:data data2:processedData];
         
         for (yy=0; yy<NJ; yy++) {
             for (xx=0; xx<(NI/3); xx++) {
@@ -612,7 +611,7 @@
         
         gr_beg = mach_absolute_time();
         
-        [self GCD_work_function:griddedData :gridMask :z :triangles :coordX :coordY :NI :NJ :NX :NY :data :processedData];
+        [self GCD_work_functionGrid1:griddedData grid2:gridMask t:z entry1:triangles entry2:coordX entry3:coordY N1:NI N2:NJ N3:NX N4:NY data1:data data2:processedData];
         
         gr_end = mach_absolute_time();
         NSLog(@"GCD Grid: %1.12g\n", machcore(gr_end, gr_beg));
@@ -663,10 +662,9 @@
     // the interface button so that we are ready for next run
     [[data gcdSButtonState] setState:NSOffState];
 
-    [self memoryRelease:data :processedData];
+    [self memoryReleaseData1:data data2:processedData];
     
     //[myAutoreleasePool release];
-
 }
 
 -(void)OpenCLCompute:(dataObject *)data {
@@ -687,8 +685,8 @@
     
     processedDataObject *processedData = [[processedDataObject alloc] init];
     
-    openclGridString = [NSString stringWithString:@"OpenCL Grid(sec): "];
-    openclLoopString = [NSString stringWithString:@"OpenCL Loop(sec): "];
+    openclGridString = @"OpenCL Grid(sec): ";
+    openclLoopString = @"OpenCL Loop(sec): ";
     
     ngrid = NX * NY;
     
@@ -710,16 +708,16 @@
     
     firstTime = 1;
     
-    [self isTerminatedThread:data :processedData];
+    [self isTerminatedThreadData1:data data2:processedData];
                 
-    if (![self dataRead:[[data variableVar1] cStringUsingEncoding:NSASCIIStringEncoding] :[[data variableVar2] cStringUsingEncoding:NSASCIIStringEncoding] :[[data variableVar3] cStringUsingEncoding:NSASCIIStringEncoding] :[[data variableName] cStringUsingEncoding:NSASCIIStringEncoding] :[data variableNB] :data]) {
+    if (![self dataReadVarIn:[[data variableVar1] cStringUsingEncoding:NSASCIIStringEncoding] varIn2:[[data variableVar2] cStringUsingEncoding:NSASCIIStringEncoding] varIn3:[[data variableVar3] cStringUsingEncoding:NSASCIIStringEncoding] varOut:[[data variableName] cStringUsingEncoding:NSASCIIStringEncoding] NbVarIn:[data variableNB] data:data]) {
         
         [ self performSelectorOnMainThread:@selector(manageFailure:)
                                 withObject:data
                              waitUntilDone:YES];
         
         [[data openclButtonState] setState:NSOffState];
-        [self memoryRelease:data :processedData];
+        [self memoryReleaseData1:data data2:processedData];
         
         return;
         
@@ -760,7 +758,7 @@
     
     for (z=0; z<NT; z++) {
         
-        [self isTerminatedThread:data :processedData];
+        [self isTerminatedThreadData1:data data2:processedData];
         
         for(ii=0; ii<ngrid; ii++) {
             serialized_grid[ii] = 0.0;
@@ -841,9 +839,8 @@
         
         gr_beg = mach_absolute_time();
         
-        [self exec_kernel:serialized_x :serialized_y :triangles :serialized_grid :serialized_gridMask :ngrid :NI :NJ :"interpolate.cl" :firstTime :data :processedData];
-        
-        //[self exec_kernel_opt:serialized_x :serialized_y :X1 :X2 :X3 :Y1 :Y2 :Y3 :Z1 :Z2 :Z3 :aligned :serialized_grid :serialized_gridMask :ngrid :NI :NJ :"interpolate_vectorized.cl" :firstTime :data :processedData];
+        [self exec_kernelgx:serialized_x gy:serialized_y triangles:triangles serializedGriddedData:serialized_grid serializedGridMaskData:serialized_gridMask ngrid:ngrid ni:NI nj:NJ filename:"interpolate.cl" firstTime:firstTime data1:data data2:processedData];
+        //[self exec_kernel_optgx:serialized_x gy:serialized_y X1:X1 X2:X2 X3:X3 Y1:Y1 Y2:Y2 Y3:Y3 Z1:Z1 Z2:Z2 Z3:Z3 aligned:aligned serializedGriddedData:serialized_grid serialized_gridMaskData:serialized_gridMask ngrid:ngrid ni:NI nj:NJ filename:"interpolate_vectorized.cl" firstTime:firstTime data1:data data2:processedData];
         
         gr_end = mach_absolute_time();
         NSLog(@"GPU Grid: %1.12g\n", machcore(gr_end, gr_beg));
@@ -896,13 +893,12 @@
     // the interface button so that we are ready for next run
     [[data openclButtonState] setState:NSOffState];
     
-    [self memoryRelease:data :processedData];
+    [self memoryReleaseData1:data data2:processedData];
     
     //[myAutoreleasePool release];
-    
 }
 
--(void)Serial_work_function:(float ***)grid1 :(int ***)grid2 :(int)t :(float ***)entry1 :(float *)entry2 :(float *)entry3 :(int)N1 :(int)N2 :(int)N3 :(int)N4 :(dataObject *)data1 :(processedDataObject *)data2 {
+-(void)Serial_work_functionGrid1:(float ***)grid1 grid2:(int ***)grid2 t:(int)t entry1:(float ***)entry1 entry2:(float *)entry2 entry3:(float *)entry3 N1:(int)N1 N2:(int)N2 N3:(int)N3 N4:(int)N4 data1:(dataObject *)data1 data2:(processedDataObject *)data2 {
     // entry1 -> triangles
     // entry2 -> x regular grid
     // entry3 -> y regular grid
@@ -919,7 +915,7 @@
     
     for (yy=0; yy<N4; yy++) {
         
-        [self isTerminatedThread:data1 :data2];
+        [self isTerminatedThreadData1:data1 data2:data2];
         
 		for (ii=0;ii<10;ii++) {
 			for (jj=0;jj<2;jj++) {
@@ -929,7 +925,7 @@
 		
 		for (xx=0; xx<N3; xx++) {
             
-            [self isTerminatedThread:data1 :data2];
+            [self isTerminatedThreadData1:data1 data2:data2];
 			
 			l = 0;
 			for (jj=0; jj<N2; jj++) {
@@ -962,7 +958,7 @@
     
 }
 
--(void)GCD_work_function:(float ***)grid1 :(int ***)grid2 :(int)t :(float ***)entry1 :(float *)entry2 :(float *)entry3 :(int)N1 :(int)N2 :(int)N3 :(int)N4 :(dataObject *)data1 :(processedDataObject *)data2 {
+-(void)GCD_work_functionGrid1:(float ***)grid1 grid2:(int ***)grid2 t:(int)t entry1:(float ***)entry1 entry2:(float *)entry2 entry3:(float *)entry3 N1:(int)N1 N2:(int)N2 N3:(int)N3 N4:(int)N4 data1:(dataObject *)data1 data2:(processedDataObject *)data2 {
     // entry1 -> triangles
     // entry2 -> x regular grid
     // entry3 -> y regular grid
@@ -1020,7 +1016,7 @@
     
 }
 
--(int)exec_kernel:(float *)gx :(float *)gy :(float *)triangles :(float *)serialized_griddedData :(int *)serialized_gridMaskData :(int)ngrid :(int)ni :(int)nj :(const char *)filename :(int)firstTime :(dataObject *)data1 :(processedDataObject *)data2 {
+-(int)exec_kernelgx:(float *)gx gy:(float *)gy triangles:(float *)triangles serializedGriddedData:(float *)serialized_griddedData serializedGridMaskData:(int *)serialized_gridMaskData ngrid:(int)ngrid ni:(int)ni nj:(int)nj filename:(const char *)filename firstTime:(int)firstTime data1:(dataObject *)data1 data2:(processedDataObject *)data2 {
     
     cl_context         context;
 	
@@ -1033,7 +1029,7 @@
 	int return_value;
 	char *program_source;
 	
-    [self isTerminatedThread:data1 :data2];
+    [self isTerminatedThreadData1:data1 data2:data2];
     
 	// Connect to a compute devise
 	err = clGetDeviceIDs(NULL, CL_DEVICE_TYPE_GPU, 1, &devices, NULL);
@@ -1049,7 +1045,7 @@
 		device_stats(devices);
 	}
 	
-    [self isTerminatedThread:data1 :data2];
+    [self isTerminatedThreadData1:data1 data2:data2];
     
 	// Read the program
 	if (firstTime == 1) {
@@ -1087,7 +1083,7 @@
 		exit(-1);
 	}
 	
-    [self isTerminatedThread:data1 :data2];
+    [self isTerminatedThreadData1:data1 data2:data2];
     
 	// Create the kernel
 	kernel = clCreateKernel(program, "interpolate", &err);
@@ -1114,7 +1110,7 @@
 	mbeg = mach_absolute_time();
 #endif
 	
-    [self isTerminatedThread:data1 :data2];
+    [self isTerminatedThreadData1:data1 data2:data2];
     
 	// Allocate memory and queue it to be written to the device	
 	cl_mem gx_mem = clCreateBuffer(context, CL_MEM_READ_ONLY, ngrid_buffer_size, NULL, NULL);
@@ -1159,7 +1155,7 @@
 	mbeg = mach_absolute_time();
 #endif
     
-    [self isTerminatedThread:data1 :data2];
+    [self isTerminatedThreadData1:data1 data2:data2];
 	
 	//Queue up the kernels
 	err = clEnqueueNDRangeKernel(cmd_queue, kernel, 1, NULL, &global_work_size, NULL, 0, NULL, NULL);
@@ -1176,7 +1172,7 @@
 	mbeg = mach_absolute_time();
 #endif
 	
-    [self isTerminatedThread:data1 :data2];
+    [self isTerminatedThreadData1:data1 data2:data2];
     
 	// Read results data from the device
 	err = clEnqueueReadBuffer(cmd_queue, grid_mem, CL_TRUE, 0, ngrid_buffer_size, serialized_griddedData, 0, NULL, NULL);
@@ -1208,7 +1204,7 @@
     
 }
 
--(int)exec_kernel_opt:(float *)gx :(float *)gy :(float *)X1 :(float *)X2 :(float *)X3 :(float *)Y1 :(float *)Y2 :(float *)Y3 :(float *)Z1 :(float *)Z2 :(float *)Z3 :(int)aligned :(float *)serialized_griddedData :(int *)serialized_gridMaskData :(int)ngrid :(int)ni :(int)nj :(const char *)filename :(int)firstTime :(dataObject *)data1 :(processedDataObject *)data2 {
+-(int)exec_kernel_optgx:(float *)gx gy:(float *)gy X1:(float *)X1 X2:(float *)X2 X3:(float *)X3 Y1:(float *)Y1 Y2:(float *)Y2 Y3:(float *)Y3 Z1:(float *)Z1 Z2:(float *)Z2 Z3: (float *)Z3 aligned:(int)aligned serializedGriddedData:(float *)serialized_griddedData serialized_gridMaskData:(int *)serialized_gridMaskData ngrid:(int)ngrid ni:(int)ni nj: (int)nj filename:(const char *)filename firstTime:(int)firstTime data1:(dataObject *)data1 data2:(processedDataObject *)data2 {
     
     cl_context         context;
 	
@@ -1221,7 +1217,7 @@
 	int return_value;
 	char *program_source;
 	
-    [self isTerminatedThread:data1 :data2];
+    [self isTerminatedThreadData1:data1 data2:data2];
     
 	// Connect to a compute devise
 	err = clGetDeviceIDs(NULL, CL_DEVICE_TYPE_CPU, 1, &devices, NULL);
@@ -1237,7 +1233,7 @@
 		device_stats(devices);
 	}
 	
-    [self isTerminatedThread:data1 :data2];
+    [self isTerminatedThreadData1:data1 data2:data2];
     
 	// Read the program
 	if (firstTime == 1) {
@@ -1275,7 +1271,7 @@
 		exit(-1);
 	}
 	
-    [self isTerminatedThread:data1 :data2];
+    [self isTerminatedThreadData1:data1 data2:data2];
     
 	// Create the kernel
 	kernel = clCreateKernel(program, "interpolate", &err);
@@ -1302,7 +1298,7 @@
 	mbeg = mach_absolute_time();
 #endif
 	
-    [self isTerminatedThread:data1 :data2];
+    [self isTerminatedThreadData1:data1 data2:data2];
     
 	// Allocate memory and queue it to be written to the device	
 	cl_mem gx_mem = clCreateBuffer(context, CL_MEM_READ_ONLY, ngrid_buffer_size, NULL, NULL);
@@ -1387,7 +1383,7 @@
 	mbeg = mach_absolute_time();
 #endif
     
-    [self isTerminatedThread:data1 :data2];
+    [self isTerminatedThreadData1:data1 data2:data2];
 	
 	//Queue up the kernels
 	err = clEnqueueNDRangeKernel(cmd_queue, kernel, 1, NULL, &global_work_size, NULL, 0, NULL, NULL);
@@ -1404,7 +1400,7 @@
 	mbeg = mach_absolute_time();
 #endif
 	
-    [self isTerminatedThread:data1 :data2];
+    [self isTerminatedThreadData1:data1 data2:data2];
     
 	// Read results data from the device
 	err = clEnqueueReadBuffer(cmd_queue, grid_mem, CL_TRUE, 0, ngrid_buffer_size, serialized_griddedData, 0, NULL, NULL);
@@ -1519,9 +1515,9 @@
     
     [self drawData];
     
-    str1 = [[processedData string1] stringByAppendingFormat:[processedData string2]];
+    str1 = [[processedData string1] stringByAppendingFormat:@"%@", [processedData string2]];
     str2 = [NSString stringWithFormat:@"%1.12g",[processedData timing]];
-    str3 = [str1 stringByAppendingFormat:str2];
+    str3 = [str1 stringByAppendingFormat:@"%@", str2];
     
     [[processedData view] insertText:str3];
     [[processedData view] insertNewlineIgnoringFieldEditor:self];
@@ -1546,7 +1542,7 @@
     [fieldView draw2DField];
 }
 
--(void)memoryRelease:(dataObject *)data1 :(processedDataObject *)data2 {
+-(void)memoryReleaseData1:(dataObject *)data1 data2:(processedDataObject *)data2 {
     
     int retval;
     
@@ -1577,12 +1573,12 @@
     
 }
 
--(void)isTerminatedThread:(dataObject *)data1 :(processedDataObject *)data2 {
+-(void)isTerminatedThreadData1:(dataObject *)data1 data2:(processedDataObject *)data2 {
     
     if ([[NSThread currentThread] isCancelled]) {
         
         NSLog(@"Terminating now!!!\n");
-        [self memoryRelease:data1 :data2];
+        [self memoryReleaseData1:data1 data2:data2];
         [NSThread exit];
     }
     
@@ -1590,7 +1586,7 @@
 
 -(void)manageFailure:(dataObject *)data {
     
-    NSAlert *alert = [NSAlert alertWithMessageText:@"Error!" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:[data message]];
+    NSAlert *alert = [NSAlert alertWithMessageText:@"Error!" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", [data message]];
     [alert beginSheetModalForWindow:[[data view] window] modalDelegate:self didEndSelector:nil contextInfo:NULL];
     
 }

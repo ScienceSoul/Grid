@@ -31,7 +31,7 @@
 
 -(IBAction)scaleWindow:(id)sender {
     
-    NSInteger tag, prevTag;
+    NSInteger tag = 0, prevTag = 0;
     NSRect rect;
     
     tag = [sender tag];
@@ -153,7 +153,7 @@
     [dataViewWindow setFrame:rect display:YES animate:YES];
     
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%d", tag], @"MenuTag", [NSString stringWithFormat:@"%d", prevTag], @"PrevMenuTag", [coordFocusVertMin stringValue], @"VertMin" , [coordFocusVertMax stringValue], @"VertMax", [coordFocusHorizMin stringValue], @"HorizMin", [coordFocusHorizMax stringValue], @"HorizMax", [runInfoSpaceRes stringValue], @"SpaceRes",  nil];
+    NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld", tag], @"MenuTag", [NSString stringWithFormat:@"%ld", prevTag], @"PrevMenuTag", [coordFocusVertMin stringValue], @"VertMin" , [coordFocusVertMax stringValue], @"VertMax", [coordFocusHorizMin stringValue], @"HorizMin", [coordFocusHorizMax stringValue], @"HorizMax", [runInfoSpaceRes stringValue], @"SpaceRes",  nil];
     [nc postNotificationName:@"GRIDScaleFactorChanged" object:self userInfo:d];
     
 }
@@ -1896,7 +1896,7 @@
             break;
     }
     
-    tagString = [NSString stringWithFormat:@"%d", tag];
+    tagString = [NSString stringWithFormat:@"%ld", tag];
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     NSDictionary *d = [NSDictionary dictionaryWithObject:tagString forKey:@"MenuTag"];
     [nc postNotificationName:@"GRIDColorMapChanged" object:self userInfo:d];
@@ -1959,7 +1959,7 @@
         
         if (![processData prepareData:data]) {
             
-            NSAlert *alert = [NSAlert alertWithMessageText:@"Error!" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:[data message]];
+            NSAlert *alert = [NSAlert alertWithMessageText:@"Error!" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", [data message]];
             [alert beginSheetModalForWindow:[consoleView window] modalDelegate:self didEndSelector:nil contextInfo:NULL];
             
             [OpenCLStartStop setState:NSOffState];
@@ -2005,7 +2005,7 @@
         
         if (![processData prepareData:data]) {
             
-            NSAlert *alert = [NSAlert alertWithMessageText:@"Error!" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:[data message]];
+            NSAlert *alert = [NSAlert alertWithMessageText:@"Error!" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", [data message]];
             [alert beginSheetModalForWindow:[consoleView window] modalDelegate:self didEndSelector:nil contextInfo:NULL];
             
             [OpenCLStartStop setState:NSOffState];
@@ -2050,7 +2050,7 @@
         
         if (![processData prepareData:data]) {
          
-            NSAlert *alert = [NSAlert alertWithMessageText:@"Error!" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:[data message]];
+            NSAlert *alert = [NSAlert alertWithMessageText:@"Error!" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", [data message]];
             [alert beginSheetModalForWindow:[consoleView window] modalDelegate:self didEndSelector:nil contextInfo:NULL];
             
             [OpenCLStartStop setState:NSOffState];
@@ -2119,14 +2119,14 @@
     
     int nx, ny;
     float **xyrange;
-    NSString *message;
+    NSString *message = nil;
     
     if ([[netCDFfile stringValue] length] == 0) {
         
         [NSApp endSheet:interpolationSheet];
         [interpolationSheet orderOut:sender];
         
-        message = [NSString stringWithString:@"A netCDF file containing the data to interpolate must be provided."];
+        message = @"A netCDF file containing the data to interpolate must be provided.";
         [self beginAlert:message];
         
         return;        
@@ -2137,7 +2137,7 @@
         [NSApp endSheet:interpolationSheet];
         [interpolationSheet orderOut:sender];
         
-        message = [NSString stringWithString:@"A name to reference the resulting interpolated variable must be provided. Variable:Name:"];
+        message = @"A name to reference the resulting interpolated variable must be provided. Variable:Name:";
         [self beginAlert:message];
         
         return;
@@ -2149,7 +2149,7 @@
         [NSApp endSheet:interpolationSheet];
         [interpolationSheet orderOut:sender];
         
-        message = [NSString stringWithString:@"The number of variables to use for the interpolation must be between 1 and 3. Variable:NB:"];
+        message = @"The number of variables to use for the interpolation must be between 1 and 3. Variable:NB:";
         [self beginAlert:message];
         
         return;
@@ -2160,7 +2160,7 @@
         [NSApp endSheet:interpolationSheet];
         [interpolationSheet orderOut:sender];
         
-        message = [NSString stringWithString:@"A name for the variable used for the interpolation must be provided. This variable must be present in the netCDF file used as input. Variable:Var.1:"];
+        message = @"A name for the variable used for the interpolation must be provided. This variable must be present in the netCDF file used as input. Variable:Var.1:";
         [self beginAlert:message];
         
         return;
@@ -2171,7 +2171,7 @@
         [NSApp endSheet:interpolationSheet];
         [interpolationSheet orderOut:sender];
         
-        message = [NSString stringWithString:@"Number of variable for interpolation is two but second input variable is missing. Variable:Var.2:"];
+        message = @"Number of variable for interpolation is two but second input variable is missing. Variable:Var.2:";
         [self beginAlert:message];
         
         return;
@@ -2183,7 +2183,7 @@
         [NSApp endSheet:interpolationSheet];
         [interpolationSheet orderOut:sender];
         
-        message = [NSString stringWithString:@"Number of variable for interpolation is two but second and/or third input variables are missing. Variable:Var.2:Var.3:"];
+        message = @"Number of variable for interpolation is two but second and/or third input variables are missing. Variable:Var.2:Var.3:";
         [self beginAlert:message];
         
         return;
@@ -2195,7 +2195,7 @@
         [NSApp endSheet:interpolationSheet];
         [interpolationSheet orderOut:sender];
         
-        message = [NSString stringWithString:@"Space resolution must be higher or equal to 1. Run info:Space Res:"];
+        message = @"Space resolution must be higher or equal to 1. Run info:Space Res:";
         [self beginAlert:message];
         
         return;
@@ -2206,7 +2206,7 @@
         [NSApp endSheet:interpolationSheet];
         [interpolationSheet orderOut:sender];
         
-        message = [NSString stringWithString:@"Time iterations must be higher or equal to 1. Run info:Time loop:"];
+        message = @"Time iterations must be higher or equal to 1. Run info:Time loop:";
         [self beginAlert:message];
         
         return;
@@ -2217,7 +2217,7 @@
         [NSApp endSheet:interpolationSheet];
         [interpolationSheet orderOut:sender];
         
-        message = [NSString stringWithString:@"The number indicating where to start the interpolation from the imput data should be higher or equal to 1. Run info:Start pos:"];
+        message = @"The number indicating where to start the interpolation from the imput data should be higher or equal to 1. Run info:Start pos:";
         [self beginAlert:message];
         
         return;
@@ -2228,7 +2228,7 @@
         [NSApp endSheet:interpolationSheet];
         [interpolationSheet orderOut:sender];
         
-        message = [NSString stringWithString:@"Increment size for the interpolation should be higher or equal to 1. Run info:Increment:"];
+        message = @"Increment size for the interpolation should be higher or equal to 1. Run info:Increment:";
         [self beginAlert:message];
         
         return;
@@ -2242,9 +2242,9 @@
             [interpolationSheet orderOut:sender];
             
             if ([focusCoordinates state] == NSOnState) {
-                message = [NSString stringWithString:@"One or several focus coordinates are not provided or are not real values."];
+                message = @"One or several focus coordinates are not provided or are not real values.";
             } else if ([globalGrid state] == NSOnState) {
-                message = [NSString stringWithString:@"One or several domain bounds coordinates are not provided or are not real values."];
+                message = @"One or several domain bounds coordinates are not provided or are not real values.";
             }
                 
             [self beginAlert:message];
@@ -2258,7 +2258,7 @@
         [NSApp endSheet:interpolationSheet];
         [interpolationSheet orderOut:sender];
         
-        message = [NSString stringWithString:@"A method by which the interpolation will be carried out should be provided. Either choose to focus on a specific part of the input domain or choose to interpolate all of it towards the structured grid."];
+        message = @"A method by which the interpolation will be carried out should be provided. Either choose to focus on a specific part of the input domain or choose to interpolate all of it towards the structured grid.";
         [self beginAlert:message];
         
         return;
@@ -2328,7 +2328,7 @@
 
 -(void)beginAlert:(NSString *)message {
     
-    NSAlert *alert = [NSAlert alertWithMessageText:@"Error!" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:message];
+    NSAlert *alert = [NSAlert alertWithMessageText:@"Error!" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", message];
     
     [alert beginSheetModalForWindow:[consoleView window] modalDelegate:self didEndSelector:@selector(alertEnded:code:context:) contextInfo:NULL];
 
