@@ -15,7 +15,6 @@
     NSTextView* view;
     double timing;
     int scaleMethod;    // 1: Replicate; 2: Bilinear 
-    
 }
 
 -(void)setString1: (NSString *)str;

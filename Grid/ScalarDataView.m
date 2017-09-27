@@ -16,7 +16,6 @@
     if (self) {
         // Initialization code here;
     }
-    
     return self;
 }
 
@@ -32,14 +31,11 @@
     
     glClearColor(0.0, 0.0, 0.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 }
 
 -(void)drawRect:(NSRect)r
 {
-    
     glFlush();
-    
 }
 
 -(void)draw2DField {
@@ -58,7 +54,6 @@
     [self drawRect:r];
     
     glDisable(GL_COLOR_TABLE);
-
 }
 
 -(void)setColorTableRed:(unsigned char)r green:(unsigned char)g blue:(unsigned char)b index:(int)i {
@@ -66,7 +61,6 @@
         colorTable[i][0] = r;
         colorTable[i][1] = g;
         colorTable[i][2] = b;
-    
 }
 
 -(void)setPixelValues:(GLubyte)val index:(int)i {
@@ -112,7 +106,6 @@
     } else {
         return YES;
     }
-
 }
 
 @end

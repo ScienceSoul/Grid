@@ -1,7 +1,6 @@
 int pointInTriangle (float p1, float p2, float a1, float a2, float b1, float b2, float c1, float c2);
 
-int pointInTriangle (float p1, float p2, float a1, float a2, float b1, float b2, float c1, float c2) 
-{
+int pointInTriangle (float p1, float p2, float a1, float a2, float b1, float b2, float c1, float c2) {
 	int i;
 	
 	float v0[2];

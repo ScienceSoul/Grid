@@ -45,7 +45,6 @@
     NSButton *serialButtonState;
     NSButton *gcdSButtonState;
     NSButton *openclButtonState;
-    
 }
 
 -(void)setNetCDFFile: (NSString *)string;

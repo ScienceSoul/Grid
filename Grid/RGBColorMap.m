@@ -32,7 +32,6 @@
     for (i=0; i<256; i++) {
         red[i] = (unsigned char)data[i*3+0];
     }
-    
 }
 
 
@@ -45,7 +44,6 @@
     for (i=0; i<256; i++) {
         green[i] = (unsigned char)data[i*3+1];
     }
-
 }
 
 -(void)setBlue:(int *)data {
@@ -57,7 +55,6 @@
     for (i=0; i<256; i++) {
         blue[i] = (unsigned char)data[i*3+2];
     }
-
 }
 
 -(void)setColormap_name:(char *)name {
@@ -102,9 +99,6 @@
     free_uns_cvector(green, 0, 255);
     free_uns_cvector(blue, 0, 255);
     [super dealloc];
-    
 }
-
-
 
 @end

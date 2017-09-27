@@ -9,8 +9,7 @@
 #include <stdio.h>
 #include "maxmin.h"
 
-float computemax(float b[],int n)
-{
+float computemax(float b[],int n) {
     float max = 0.0;
     
     for(int c=0; c<n; c++)
@@ -21,8 +20,7 @@ float computemax(float b[],int n)
     return max;
 }
 
-float computemin(float b[],int n)
-{
+float computemin(float b[],int n) {
     float min = 1000000;
     
     for(int c=0; c<n; c++)

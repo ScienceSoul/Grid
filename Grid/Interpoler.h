@@ -56,7 +56,6 @@
 -(int)exec_kernelgx:(float *)gx gy:(float *)gy triangles:(float *)triangles serializedGriddedData:(float *)serialized_griddedData serializedGridMaskData:(int *)serialized_gridMaskData ngrid:(int)ngrid ni:(int)ni nj:(int)nj filename:(const char *)filename firstTime:(int)firstTime data1:(dataObject *)data1 data2:(processedDataObject *)data2;
 -(int)exec_kernel_optgx:(float *)gx gy:(float *)gy X1:(float *)X1 X2:(float *)X2 X3:(float *)X3 Y1:(float *)Y1 Y2:(float *)Y2 Y3:(float *)Y3 Z1:(float *)Z1 Z2:(float *)Z2 Z3: (float *)Z3 aligned:(int)aligned serializedGriddedData:(float *)serialized_griddedData serialized_gridMaskData:(int *)serialized_gridMaskData ngrid:(int)ngrid ni:(int)ni nj: (int)nj filename:(const char *)filename firstTime:(int)firstTime data1:(dataObject *)data1 data2:(processedDataObject *)data2;
 
-
 -(void)presentDataToUser: (processedDataObject *)processedData;
 -(void)colorTableLookUp;
 -(void)drawData;

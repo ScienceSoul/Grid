@@ -17,8 +17,7 @@
 
 #include "Timing.h"
 
-double machcore(uint64_t endTime, uint64_t startTime)
-{
+double machcore(uint64_t endTime, uint64_t startTime) {
 	uint64_t difference = endTime - startTime;
 	static double conversion = 0.0;
 	double value = 0.0;

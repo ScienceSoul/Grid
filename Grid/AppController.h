@@ -77,7 +77,6 @@
     IBOutlet NSTextField *runInfoTimeLoop;
     IBOutlet NSTextField *runInfoStartPos;
     IBOutlet NSTextField *runInfoIncrement;
-    
 }
 
 -(void)dataInitialize:(dataObject *)data;

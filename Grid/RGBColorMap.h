@@ -17,7 +17,6 @@
     unsigned char *blue;
     char *colormap_name;
     int nb_colors;
-    
 }
 
 -(void)setRed: (int *)data;

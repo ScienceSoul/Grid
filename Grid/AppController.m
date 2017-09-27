@@ -25,7 +25,6 @@
         processData = [[Interpoler alloc] init];
         
     }
-    
     return self;
 }
 
@@ -155,7 +154,6 @@
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     NSDictionary *d = [NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"%ld", tag], @"MenuTag", [NSString stringWithFormat:@"%ld", prevTag], @"PrevMenuTag", [coordFocusVertMin stringValue], @"VertMin" , [coordFocusVertMax stringValue], @"VertMax", [coordFocusHorizMin stringValue], @"HorizMin", [coordFocusHorizMax stringValue], @"HorizMax", [runInfoSpaceRes stringValue], @"SpaceRes",  nil];
     [nc postNotificationName:@"GRIDScaleFactorChanged" object:self userInfo:d];
-    
 }
 
 -(IBAction)changeColorMap:(id)sender {
@@ -1905,7 +1903,6 @@
         [processData colorTableLookUp];
         [processData drawData];
     }
-    
 }
 
 -(void)dataInitialize:(dataObject *)data{
@@ -1935,7 +1932,6 @@
     }
     
     [data setTerminated:NO];
-    
 }
 
 -(IBAction)computeSerial:(id)sender {
@@ -1981,7 +1977,6 @@
         workThread = nil;
         
     }
-    
 }
 
 -(IBAction)computeGCD:(id)sender
@@ -2072,7 +2067,6 @@
         workThread = nil;
         
     }
-    
 }
 
 -(void)awakeFromNib 
@@ -2095,7 +2089,6 @@
     
     // We use the default color map
     [deflt setState:NSOnState];
-
 }
 
 #pragma mark Sheet window actions
@@ -2331,7 +2324,6 @@
     NSAlert *alert = [NSAlert alertWithMessageText:@"Error!" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", message];
     
     [alert beginSheetModalForWindow:[consoleView window] modalDelegate:self didEndSelector:@selector(alertEnded:code:context:) contextInfo:NULL];
-
 }
 
 -(void)alertEnded:(NSAlert *)alert code:(int)choice context:(void *)v {

@@ -12,8 +12,7 @@
 #include "memory.h"
 #include "GridPoint.h"
 
-int pointInTriangle (float p1, float p2, float a1, float a2, float b1, float b2, float c1, float c2) 
-{
+int pointInTriangle (float p1, float p2, float a1, float a2, float b1, float b2, float c1, float c2) {
 	int i;
 	
 	float v0[2];
@@ -78,8 +77,7 @@ int pointInTriangle (float p1, float p2, float a1, float a2, float b1, float b2,
 }
 
 
-float getInterpolatedValue (int **trianglesForUse, int nbTriangles, float XI, float YI, float ***data, float exponent)
-{
+float getInterpolatedValue (int **trianglesForUse, int nbTriangles, float XI, float YI, float ***data, float exponent) {
 	int i;
 	float **distanceToPoint;
 	float theInterpolatedValue, weightsum, weight;

@@ -38,13 +38,11 @@
 -(NSString *)string2 {
     
     return string2;
-    
 }
 
 -(void)setview:(NSTextView *)aview {
     
     view = aview;
-    
 }
 
 -(NSTextView *)view {

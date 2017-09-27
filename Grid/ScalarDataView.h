@@ -17,7 +17,6 @@
     GLubyte colorTable[256][3];    // Color lookup table to use with OpenGL
     GLubyte *pixelValues;          // Contains the index to color lookup table
                                    // of the transformed field data to color values
-    
 }
 
 -(void)setColorTableRed:(unsigned char)r green:(unsigned char)g blue:(unsigned char)b index:(int)i;
@@ -29,7 +28,6 @@
 -(void)allocTablesRows:(int)nl Cols:(int)nh;
 -(void)releaseTablesRows:(int)nl Cols:(int)nh;
 -(BOOL)isAllocated;
-
 -(void)draw2DField;
 
 @end
