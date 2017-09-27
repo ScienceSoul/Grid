@@ -10,8 +10,7 @@
 
 @implementation ScalarDataView
 
-- (id)init
-{
+- (id)init {
     self = [super init];
     if (self) {
         // Initialization code here;
@@ -19,8 +18,7 @@
     return self;
 }
 
--(void)prepareOpenGL
-{
+-(void)prepareOpenGL {
     NSOpenGLContext *glContext = [self openGLContext];
     [glContext makeCurrentContext];
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -33,8 +31,7 @@
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
--(void)drawRect:(NSRect)r
-{
+-(void)drawRect:(NSRect)r {
     glFlush();
 }
 

@@ -73,7 +73,6 @@ int pointInTriangle (float p1, float p2, float a1, float a2, float b1, float b2,
 	else {
 		return -1;
 	}
-    
 }
 
 

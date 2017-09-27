@@ -42,8 +42,7 @@
 
 @implementation Interpoler
 
-- (id)init
-{
+- (id)init {
     self = [super init];
     if (self) {
         // Initialization code here.
@@ -327,7 +326,6 @@
             ERR(retval);
         if ((retval = nc_get_var_float(ncid2, varid, &zs[0][0][0])))
             ERR(retval);
-        
     }
     
     if ((retval = nc_inq_varid(ncid2, "mask", &varid))) {
@@ -387,7 +385,6 @@
         [self memoryReleaseData1:data data2:processedData];
         
         return;
-        
     }
     
     if ([data variableNB]> 1 && [data variableNB] <= 3) {
@@ -542,7 +539,6 @@
         [self memoryReleaseData1:data data2:processedData];
         
         return;
-        
     }
     
     if ([data variableNB]> 1 && [data variableNB] <= 3) {
@@ -1730,7 +1726,6 @@
             [colormap setGreen:cmap_wheel];
             [colormap setBlue:cmap_wheel];
             break;
-            
     }
 }
 

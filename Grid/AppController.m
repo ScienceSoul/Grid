@@ -17,8 +17,7 @@
 
 @implementation AppController
 
-- (id)init
-{
+- (id)init {
     self = [super init];
     if (self) {
         // Initialization code here.
@@ -1979,8 +1978,7 @@
     }
 }
 
--(IBAction)computeGCD:(id)sender
-{
+-(IBAction)computeGCD:(id)sender {
     if ([[netCDFfile stringValue] length] == 0 || [[variableName stringValue] length] == 0 || [[variableNB stringValue] intValue] <= 0 || [[variableVar1 stringValue] length] == 0 || [[runInfoTimeLoop stringValue] intValue] <= 0 || [[runInfoStartPos stringValue] intValue] <= 0 || [[runInfoIncrement stringValue] intValue] <= 0) {
         
         NSAlert *alert = [NSAlert alertWithMessageText:@"Error!" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"Interpolation parameters must be first provided before starting a run."];
@@ -2069,8 +2067,7 @@
     }
 }
 
--(void)awakeFromNib 
-{
+-(void)awakeFromNib  {
     // Set some initial values for the sheet window
     [variableNB setStringValue:@"1"];
     [variableVar2 setStringValue:@"optional"];
@@ -2134,7 +2131,6 @@
         [self beginAlert:message];
         
         return;
-        
     }
     
     if ([[variableNB stringValue] intValue] <= 0 || [[variableNB stringValue] intValue] > 3) {
@@ -2168,7 +2164,6 @@
         [self beginAlert:message];
         
         return;
-
     }
     
     if ([[variableNB stringValue] intValue] == 3 && ([[variableVar2 stringValue] length] == 0 || [[variableVar2 stringValue] isEqualToString:@"optional"] || [[variableVar3 stringValue] length] == 0 || [[variableVar3 stringValue] isEqualToString:@"optional"]) ) {
@@ -2180,7 +2175,6 @@
         [self beginAlert:message];
         
         return;
-        
     }
 
     if ([[runInfoSpaceRes stringValue] intValue] <= 0) {
@@ -2243,7 +2237,6 @@
             [self beginAlert:message];
             
             return;
-            
         }
         
     } else if ([focusCoordinates state] == NSOffState && [globalGrid state] == NSOffState) {
@@ -2255,7 +2248,6 @@
         [self beginAlert:message];
         
         return;
-        
     }
     
     xyrange = floatmatrix(0, 1, 0, 1);

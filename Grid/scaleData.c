@@ -62,17 +62,21 @@ void expand_data (float *big_data, float* data_in, size_t array_size, int nx, in
     fill_val = DEFAULT_FILL_VALUE;
     
     if (method == 1) { // Replicate
-        for( jl=0; jl<nyl; jl++ ) {
-            for( il=0; il<nxl; il++ ) {
-                for( i2b=0; i2b<blowup; i2b++ ) {
-                    if( il*blowup + jl*nxb*blowup + i2b >= array_size ) { printf("expand_data: mem error 001\n"); exit(-1); }
+        for(jl=0; jl<nyl; jl++) {
+            for(il=0; il<nxl; il++) {
+                for(i2b=0; i2b<blowup; i2b++) {
+                    if(il*blowup + jl*nxb*blowup + i2b >= array_size) {
+                        printf("expand_data: mem error 001\n"); exit(-1);
+                    }
                     *(big_data + il*blowup + jl*nxb*blowup + i2b) = *(data_in+il+jl*nxl);
                 }
             }
             
-            for( line=1; line<blowup; line++ ) {
-                for( i2b=0; i2b<nxb; i2b++ ) {
-                    if( i2b + jl*nxb*blowup + line*nxb >= array_size ) { printf("expand_data: mem error 002\n" ); exit(-1); }
+            for(line=1; line<blowup; line++) {
+                for(i2b=0; i2b<nxb; i2b++) {
+                    if(i2b + jl*nxb*blowup + line*nxb >= array_size) {
+                        printf("expand_data: mem error 002\n" ); exit(-1);
+                    }
                     *(big_data + i2b + jl*nxb*blowup + line*nxb) =
                     *(big_data + i2b + jl*nxb*blowup);
                 }
@@ -89,15 +93,15 @@ void expand_data (float *big_data, float* data_in, size_t array_size, int nx, in
         offset_yb = offset_xb;
         
         /* Horizontal base lines */
-        for( jl=0; jl<nyl; jl++ ) {
-            for( il=0; il<nxl-1; il++ ) {
+        for(jl=0; jl<nyl; jl++) {
+            for(il=0; il<nxl-1; il++) {
                 base_val  = *(data_in + il + jl*nxl);
                 right_val = *(data_in + il+1 + jl*nxl);
                 
                 miss_base  = close_enough(base_val,  fill_val);
                 miss_right = close_enough(right_val, fill_val);
-                if( miss_base ) {
-                    if( miss_right ) {
+                if(miss_base) {
+                    if(miss_right) {
                         /* BOTH missing */
                         step = 0.0;
                         val = base_val;		/* missing value */
@@ -108,7 +112,7 @@ void expand_data (float *big_data, float* data_in, size_t array_size, int nx, in
                         val = right_val;	/* an OK value */
                     }
                 }
-                else if( miss_right ) {
+                else if(miss_right) {
                     /* ONLY right is missing, checked for both missing above */
                     val = base_val;
                     step = 0.0;
@@ -119,8 +123,8 @@ void expand_data (float *big_data, float* data_in, size_t array_size, int nx, in
                     val = base_val;
                 }
                 
-                for( i2b=0; i2b < blowup; i2b++ ) {
-                    if( il*blowup+i2b+offset_xb + jl*blowup*nxb + offset_yb*nxb >= array_size ) {
+                for(i2b=0; i2b < blowup; i2b++) {
+                    if(il*blowup+i2b+offset_xb + jl*blowup*nxb + offset_yb*nxb >= array_size) {
                         printf("expand_data: mem error 003\n" ); exit(-1);
                     }
                     *(big_data + il*blowup+i2b+offset_xb + jl*blowup*nxb + offset_yb*nxb ) = val;
@@ -128,22 +132,23 @@ void expand_data (float *big_data, float* data_in, size_t array_size, int nx, in
                 }
             }
             /* Fill in the last center value on the right, which was left unfilled by the above alg */
-            if( (nxl-1)*blowup+offset_xb + jl*blowup*nxb + offset_yb*nxb >= array_size ) { printf("expand_data: mem error 004\n" ); exit(-1); }
-            
+            if((nxl-1)*blowup+offset_xb + jl*blowup*nxb + offset_yb*nxb >= array_size) {
+                printf("expand_data: mem error 004\n" ); exit(-1);
+            }
             *(big_data + (nxl-1)*blowup+offset_xb + jl*blowup*nxb + offset_yb*nxb ) = *(data_in + (nxl-1) + jl*nxl);
         }
         
         /* Vertical base lines */
-        for( jl=0; jl<nyl-1; jl++ )
-            for( il=0; il<nxl;   il++ ) {
+        for(jl=0; jl<nyl-1; jl++) {
+            for(il=0; il<nxl;   il++) {
                 base_val  = *(data_in + il + jl*nxl);
                 below_val = *(data_in + il + (jl+1)*nxl);
                 
                 miss_base  = close_enough(base_val,  fill_val);
                 miss_below = close_enough(below_val, fill_val);
                 
-                if( miss_base ) {
-                    if( miss_below ) {
+                if(miss_base) {
+                    if(miss_below) {
                         /* BOTH missing */
                         step = 0.0;
                         val = base_val;		/* missing value */
@@ -154,7 +159,7 @@ void expand_data (float *big_data, float* data_in, size_t array_size, int nx, in
                         val = below_val;	/* an OK value */
                     }
                 }
-                else if( miss_below ) {
+                else if(miss_below) {
                     /* ONLY below is missing, checked for both missing above */
                     val = base_val;
                     step = 0.0;
@@ -165,18 +170,20 @@ void expand_data (float *big_data, float* data_in, size_t array_size, int nx, in
                     val = base_val;
                 }
                 
-                for( j2b=0; j2b < blowup; j2b++ ) {
-                    if( il*blowup+offset_xb + jl*blowup*nxb + (j2b+offset_yb)*nxb >= array_size ) {
+                for(j2b=0; j2b < blowup; j2b++) {
+                    if(il*blowup+offset_xb + jl*blowup*nxb + (j2b+offset_yb)*nxb >= array_size) {
                         printf("expand_data: mem error 005\n" ); exit(-1);
                     }
                     *(big_data + il*blowup+offset_xb + jl*blowup*nxb + (j2b+offset_yb)*nxb ) = val;
                     val += step;
                 }
             }
+        }
         /* Fill in the last center value along the top, which was left unfilled by the above alg */
-        for( il=0; il<nxl; il++ ) {
-            if( il*blowup+offset_xb + (nyl-1)*blowup*nxb + offset_yb*nxb >= array_size ) { printf("expand_data: mem error 006\n" ); exit(-1); }
-            
+        for(il=0; il<nxl; il++) {
+            if(il*blowup+offset_xb + (nyl-1)*blowup*nxb + offset_yb*nxb >= array_size) {
+                printf("expand_data: mem error 006\n" ); exit(-1);
+            }
             *(big_data + il*blowup+offset_xb + (nyl-1)*blowup*nxb + offset_yb*nxb) = *(data_in + il + (nyl-1)*nxl);
         }
         
@@ -184,10 +191,10 @@ void expand_data (float *big_data, float* data_in, size_t array_size, int nx, in
          * interpolating from the horizontal and vertical
          * base lines.
          */
-        for( jl=0; jl<nyl-1; jl++ )
-            for( il=0; il<nxl-1; il++ ) {
-                for( j2b=1; j2b<blowup; j2b++ )
-                    for( i2b=1; i2b<blowup; i2b++ ) {
+        for(jl=0; jl<nyl-1; jl++) {
+            for(il=0; il<nxl-1; il++) {
+                for(j2b=1; j2b<blowup; j2b++) {
+                    for(i2b=1; i2b<blowup; i2b++) {
                         frac_x = (float)i2b*bupr;
                         frac_y = (float)j2b*bupr;
                         
@@ -196,8 +203,8 @@ void expand_data (float *big_data, float* data_in, size_t array_size, int nx, in
                         base_y    = *(big_data + il*blowup+i2b+offset_xb + jl*blowup*nxb + offset_yb*nxb);
                         below_val = *(big_data + il*blowup+i2b+offset_xb + (jl+1)*blowup*nxb + offset_yb*nxb);
                         
-                        if( close_enough(base_x, fill_val) || close_enough(right_val, fill_val) ||
-                           (il == nxl-1) )
+                        if(close_enough(base_x, fill_val) || close_enough(right_val, fill_val) ||
+                           (il == nxl-1))
                             del_x = 0.0;
                         else
                             del_x  = right_val - base_x;
@@ -208,22 +215,25 @@ void expand_data (float *big_data, float* data_in, size_t array_size, int nx, in
                         est1 = frac_x*del_x + base_x;
                         est2 = frac_y*del_y + base_y;
                         
-                        if( close_enough( est1, fill_val )) {
+                        if(close_enough( est1, fill_val )) {
                             if( close_enough( est2, fill_val ))
                                 final_est = fill_val;
                             else
                                 final_est = est2;
                         }
-                        else if( close_enough( est2, fill_val ))
+                        else if(close_enough( est2, fill_val ))
                             final_est = est1;
                         else
                             final_est = (est1 + est2)*.5;
                         
-                        if( il*blowup+i2b+offset_xb + jl*blowup*nxb + (j2b+offset_yb)*nxb >= array_size ) { printf("expand_data: mem error 007\n" ); exit(-1); }
-                        
+                        if(il*blowup+i2b+offset_xb + jl*blowup*nxb + (j2b+offset_yb)*nxb >= array_size) {
+                            printf("expand_data: mem error 007\n" ); exit(-1);
+                        }
                         *(big_data + il*blowup+i2b+offset_xb + jl*blowup*nxb + (j2b+offset_yb)*nxb ) = final_est;
                     }
+                }
             }
+        }
         
         /* It is a tricky and undetermined question as to whether we want to allow
          * extrema on the boundaries.  As a complete and total hack, we use only
@@ -237,12 +247,15 @@ void expand_data (float *big_data, float* data_in, size_t array_size, int nx, in
          * This goes from y=the first center point to y=the last center point.
          */
         il = nxl-1;
-        for( j2b=0; j2b<=blowup*(nyl-1); j2b++ ) {
+        for(j2b=0; j2b<=blowup*(nyl-1); j2b++) {
             idx = il*blowup+offset_xb + (j2b+offset_yb)*nxb;
             step = (*(big_data + idx - 1) - *(big_data + idx - 2));
             val  = *(big_data + idx) + step;
-            for( i2b=1; i2b<(blowup-offset_xb+1); i2b++ ) {
-                if( idx + i2b >= array_size ) { printf("expand_data: mem error 008\n" ); exit(-1); }
+            for(i2b=1; i2b<(blowup-offset_xb+1); i2b++) {
+                if(idx + i2b >= array_size) {
+                    printf("expand_data: mem error 008\n" );
+                    exit(-1);
+                }
                 *(big_data + idx + i2b) = val;
                 val += step*extrap_fact;
             }
@@ -250,12 +263,15 @@ void expand_data (float *big_data, float* data_in, size_t array_size, int nx, in
         
         /* Fill in left hand side */
         il = 0;
-        for( j2b=0; j2b<=blowup*(nyl-1); j2b++ ) {
+        for(j2b=0; j2b<=blowup*(nyl-1); j2b++) {
             idx = il*blowup+offset_xb + (j2b+offset_yb)*nxb;
             step = (*(big_data + idx + 2) - *(big_data + idx + 1));
             val  = *(big_data + idx) - step;
-            for( i2b=1; i2b<=(blowup-1)/2; i2b++ ) {
-                if( idx - i2b >= array_size ) { printf("expand_data: mem error 009\n" ); exit(-1); }
+            for(i2b=1; i2b<=(blowup-1)/2; i2b++) {
+                if(idx - i2b >= array_size) {
+                    printf("expand_data: mem error 009\n" );
+                    exit(-1);
+                }
                 *(big_data + idx - i2b) = val;
                 val -= step*extrap_fact;
             }
@@ -263,12 +279,15 @@ void expand_data (float *big_data, float* data_in, size_t array_size, int nx, in
         
         /* Fill in bottom */
         jl = 0;
-        for( i2b=0; i2b<=blowup*(nxl-1); i2b++ ) {
+        for(i2b=0; i2b<=blowup*(nxl-1); i2b++) {
             idx = i2b+offset_xb + jl*blowup*nxb + offset_yb*nxb;
             step = (*(big_data + idx + 2*nxb) - *(big_data + idx + nxb));   /* big(,y+2) - big(,y+1) */
             val  = *(big_data + idx) - step;
-            for( j2b=1; j2b<=(blowup-1)/2; j2b++ ) {
-                if( idx - j2b*nxb >= array_size ) { printf("expand_data: mem error 010\n" ); exit(-1); }
+            for(j2b=1; j2b<=(blowup-1)/2; j2b++) {
+                if(idx - j2b*nxb >= array_size) {
+                    printf("expand_data: mem error 010\n" );
+                    exit(-1);
+                }
                 *(big_data + idx - j2b*nxb) = val;
                 val -= step*extrap_fact;
             }
@@ -276,12 +295,15 @@ void expand_data (float *big_data, float* data_in, size_t array_size, int nx, in
         
         /* Fill in top */
         jl = nyl-1;
-        for( i2b=0; i2b<blowup*(nxl-1); i2b++ ) {
+        for(i2b=0; i2b<blowup*(nxl-1); i2b++) {
             idx = i2b+offset_xb + jl*blowup*nxb + offset_yb*nxb;
             step = (*(big_data + idx - nxb) - *(big_data + idx - 2*nxb));  /* big(,y-1) - big(,y-2) */
             val  = *(big_data + idx) + step;
-            for( j2b=1; j2b<=blowup/2; j2b++ ) {
-                if( idx + j2b*nxb >= array_size ) { printf("expand_data: mem error 011\n" ); exit(-1); }
+            for(j2b=1; j2b<=blowup/2; j2b++) {
+                if(idx + j2b*nxb >= array_size) {
+                    printf("expand_data: mem error 011\n" );
+                    exit(-1);
+                }
                 *(big_data + idx + j2b*nxb) = val;
                 val += step*extrap_fact;
             }
@@ -296,62 +318,81 @@ void expand_data (float *big_data, float* data_in, size_t array_size, int nx, in
         il = 0;
         jl = 0;
         cval = *(data_in + il + jl*nxl);          /* Data value in lower left corner */
-        if( ! close_enough( cval, fill_val )) {
+        if(!close_enough( cval, fill_val )) {
             /* Fill in lower left corner */
-            for( j2b=0; j2b<=offset_yb; j2b++ )
-                for( i2b=0; i2b<=offset_xb; i2b++ ) {
-                    if( i2b + j2b*nxb >= array_size ) { printf("expand_data: mem error 012\n" ); exit(-1); }
+            for(j2b=0; j2b<=offset_yb; j2b++) {
+                for(i2b=0; i2b<=offset_xb; i2b++) {
+                    if(i2b + j2b*nxb >= array_size) {
+                        printf("expand_data: mem error 012\n" );
+                        exit(-1);
+                    }
                     *(big_data + i2b + j2b*nxb) = cval;
                 }
+            }
         }
         
         /* Lower right corner */
         il = nxl - 1;
         jl = 0;
         cval = *(data_in + il + jl*nxl);          /* Data value in lower left corner */
-        if( ! close_enough( cval, fill_val )) {
+        if(!close_enough( cval, fill_val )) {
             /* Fill in lower right corner */
-            for( j2b=0; j2b<=offset_yb; j2b++ )
-                for( i2b=offset_xb; i2b<blowup; i2b++ ) {
-                    if( il*blowup + i2b + j2b*nxb >= array_size ) { printf("expand_data: mem error 013\n" ); exit(-1); }
+            for(j2b=0; j2b<=offset_yb; j2b++) {
+                for(i2b=offset_xb; i2b<blowup; i2b++) {
+                    if(il*blowup + i2b + j2b*nxb >= array_size) {
+                        printf("expand_data: mem error 013\n" );
+                        exit(-1);
+                    }
                     *(big_data + il*blowup + i2b + j2b*nxb) = cval;
                 }
+            }
         }
         
         /* Upper right corner */
         il = nxl - 1;
         jl = nyl - 1;
         cval = *(data_in + il + jl*nxl);          /* Data value in lower left corner */
-        if( ! close_enough( cval, fill_val )) {
+        if(!close_enough( cval, fill_val )) {
             /* Fill in upper right corner */
-            for( j2b=offset_yb; j2b<blowup; j2b++ )
-                for( i2b=offset_xb; i2b<blowup; i2b++ ) {
-                    if( il*blowup + i2b + jl*blowup*nxb + j2b*nxb >= array_size ) { printf("expand_data: mem error 014\n" ); exit(-1); }
+            for(j2b=offset_yb; j2b<blowup; j2b++) {
+                for(i2b=offset_xb; i2b<blowup; i2b++) {
+                    if(il*blowup + i2b + jl*blowup*nxb + j2b*nxb >= array_size) {
+                        printf("expand_data: mem error 014\n" );
+                        exit(-1);
+                    }
                     *(big_data + il*blowup + i2b + jl*blowup*nxb + j2b*nxb) = cval;
                 }
+            }
         }
         
         /* Upper left corner */
         il = 0;
         jl = nyl - 1;
         cval = *(data_in + il + jl*nxl);          /* Data value in lower left corner */
-        if( ! close_enough( cval, fill_val )) {
+        if(!close_enough( cval, fill_val )) {
             /* Fill in upper left corner */
-            for( j2b=offset_yb; j2b<blowup; j2b++ )
-                for( i2b=0; i2b<=offset_xb; i2b++ ) {
-                    if(  il*blowup + i2b + jl*blowup*nxb + j2b*nxb >= array_size ) { printf("expand_data: mem error 015\n" ); exit(-1); }
+            for(j2b=offset_yb; j2b<blowup; j2b++) {
+                for(i2b=0; i2b<=offset_xb; i2b++) {
+                    if(il*blowup + i2b + jl*blowup*nxb + j2b*nxb >= array_size) {
+                        printf("expand_data: mem error 015\n" );
+                        exit(-1);
+                    }
                     *(big_data + il*blowup + i2b + jl*blowup*nxb + j2b*nxb) = cval;
                 }
+            }
         }
         
         /* Paint missing value blocks */
-        for( jl=0; jl<nyl; jl++ ) {
-            for( il=0; il<nxl; il++ ) {
+        for(jl=0; jl<nyl; jl++) {
+            for(il=0; il<nxl; il++) {
                 base_val  = *(data_in + il + jl*nxl);
-                if( close_enough( base_val, fill_val )) {
-                    for( j2b=0; j2b<blowup; j2b++ ) {
-                        for( i2b=0; i2b<blowup; i2b++ ) {
-                            if( il*blowup+i2b + jl*nxb*blowup + j2b*nxb >= array_size ) { printf("expand_data: mem error 016\n" ); exit(-1); }
+                if(close_enough( base_val, fill_val )) {
+                    for(j2b=0; j2b<blowup; j2b++) {
+                        for(i2b=0; i2b<blowup; i2b++) {
+                            if(il*blowup+i2b + jl*nxb*blowup + j2b*nxb >= array_size) {
+                                printf("expand_data: mem error 016\n" );
+                                exit(-1);
+                            }
                             *(big_data + il*blowup+i2b + jl*nxb*blowup + j2b*nxb ) = base_val;
                         }
                     }

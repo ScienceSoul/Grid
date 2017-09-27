@@ -61,7 +61,6 @@ int pointInTriangle (float p1, float p2, float a1, float a2, float b1, float b2,
 	else {
 		return -1;
 	}
-    
 }
 
 __kernel void interpolate (__global float *gx, __global float *gy, __global float *x1, __global float *x2, __global float *x3, __global float *y1, __global float *y2, __global float *y3, __global float *z1, __global float *z2, __global float *z3, __global float *grid, __global int *gridMask, int N1, int N2, int aligned, __local float *shared, __global float *debug)
@@ -147,5 +146,4 @@ __kernel void interpolate (__global float *gx, __global float *gy, __global floa
     if (theInterpolatedValue != 0) {
         gridMask[ igrid ] = 3;
     }
-       
 }
