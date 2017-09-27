@@ -32,6 +32,10 @@
     NSInteger tag = 0, prevTag = 0;
     NSRect rect;
     
+    // Can't scale before a window showing the field view is
+    // first created
+    if (dataViewWindow == nil) return;
+    
     tag = [sender tag];
     
     switch (tag) {
