@@ -13,7 +13,6 @@
 #include "GridPoint.h"
 
 int pointInTriangle (float p1, float p2, float a1, float a2, float b1, float b2, float c1, float c2) {
-	int i;
 	
 	float v0[2];
 	float v1[2];
@@ -37,27 +36,27 @@ int pointInTriangle (float p1, float p2, float a1, float a2, float b1, float b2,
 	
 	// Compute dot products
 	dot00 = 0.0;
-	for (i=0; i<2; i++) {
+	for (int i=0; i<2; i++) {
 		dot00 = dot00 + v0[i]*v0[i];
 	}
 	
 	dot01 = 0.0;
-	for (i=0; i<2; i++) {
+	for (int i=0; i<2; i++) {
 		dot01 = dot01 + v0[i]*v1[i];
 	}
 	
 	dot02 = 0.0;
-	for (i=0; i<2; i++) {
+	for (int i=0; i<2; i++) {
 		dot02 = dot02 + v0[i]*v2[i];
 	}
 	
 	dot11 = 0.0;
-	for (i=0; i<2; i++) {
+	for (int i=0; i<2; i++) {
 		dot11 = dot11 + v1[i]*v1[i];
 	}
 	
 	dot12 = 0.0;
-	for (i=0; i<2; i++) {
+	for (int i=0; i<2; i++) {
 		dot12 = dot12 + v1[i]*v2[i];
 	}
 	
@@ -77,12 +76,12 @@ int pointInTriangle (float p1, float p2, float a1, float a2, float b1, float b2,
 
 
 float getInterpolatedValue (int **trianglesForUse, int nbTriangles, float XI, float YI, float ***data, float exponent) {
-	int i;
+    
 	float **distanceToPoint;
 	float theInterpolatedValue, weightsum, weight;
 	
 	distanceToPoint = floatmatrix(0, nbTriangles-1, 0, 2);
-	for (i=0; i<nbTriangles; i++) {
+	for (int i=0; i<nbTriangles; i++) {
 		distanceToPoint[i][0] = sqrtf(powf((data[trianglesForUse[i][0]][trianglesForUse[i][1]][1]-XI), 2.0) + powf((data[trianglesForUse[i][0]][trianglesForUse[i][1]][2]-YI), 2.0));
 		distanceToPoint[i][1] = sqrtf(powf((data[trianglesForUse[i][0]][trianglesForUse[i][1]][4]-XI), 2.0) + powf((data[trianglesForUse[i][0]][trianglesForUse[i][1]][5]-YI), 2.0));
 		distanceToPoint[i][2] = sqrtf(powf((data[trianglesForUse[i][0]][trianglesForUse[i][1]][7]-XI), 2.0) + powf((data[trianglesForUse[i][0]][trianglesForUse[i][1]][8]-YI), 2.0));
@@ -90,7 +89,7 @@ float getInterpolatedValue (int **trianglesForUse, int nbTriangles, float XI, fl
 	
 	weightsum = 0.0;
 	theInterpolatedValue = 0.0;
-	for (i=0; i<nbTriangles; i++) {
+	for (int i=0; i<nbTriangles; i++) {
 		weight = powf( distanceToPoint[i][0], -exponent );
 		theInterpolatedValue = theInterpolatedValue + weight * data[trianglesForUse[i][0]][trianglesForUse[i][1]][3];
 		weightsum = weightsum + weight;

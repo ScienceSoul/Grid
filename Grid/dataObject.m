@@ -11,6 +11,7 @@
 @implementation dataObject
 
 - (id)init {
+    
     self = [super init];
     if (self) {
         // Initialization code here.

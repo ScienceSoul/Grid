@@ -11,8 +11,8 @@
 #include "maxmin.h"
 
 float computemax(float b[],int n) {
-    float max = 0.0;
     
+    float max = 0.0;
     for(int c=0; c<n; c++) {
         if(b[c]>max)
             max=b[c];
@@ -21,8 +21,8 @@ float computemax(float b[],int n) {
 }
 
 float computemin(float b[],int n) {
-    float min = 1000000;
     
+    float min = 1000000;
     for(int c=0; c<n; c++) {
         if(b[c]<min)
             min=b[c];

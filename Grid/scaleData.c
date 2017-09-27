@@ -20,6 +20,7 @@
  
 *******************************************************************************/
 int close_enough( float data, float fill ) {
+    
 	float	criterion, diff;
 	int	retval;
     
@@ -83,7 +84,6 @@ void expand_data (float *big_data, float* data_in, size_t array_size, int nx, in
             }
         }
     } else if (method == 2) { // Bilinear
-        
         bupr = 1.0/(float)blowup;
         
         /* Offset where we will put the center value into the big array. These are offsets

@@ -11,6 +11,7 @@
 @implementation RGBColorMap
 
 - (id)init {
+    
     self = [super init];
     if (self) {
         // Initialization code here.
@@ -24,11 +25,8 @@
 
 -(void)setRed:(int *)data {
     
-    int	i;
-    
     //NSLog(@"Initializing red component of colormap.\n");
-    
-    for (i=0; i<256; i++) {
+    for (int i=0; i<256; i++) {
         red[i] = (unsigned char)data[i*3+0];
     }
 }
@@ -36,22 +34,16 @@
 
 -(void)setGreen:(int *)data {
     
-    int	i;
-    
     //NSLog(@"Initializing green component of colormap.\n");
-    
-    for (i=0; i<256; i++) {
+    for (int i=0; i<256; i++) {
         green[i] = (unsigned char)data[i*3+1];
     }
 }
 
 -(void)setBlue:(int *)data {
     
-    int	i;
-    
     //NSLog(@"Initializing green component of colormap.\n");
-    
-    for (i=0; i<256; i++) {
+    for (int i=0; i<256; i++) {
         blue[i] = (unsigned char)data[i*3+2];
     }
 }

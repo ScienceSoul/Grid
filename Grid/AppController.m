@@ -17,6 +17,7 @@
 @implementation AppController
 
 - (id)init {
+    
     self = [super init];
     if (self) {
         // Initialization code here.
@@ -1958,7 +1959,6 @@
             
             [OpenCLStartStop setState:NSOffState];
             return;
-            
         }
         
         //[NSThread detachNewThreadSelector:@selector(SerialCompute:)
@@ -1973,11 +1973,11 @@
         [workThread cancel];
         [workThread release];
         workThread = nil;
-        
     }
 }
 
 -(IBAction)computeGCD:(id)sender {
+    
     if ([[netCDFfile stringValue] length] == 0 || [[variableName stringValue] length] == 0 || [[variableNB stringValue] intValue] <= 0 || [[variableVar1 stringValue] length] == 0 || [[runInfoTimeLoop stringValue] intValue] <= 0 || [[runInfoStartPos stringValue] intValue] <= 0 || [[runInfoIncrement stringValue] intValue] <= 0) {
         
         NSAlert *alert = [NSAlert alertWithMessageText:@"Error!" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"Interpolation parameters must be first provided before starting a run."];
@@ -2017,7 +2017,6 @@
         [workThread cancel];
         [workThread release];
         workThread = nil;
-        
     }
 }
 
@@ -2047,7 +2046,6 @@
             
             [OpenCLStartStop setState:NSOffState];
             return;
-            
         }
         
         //[NSThread detachNewThreadSelector:@selector(OpenCLCompute:)
@@ -2062,11 +2060,11 @@
         [workThread cancel];
         [workThread release];
         workThread = nil;
-        
     }
 }
 
 -(void)awakeFromNib  {
+    
     // Set some initial values for the sheet window
     [variableNB setStringValue:@"1"];
     [variableVar2 setStringValue:@"optional"];
@@ -2313,18 +2311,14 @@
 -(void)beginAlert:(NSString *)message {
     
     NSAlert *alert = [NSAlert alertWithMessageText:@"Error!" defaultButton:@"OK" alternateButton:nil otherButton:nil informativeTextWithFormat:@"%@", message];
-    
     [alert beginSheetModalForWindow:[consoleView window] modalDelegate:self didEndSelector:@selector(alertEnded:code:context:) contextInfo:NULL];
 }
 
 -(void)alertEnded:(NSAlert *)alert code:(int)choice context:(void *)v {
     
     if (choice == NSAlertDefaultReturn) {
-        
         [[alert window] close];
-        
         [NSApp beginSheet:interpolationSheet modalForWindow:[consoleView window] modalDelegate:nil didEndSelector:NULL contextInfo:NULL];
-        
     }
 }
 

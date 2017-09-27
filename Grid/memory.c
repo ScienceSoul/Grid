@@ -35,6 +35,7 @@ GLubyte *GLubytevec(long nl, long nh) {
 }
 
 int *intvec(long nl, long nh) {
+    
 	int *v;
 	
 	v = (int *)malloc((size_t) ((nh-nl+1+FI_END)*sizeof(int)));
@@ -53,6 +54,7 @@ double *doublevec(long nl, long nh) {
 }
 
 float *floatvec(long nl, long nh) {
+    
 	float *v;
 	
 	v = (float *)malloc((size_t) ((nh-nl+1+FI_END)*sizeof(float)));
@@ -62,6 +64,7 @@ float *floatvec(long nl, long nh) {
 }
 
 double **doublematrix(long nrl, long nrh, long ncl, long nch) {
+    
 	long i, nrow=nrh-nrl+1, ncol=nch-ncl+1;
 	double **m;
 	
@@ -81,6 +84,7 @@ double **doublematrix(long nrl, long nrh, long ncl, long nch) {
 }
 
 float **floatmatrix(long nrl, long nrh, long ncl, long nch) {
+    
 	long i, nrow=nrh-nrl+1, ncol=nch-ncl+1;
 	float **m;
 	
@@ -120,6 +124,7 @@ int **intmatrix(long nrl, long nrh, long ncl, long nch) {
 }
 
 double ***d3tensor(long nrl, long nrh, long ncl, long nch, long ndl, long ngh) {
+    
 	long i, j, nrow=nrh-nrl+1, ncol=nch-ncl+1, ndep=ngh-ndl+1;
 	double ***t;
 	
@@ -153,6 +158,7 @@ double ***d3tensor(long nrl, long nrh, long ncl, long nch, long ndl, long ngh) {
 }
 
 float ***f3tensor(long nrl, long nrh, long ncl, long nch, long ndl, long ngh) {
+    
 	long i, j, nrow=nrh-nrl+1, ncol=nch-ncl+1, ndep=ngh-ndl+1;
 	float ***t;
 	
@@ -186,6 +192,7 @@ float ***f3tensor(long nrl, long nrh, long ncl, long nch, long ndl, long ngh) {
 }
 
 int ***i3tensor(long nrl, long nrh, long ncl, long nch, long ndl, long ngh) {
+    
 	long i, j, nrow=nrh-nrl+1, ncol=nch-ncl+1, ndep=ngh-ndl+1;
 	int ***t;
 	
@@ -219,22 +226,27 @@ int ***i3tensor(long nrl, long nrh, long ncl, long nch, long ndl, long ngh) {
 }
 
 void free_uns_cvector(unsigned char *v, long nl, long nh) {
+    
 	free((FREE_ARG) (v+nl-FI_END));
 }
 
 void free_GLubytevector(GLubyte *v, long nl, long nh) {
+    
 	free((FREE_ARG) (v+nl-FI_END));
 }
 
 void free_uns_ivector(unsigned int *v, long nl, long nh) {
+    
 	free((FREE_ARG) (v+nl-FI_END));
 }
 
 void free_dvector(double *v, long nl, long nh) {
+    
 	free((FREE_ARG) (v+nl-FI_END));
 }
 
 void free_fvector(float *v, long nl, long nh) {
+    
 	free((FREE_ARG) (v+nl-FI_END));
 }
 
@@ -243,21 +255,25 @@ void free_ivector(int *v, long nl, long nh) {
 }
 
 void free_dmatrix(double **m, long nrl, long nrh, long ncl, long nch) {
+    
 	free((FREE_ARG) (m[nrl]+ncl-FI_END));
 	free((FREE_ARG) (m+nrl-FI_END));
 }
 
 void free_fmatrix(float **m, long nrl, long nrh, long ncl, long nch) {
+    
 	free((FREE_ARG) (m[nrl]+ncl-FI_END));
 	free((FREE_ARG) (m+nrl-FI_END));
 }
 
 void free_imatrix(int **m, long nrl, long nrh, long ncl, long nch) {
+    
 	free((FREE_ARG) (m[nrl]+ncl-FI_END));
 	free((FREE_ARG) (m+nrl-FI_END));
 }
 
 void free_d3tensor(double ***t, long nrl, long nrh, long ncl, long nch, long ndl, long ndh) {
+    
 	/*Free a double d3tensor allocated by d3tensor*/
 	free((FREE_ARG) (t[nrl][ncl]+ndl-FI_END));
 	free((FREE_ARG) (t[nrl]+ncl-FI_END));
@@ -265,6 +281,7 @@ void free_d3tensor(double ***t, long nrl, long nrh, long ncl, long nch, long ndl
 }
 
 void free_f3tensor(float ***t, long nrl, long nrh, long ncl, long nch, long ndl, long ndh) {
+    
 	/*Free a double d3tensor allocated by d3tensor*/
 	free((FREE_ARG) (t[nrl][ncl]+ndl-FI_END));
 	free((FREE_ARG) (t[nrl]+ncl-FI_END));
@@ -272,6 +289,7 @@ void free_f3tensor(float ***t, long nrl, long nrh, long ncl, long nch, long ndl,
 }
 
 void free_i3tensor(int ***t, long nrl, long nrh, long ncl, long nch, long ndl, long ndh) {
+    
 	/*Free a double d3tensor allocated by d3tensor*/
 	free((FREE_ARG) (t[nrl][ncl]+ndl-FI_END));
 	free((FREE_ARG) (t[nrl]+ncl-FI_END));
@@ -279,6 +297,7 @@ void free_i3tensor(int ***t, long nrl, long nrh, long ncl, long nch, long ndl, l
 }
 
 void errorfunct(char message[]) {
+    
 	printf("One error occured in the process\n");
 	printf("The error is:%s\n", message);
 	printf("The programm will exit\n");

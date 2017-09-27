@@ -37,6 +37,7 @@
 @implementation Interpoler
 
 - (id)init {
+    
     self = [super init];
     if (self) {
         // Initialization code here.
@@ -150,13 +151,11 @@
     for (i=1;i<NX;i++) {
         
         coordX[i] = coordX[i-1] + (float)[data runInfoSpaceRes];
-
     }
 
     for (i=1;i<NY;i++) {
         
         coordY[i] = coordY[i-1] + (float)[data runInfoSpaceRes];
-        
     }
     
     incrTime = [data runInfoStartPos]-1;
@@ -200,7 +199,6 @@
         
         [data setMessage:@"Can't find variable ycoord needed for interpolation."];
         return NO;
-
     }
     if ((retval = nc_get_var_float(ncid2, varid, &ElmercoordY[0][0][0]))) {
         
@@ -215,34 +213,26 @@
         NSLog(@"Error: Maximum supported input variables at once in order to create one single output variable is 3\n");
         NSLog(@"Error: Mimumn input variable to create one single output variable is 1\n");
         return NO;
-        
     } else if (nb_var_in > 1 && nb_var_in <= 3) {
-        
         switch (nb_var_in) {
-                
             case 2:
-                
                 buffer1 = f3tensor(0, NZ-1, 0, NJ-1, 0, NI-1);
                 buffer2 = f3tensor(0, NZ-1, 0, NJ-1, 0, NI-1);
                 
                 if ((retval = nc_inq_varid(ncid2, var_in, &varid))) {
-                    
                     [data setMessage:@"Can't find the variable Var.1 given by the user."];
                     return NO;
                 }
                 if ((retval = nc_get_var_float(ncid2, varid, &buffer1[0][0][0]))) {
-                    
                     [data setMessage:@"Can't retrieve data for Var.1."];
                     return NO;
                 }
                 
                 if ((retval = nc_inq_varid(ncid2, var_in2, &varid2))) {
-                    
                     [data setMessage:@"Can't find the variable Var.2 given by the user."];
                     return NO;
                 }
                 if ((retval = nc_get_var_float(ncid2, varid2, &buffer2[0][0][0]))) {
-                    
                     [data setMessage:@"Can't retrieve data for Var.2."];
                     return NO;
                 }
@@ -261,7 +251,6 @@
                 break;
                 
             case 3:
-                
                 buffer1 = f3tensor(0, NZ-1, 0, NJ-1, 0, NI-1);
                 buffer2 = f3tensor(0, NZ-1, 0, NJ-1, 0, NI-1);
                 buffer3 = f3tensor(0, NZ-1, 0, NJ-1, 0, NI-1);
@@ -272,29 +261,24 @@
                     return NO;
                 }
                 if ((retval = nc_get_var_float(ncid2, varid, &buffer1[0][0][0]))) {
-                    
                     [data setMessage:@"Can't retrieve data for Var.1."];
                     return NO;
                 }
                 
                 if ((retval = nc_inq_varid(ncid2, var_in2, &varid2))) {
-                    
                     [data setMessage:@"Can't find the variable Var.2 given by the user."];
                     return NO;
                 }
                 if ((retval = nc_get_var_float(ncid2, varid2, &buffer2[0][0][0]))) {
-                    
                     [data setMessage:@"Can't retrieve data for Var.2."];
                     return NO;
                 }
                 
                 if ((retval = nc_inq_varid(ncid2, var_in3, &varid3))) {
-                    
                     [data setMessage:@"Can't find the variable Var.3 given by the user."];
                     return NO;
                 }
                 if ((retval = nc_get_var_float(ncid2, varid3, &buffer3[0][0][0]))) {
-                    
                     [data setMessage:@"Can't retrieve data for Var.3."];
                     return NO;
                 }
@@ -315,7 +299,6 @@
         }
     }
     else if (nb_var_in == 1) {
-        
         if ((retval = nc_inq_varid(ncid2, var_in, &varid)))
             ERR(retval);
         if ((retval = nc_get_var_float(ncid2, varid, &zs[0][0][0])))
@@ -323,23 +306,19 @@
     }
     
     if ((retval = nc_inq_varid(ncid2, "mask", &varid))) {
-        
         [data setMessage:@"Can't find variable mask needed for interpolation."];
         return NO;
     }
     if ((retval = nc_get_var_int(ncid2, varid, &mask[0][0][0]))) {
-        
         [data setMessage:@"Can't determine length for variable mask."];
         return NO;
     }
     
     if ((retval = nc_inq_varid(ncid2, "elements", &varid))) {
-        
         [data setMessage:@"Can't find variable elements needed for interpolation."];
         return NO;
     }
     if ((retval = nc_get_var_int(ncid2, varid, &elements[0][0][0]))) {
-        
         [data setMessage:@"Can't determine length for variable elements."];
         return NO;
     }
@@ -382,7 +361,6 @@
     }
     
     if ([data variableNB]> 1 && [data variableNB] <= 3) {
-        
         switch ([data variableNB]) {
             case 2:
                 NSLog(@"Interpolating SeaRise variable %@ from Elmer variables %@ and %@:.......\n", [data variableName], [data variableVar1], [data variableVar2]);
@@ -411,9 +389,7 @@
     beg = mach_absolute_time();
     
     for (z=1; z<NT; z++) {
-        
         [self isTerminatedThreadData1:data data2:processedData];
-        
         for (yy=0; yy<NJ; yy++) {
             for (xx=0; xx<(NI/3); xx++) {
                 for (ii=0;ii<10;ii++) {
@@ -459,7 +435,6 @@
                 serialized_grid[k] = griddedData[z][yy][xx];
                 serialized_gridMask[k] = gridMask[z][yy][xx];
                 k++;
-                
             }
         }
         
@@ -536,7 +511,6 @@
     }
     
     if ([data variableNB]> 1 && [data variableNB] <= 3) {
-        
         switch ([data variableNB]) {
             case 2:
                 NSLog(@"Interpolating SeaRise variable %@ from Elmer variables %@ and %@:.......\n", [data variableName], [data variableVar1], [data variableVar2]);
@@ -565,9 +539,7 @@
     beg = mach_absolute_time();
     
     for (z=0; z<NT; z++) {
-        
         [self isTerminatedThreadData1:data data2:processedData];
-        
         for (yy=0; yy<NJ; yy++) {
             for (xx=0; xx<(NI/3); xx++) {
                 for (ii=0;ii<10;ii++) {
@@ -613,7 +585,6 @@
                 serialized_grid[k] = griddedData[z][yy][xx];
                 serialized_gridMask[k] = gridMask[z][yy][xx];
                 k++;
-                
             }
         }
         
@@ -670,7 +641,6 @@
     uint64_t gr_end, gr_beg;
     
     //NSAutoreleasePool* workThreadPool = [[NSAutoreleasePool alloc] init];
-    
     processedDataObject *processedData = [[processedDataObject alloc] init];
     
     openclGridString = @"OpenCL Grid(sec): ";
@@ -708,11 +678,9 @@
         [self memoryReleaseData1:data data2:processedData];
         
         return;
-        
     }
     
     if ([data variableNB]> 1 && [data variableNB] <= 3) {
-        
         switch ([data variableNB]) {
             case 2:
                 NSLog(@"Interpolating SeaRise variable %@ from Elmer variables %@ and %@:.......\n", [data variableName], [data variableVar1], [data variableVar2]);
@@ -745,9 +713,7 @@
     beg = mach_absolute_time();
     
     for (z=0; z<NT; z++) {
-        
         [self isTerminatedThreadData1:data data2:processedData];
-        
         for(ii=0; ii<ngrid; ii++) {
             serialized_grid[ii] = 0.0;
             serialized_gridMask[ii] = -1;
@@ -756,7 +722,6 @@
         for (ii = 0; ii<(NJ*(NI/3)*12); ii++){
             triangles[ii] = 0.0;
         }
-        
         for (ii = 0; ii<aligned; ii++){
             X1[ii] = 0.0;
             X2[ii] = 0.0;
@@ -769,9 +734,7 @@
             Z3[ii] = 0.0;
         }
 
-        
         indx = 0;
-        
         for (jj=0; jj<NJ; jj++) {
             kk = 0;
             for (ii=0; ii<NI; ii=ii+3) {
@@ -887,24 +850,21 @@
 }
 
 -(void)Serial_work_functionGrid1:(float ***)grid1 grid2:(int ***)grid2 t:(int)t entry1:(float ***)entry1 entry2:(float *)entry2 entry3:(float *)entry3 N1:(int)N1 N2:(int)N2 N3:(int)N3 N4:(int)N4 data1:(dataObject *)data1 data2:(processedDataObject *)data2 {
+    
     // entry1 -> triangles
     // entry2 -> x regular grid
     // entry3 -> y regular grid
     
     int jj, ii, xx, yy;
     int l, k;
-    
     int **foundTriangles;
     
     l = 0;
     k = 0;
     
     foundTriangles = intmatrix(0, 9, 0, 1);
-    
     for (yy=0; yy<N4; yy++) {
-        
         [self isTerminatedThreadData1:data1 data2:data2];
-        
 		for (ii=0;ii<10;ii++) {
 			for (jj=0;jj<2;jj++) {
 				foundTriangles[ii][jj] = 0;
@@ -912,9 +872,7 @@
 		}
 		
 		for (xx=0; xx<N3; xx++) {
-            
             [self isTerminatedThreadData1:data1 data2:data2];
-			
 			l = 0;
 			for (jj=0; jj<N2; jj++) {
 				for (ii=0; ii<N1/3; ii++) {
@@ -945,6 +903,7 @@
 }
 
 -(void)GCD_work_functionGrid1:(float ***)grid1 grid2:(int ***)grid2 t:(int)t entry1:(float ***)entry1 entry2:(float *)entry2 entry3:(float *)entry3 N1:(int)N1 N2:(int)N2 N3:(int)N3 N4:(int)N4 data1:(dataObject *)data1 data2:(processedDataObject *)data2 {
+    
     // entry1 -> triangles
     // entry2 -> x regular grid
     // entry3 -> y regular grid
@@ -955,14 +914,12 @@
 		
 		int jj, ii, xx;
 		int l, k;
-		
 		int **foundTriangles;
 		
 		l = 0;
 		k = 0;
         
 		foundTriangles = intmatrix(0, 9, 0, 1);
-		
 		for (ii=0;ii<10;ii++) {
 			for (jj=0;jj<2;jj++) {
 				foundTriangles[ii][jj] = 0;
@@ -970,7 +927,6 @@
 		}
 		
 		for (xx=0; xx<N3; xx++) {
-			
             if ([data1 terminated] == YES) break;
             
 			l = 0;
@@ -1004,10 +960,8 @@
 -(int)exec_kernelgx:(float *)gx gy:(float *)gy triangles:(float *)triangles serializedGriddedData:(float *)serialized_griddedData serializedGridMaskData:(int *)serialized_gridMaskData ngrid:(int)ngrid ni:(int)ni nj:(int)nj filename:(const char *)filename firstTime:(int)firstTime data1:(dataObject *)data1 data2:(processedDataObject *)data2 {
     
     cl_context         context;
-	
 	cl_command_queue   cmd_queue;
 	cl_device_id       devices;
-	
 	cl_int             err;
 	
 	size_t src_len;
@@ -1191,10 +1145,8 @@
 -(int)exec_kernel_optgx:(float *)gx gy:(float *)gy X1:(float *)X1 X2:(float *)X2 X3:(float *)X3 Y1:(float *)Y1 Y2:(float *)Y2 Y3:(float *)Y3 Z1:(float *)Z1 Z2:(float *)Z2 Z3: (float *)Z3 aligned:(int)aligned serializedGriddedData:(float *)serialized_griddedData serialized_gridMaskData:(int *)serialized_gridMaskData ngrid:(int)ngrid ni:(int)ni nj: (int)nj filename:(const char *)filename firstTime:(int)firstTime data1:(dataObject *)data1 data2:(processedDataObject *)data2 {
     
     cl_context         context;
-	
 	cl_command_queue   cmd_queue;
 	cl_device_id       devices;
-	
 	cl_int             err;
     
 	size_t src_len;
@@ -1434,26 +1386,19 @@
 -(void)presentDataToUser:(processedDataObject *)processedData {
     
     int i, j, ngrid, colorIndex;
-    
     float ratio;
     float max, min;
-    
     NSString *str1, *str2, *str3;
         
     // Load the color lookup table
     [self colorTableLookUp];
     
     ngrid = (NX*scaleFactor) * (NY*scaleFactor);
-    
     float *scaled_values = floatvec(0, ngrid-1);
     
-
     if (scaleFactor > 1) {
-        
         expand_data(scaled_values, serialized_grid, ngrid, NX, NY, scaleFactor, [processedData scaleMethod]);
-        
     } else {
-        
         for (i=0; i<ngrid; i++) {
             scaled_values[i] = serialized_grid[i];
         }
@@ -1469,28 +1414,21 @@
     
     // Transform data to an color index and assign it to the pixelValues table for each RGB component
     for (i=0,j=0; i<ngrid; i++,j+=3) {
-    
         if (scaled_values[i] < min) {
-            
             [fieldView setPixelValues:0 index:j];
             [fieldView setPixelValues:0 index:j+1];
             [fieldView setPixelValues:0 index:j+2];
-                        
         } else if (scaled_values[i] > max) {
-            
             [fieldView setPixelValues:255 index:j];
             [fieldView setPixelValues:255 index:j+1];
             [fieldView setPixelValues:255 index:j+2];
-            
         } else {
-            
             ratio = 256.0 * ( (scaled_values[i] - min) / (max - min) );
             colorIndex = (int)ratio;            
             [fieldView setPixelValues:(unsigned char)colorIndex index:j];
             [fieldView setPixelValues:(unsigned char)colorIndex index:j+1];
             [fieldView setPixelValues:(unsigned char)colorIndex index:j+2];
         }
-    
     }
     
     [fieldView setWidth:(NX*scaleFactor)];
@@ -1511,10 +1449,8 @@
 }
 
 -(void)colorTableLookUp {
-
-    int i;
     
-    for (i=0; i<256; i++) {
+    for (int i=0; i<256; i++) {
         [fieldView setColorTableRed:[colormap red:i] green:[colormap green:i] blue:[colormap blue:i] index:i];
     }
 }
@@ -1557,7 +1493,6 @@
 -(void)isTerminatedThreadData1:(dataObject *)data1 data2:(processedDataObject *)data2 {
     
     if ([[NSThread currentThread] isCancelled]) {
-        
         NSLog(@"Terminating now!!!\n");
         [self memoryReleaseData1:data1 data2:data2];
         [NSThread exit];

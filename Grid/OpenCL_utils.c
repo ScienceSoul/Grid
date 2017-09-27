@@ -12,6 +12,7 @@
 #include "OpenCL_utils.h"
 
 int device_stats(cl_device_id device_id) {
+    
 	int err;
 	size_t returned_size;
 	
@@ -79,6 +80,7 @@ int device_stats(cl_device_id device_id) {
 }
 
 int LoadFileIntoString(const char *filename, char **text, size_t *len) {
+    
     struct stat statbuf;
     FILE        *fh;
     int         file_len;
