@@ -14,7 +14,7 @@
 #include "memory.h"
 
 #define FI_END 1
-#define FREE_ARG char*
+#define FREE_ARG void*
 
 unsigned char *uns_charvec(long nl, long nh) {
 
