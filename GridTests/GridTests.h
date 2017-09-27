@@ -3,7 +3,7 @@
 //  GridTests
 //
 //  Created by Hakime Seddik on 13/09/11.
-//  Copyright 2011 Institute of Low Temperature Science. All rights reserved.
+//  Copyright © 2011 ScienceSoul. All rights reserved.
 //
 
 #import <XCTest/XCTest.h>

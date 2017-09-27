@@ -3,7 +3,7 @@
 //  Grid
 //
 //  Created by Hakime Seddik on 03/10/11.
-//  Copyright 2011 Institute of Low Temperature Science. All rights reserved.
+//  Copyright © 2011 ScienceSoul. All rights reserved.
 //
 
 #include <stdbool.h>

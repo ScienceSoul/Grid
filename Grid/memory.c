@@ -3,7 +3,7 @@
  *  FlowErosModel alpha 3.
  *
  *  Created by Hakime SEDDIK on Thu Mar 11 2004.
- *  Copyright (c) 2004 Institute of Low Temperature Science. All rights reserved.
+ *  Copyright © 2004 ScienceSoul. All rights reserved.
  *
  */
 
