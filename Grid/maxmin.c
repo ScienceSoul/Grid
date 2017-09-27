@@ -7,6 +7,7 @@
 //
 
 #include <stdio.h>
+
 #include "maxmin.h"
 
 float computemax(float b[],int n) {

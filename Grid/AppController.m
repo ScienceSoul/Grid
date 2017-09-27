@@ -12,7 +12,6 @@
 
 #import "AppController.h"
 #import "dataObject.h"
-
 #import "memory.h"
 
 @implementation AppController

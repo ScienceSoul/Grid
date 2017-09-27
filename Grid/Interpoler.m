@@ -6,8 +6,6 @@
 //  Copyright © 2011 ScienceSoul. All rights reserved.
 //
 
-#import "Interpoler.h"
-
 #import <stdbool.h>
 #import <stdio.h>
 #import <stdlib.h>
@@ -16,23 +14,19 @@
 #import <sys/stat.h>
 #import <sys/types.h>
 #import <math.h>
-
 #import <dispatch/dispatch.h>
 #import <assert.h>
-#import <time.h> 
-
+#import <time.h>
 #import <mach/mach_time.h>
-
 #import <netcdf.h> 
 
+#import "Interpoler.h"
 #import "memory.h"
 #import "Timing.h"
 #import "OpenCL_utils.h"
 #import "GridPoint.h"
-
 #import "maxmin.h"
 #import "scaleData.h"
-
 #import "colormaps.h"
 
 /* Handle errors by printing an error message and exiting with a
