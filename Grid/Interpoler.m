@@ -77,37 +77,33 @@
     
     /* Retrieve some informations dimensions size */
     if ((retval = nc_inq_dimid(ncid2, "x", &nc1d) )) {
-        
         [data setMessage:@"Can't find variable x needed for interpolation."];
         return NO;
-        
     }
+    
     if ((retval = nc_inq_dimlen(ncid2, nc1d, &length) )) {
-        
         [data setMessage:@"Can't determine length for variable x."];
         return NO;
     }
     NJ = (int) length;
     
     if ((retval = nc_inq_dimid(ncid2, "y", &nc1d) )) {
-        
         [data setMessage:@"Can't find variable y needed for interpolation."];
         return NO;
     }
+    
     if ((retval = nc_inq_dimlen(ncid2, nc1d, &length) )) {
-        
         [data setMessage:@"Can't determine length for variable y."];
         return NO;
     }
     NI = (int) length;
     
     if ((retval = nc_inq_dimid(ncid2, "time", &nc1d) )) {
-        
         [data setMessage:@"Can't find variable time needed for interpolation."];
         return NO;
     }
+    
     if ((retval = nc_inq_dimlen(ncid2, nc1d, &length) )) {
-        
         [data setMessage:@"Can't determine length for variable time."];
         return NO;
     }
@@ -149,12 +145,10 @@
     coordY[0] = xyrange[1][0];
     
     for (i=1;i<NX;i++) {
-        
         coordX[i] = coordX[i-1] + (float)[data runInfoSpaceRes];
     }
 
     for (i=1;i<NY;i++) {
-        
         coordY[i] = coordY[i-1] + (float)[data runInfoSpaceRes];
     }
     
@@ -185,29 +179,26 @@
     }
     
     if ((retval = nc_inq_varid(ncid2, "xcoord", &varid))) {
-        
         [data setMessage:@"Can't find variable xcoord needed for interpolation."];
         return NO;
     }
+    
     if ((retval = nc_get_var_float(ncid2, varid, &ElmercoordX[0][0][0]))) {
-        
         [data setMessage:@"Can't determine length for variable xcoord."];
         return NO;
     }
     
     if ((retval = nc_inq_varid(ncid2, "ycoord", &varid))) {
-        
         [data setMessage:@"Can't find variable ycoord needed for interpolation."];
         return NO;
     }
+    
     if ((retval = nc_get_var_float(ncid2, varid, &ElmercoordY[0][0][0]))) {
-        
         [data setMessage:@"Can't determine length for variable ycoord."];
         return NO;
     }
     
     if (nb_var_in > 3 || nb_var_in < 1) {
-        
         [data setMessage:@"Maximum supported input variables at once in order to create one single output variable is 3. Mimumn input variable to create one single output variable is 1."];
         
         NSLog(@"Error: Maximum supported input variables at once in order to create one single output variable is 3\n");
@@ -309,6 +300,7 @@
         [data setMessage:@"Can't find variable mask needed for interpolation."];
         return NO;
     }
+    
     if ((retval = nc_get_var_int(ncid2, varid, &mask[0][0][0]))) {
         [data setMessage:@"Can't determine length for variable mask."];
         return NO;
@@ -318,6 +310,7 @@
         [data setMessage:@"Can't find variable elements needed for interpolation."];
         return NO;
     }
+    
     if ((retval = nc_get_var_int(ncid2, varid, &elements[0][0][0]))) {
         [data setMessage:@"Can't determine length for variable elements."];
         return NO;
@@ -399,7 +392,6 @@
         }
         
         indx = 0;
-        
         for (jj=0; jj<NJ; jj++) {
             indx = 0;
             for (ii=0; ii<NI; ii=ii+3) {
@@ -549,7 +541,6 @@
         }
         
         indx = 0;
-        
         for (jj=0; jj<NJ; jj++) {
             indx = 0;
             for (ii=0; ii<NI; ii=ii+3) {
@@ -783,7 +774,6 @@
                     Z2[indx] = zs[incrTime][jj][ii+1];
                     Z3[indx] = zs[incrTime][jj][ii+2];
                     indx++;
-                    
                 }
             }
         }
@@ -896,7 +886,6 @@
 			}
 			//printf("%d %d %d %f\n", t, (int) yy, xx, griddedData[t][yy][xx]);
 		}
-        
     }
     
     free_imatrix(foundTriangles, 0, 9, 0, 1);
@@ -937,12 +926,10 @@
 					if (k == 1) {
 						foundTriangles[l][0] = jj;
 						foundTriangles[l][1] = ii;
-						//printf("%f %f %d %d\n", entry5[xx], entry6[yy], foundTriangles[l][0], foundTriangles[l][1]);
 						l++;
 					}
 				}
 			}
-			//if (l > 1) printf("got %d triangles.\n", l);
 			if (l > 0) { 
 				grid1[t][yy][xx] = getInterpolatedValue(foundTriangles, l, entry2[xx], entry3[yy], entry1, 2.0);
 				grid2[t][yy][xx] = 3;
@@ -950,7 +937,6 @@
 				grid1[t][yy][xx] = 0.0;
 				grid2[t][yy][xx] = 0;
 			}
-			//printf("%d %d %d %f\n", t, (int) yy, xx, griddedData[t][yy][xx]);
 		}
 		
 		free_imatrix(foundTriangles, 0, 9, 0, 1);
